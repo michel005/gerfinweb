@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: thmpv005
+    url: jdbc:mysql://localhost:3306/gerfinweb?serverTimezone=UTC
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        jdbc:
+          time-zone: UTC
+    hibernate:
+      ddl-auto: validate
