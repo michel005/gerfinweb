@@ -1,0 +1,97 @@
+.loginPage,
+.createAccountPage {
+	background-color: #fff;
+	border-radius: 7px;
+	box-shadow: #3333 0 0 7px;
+	left: 50%;
+	padding-bottom: 21px;
+	position: fixed;
+	top: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	width: 350px;
+
+	.header {
+		color: #000;
+		font-size: 18px;
+		font-weight: bold;
+		padding: 35px 21px;
+	}
+
+	.inputGroup {
+		display: flex;
+		flex-direction: column;
+		padding: 7px 21px;
+
+		label {
+			color: #666;
+			font-size: 14px;
+			font-weight: bold;
+			margin-bottom: 7px;
+		}
+
+		input {
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			font-size: 14px;
+			padding: 7px;
+			transition: all 0.25s;
+
+			&:focus {
+				border-color: #999;
+			}
+		}
+	}
+
+	.commandBar {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		padding: 7px 21px;
+
+		& > button {
+			margin-bottom: 7px;
+		}
+	}
+
+	.commandBarH {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		padding: 7px 21px;
+
+		& > button {
+			margin-right: 7px;
+		}
+	}
+
+	button {
+		background-color: #39f;
+		border: 0px solid transparent;
+		border-radius: 7px;
+		color: #fff;
+		cursor: pointer;
+		display: flex;
+		flex-direction: row;
+		font-size: 14px;
+		justify-content: center;
+		padding: 10px 14px;
+		transition: all 0.25s;
+
+		.logo {
+			margin-bottom: -4px;
+		}
+
+		&:hover {
+			background-color: #3090f0;
+		}
+
+		&.transparent {
+			background-color: transparent;
+			color: #333;
+
+			&:hover {
+				background-color: #3331;
+			}
+		}
+	}
+}

@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: '1.0'
+      author: Michel Douglas Grigoli
+      changes:
+        - createTable:
+            schemaName: gerfinweb
+            tableName: gf_account
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+              - column:
+                  name: name
+                  type: varchar(50)
+              - column:
+                  name: bank
+                  type: varchar(50)
+              - column:
+                  name: type
+                  type: varchar(20)

@@ -13,3 +13,6 @@ spring:
           time-zone: UTC
     hibernate:
       ddl-auto: validate
+app:
+  cors:
+    allowedOrigins: http://localhost:3000,http://localhost:8080
