@@ -5,6 +5,7 @@ import { useContext, useState } from 'react'
 import { MessageContext } from '../../hook/Message.context'
 import { UserContext } from '../../hook/User.context'
 import Field from '../../components/Field'
+import Button from '../../components/Button'
 
 export default function LoginPage() {
 	const [showCreateAccount, setShowCreateAccount] = useState(false)
@@ -72,10 +73,10 @@ export default function LoginPage() {
 					<Field id="passwordConfirm" label="Password Confirmation" type="password" />
 
 					<div className={styles.commandBar}>
-						<button onClick={onClick_CreateUser}>Create User</button>
-						<button onClick={onClick_ShowLogin} className={styles.transparent}>
+						<Button onClick={onClick_CreateUser}>Create User</Button>
+						<Button onClick={onClick_ShowLogin} className={'transparent'}>
 							Login
-						</button>
+						</Button>
 					</div>
 				</div>
 			) : (
@@ -87,10 +88,10 @@ export default function LoginPage() {
 					<Field id="password" label="Password" type="password" />
 
 					<div className={styles.commandBar}>
-						<button onClick={onClick_Login}>Login</button>
-						<button onClick={onClick_ShowCreateUser} className={styles.transparent}>
+						<Button onClick={onClick_Login}>Login</Button>
+						<Button onClick={onClick_ShowCreateUser} className={'transparent'}>
 							Create user
-						</button>
+						</Button>
 					</div>
 				</div>
 			)}

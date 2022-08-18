@@ -10,12 +10,15 @@ public class AccountBalanceModel {
 
     private Account account;
 
+    private BigDecimal balance;
+
     private BigDecimal currentBalance;
 
     private BigDecimal futureBalance;
 
-    public AccountBalanceModel(Account account, BigDecimal currentBalance, BigDecimal futureBalance) {
+    public AccountBalanceModel(Account account, BigDecimal balance, BigDecimal currentBalance, BigDecimal futureBalance) {
         this.account = account;
+        this.balance = balance;
         this.currentBalance = currentBalance;
         this.futureBalance = futureBalance;
     }

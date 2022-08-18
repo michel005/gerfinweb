@@ -2,23 +2,29 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import ConfigProvider from './hook/Config.context'
+import LocalizationProvider from './hook/Localization.context'
 import MessageProvider from './hook/Message.context'
 import PageProvider from './hook/Page.context'
+import TableProvider from './hook/Table.context'
 import UserProvider from './hook/User.context'
 import './index.scss'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
 	<React.StrictMode>
-		<MessageProvider>
+		<LocalizationProvider>
 			<UserProvider>
-				<ConfigProvider>
-					<PageProvider>
-						<App />
-					</PageProvider>
-				</ConfigProvider>
+				<PageProvider>
+					<ConfigProvider>
+						<TableProvider>
+							<MessageProvider>
+								<App />
+							</MessageProvider>
+						</TableProvider>
+					</ConfigProvider>
+				</PageProvider>
 			</UserProvider>
-		</MessageProvider>
+		</LocalizationProvider>
 	</React.StrictMode>
 )
 

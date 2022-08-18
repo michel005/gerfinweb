@@ -4,10 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useEffect, useState } from 'react'
 import PageSettings from '../../assets/page.settings'
 import { ConfigContext } from '../../hook/Config.context'
+import { LocalizationContext } from '../../hook/Localization.context'
 import { MessageContext } from '../../hook/Message.context'
 import { PageContext } from '../../hook/Page.context'
 import { UserContext } from '../../hook/User.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
+import Accounts from '../accounts'
+import Movements from '../movements'
 import styles from './index.module.scss'
 
 export default function Main() {
@@ -16,6 +19,7 @@ export default function Main() {
 	const { choiceMessage, setMessage } = useContext(MessageContext)
 	const { user } = useContext(UserContext)
 	const { currentPage, defineCurrentPage } = useContext(PageContext)
+	const { getText } = useContext(LocalizationContext)
 	const { balance, formatedDataBase, previewMonth, nextMonth } = useContext(ConfigContext)
 
 	function onClick_ReduceButton() {
@@ -24,47 +28,30 @@ export default function Main() {
 
 	function MenuOption(
 		{
+            name,
 			text,
-			lead,
 			path,
 			icon,
 			event = () => {
 				defineCurrentPage({
-					text,
-					lead,
+					name,
 					path,
+					icon,
 				})
 			},
 		},
 		index
 	) {
-		let modifiedEvent = event
-		if (text === 'Logout') {
-			modifiedEvent = () => {
-				choiceMessage({
-					header: 'Do you realy want to leave?',
-					text: 'You are gonna lose all your unsaved data!',
-					option1: {
-						text: 'Yes',
-						event: () => {
-							clearCurrentUser()
-							setMessage(undefined)
-						},
-					},
-				})
-			}
-		}
-
 		return (
 			<button
 				key={index}
-				onClick={modifiedEvent}
+				onClick={event}
 				className={window.location.pathname === path ? styles.active : ''}
 			>
 				<div className={styles.icon}>
 					<FontAwesomeIcon icon={icon} />
 				</div>
-				<span className={styles.text}>{text}</span>
+				<span className={styles.text}>{getText(`pages.${name}.header.text`)}</span>
 			</button>
 		)
 	}
@@ -82,12 +69,33 @@ export default function Main() {
 					</button>
 				</div>
 				<div className={styles.userInfo}>
-					<div className={styles.user}>
-						<FontAwesomeIcon icon={faUser} />
+					<div>
+						<div className={styles.user}>
+							<FontAwesomeIcon icon={faUser} />
+						</div>
 					</div>
 					<div className={styles.details}>
 						<div className={styles.fullName}>{user.currentUser.fullName}</div>
 						<div className={styles.email}>{user.currentUser.email}</div>
+						<div className={styles.logout}>
+							<button
+								onClick={() => {
+									choiceMessage({
+										header: getText('logout.header'),
+										text: getText('logout.text'),
+										option1: {
+											text: getText('commons.yes'),
+											event: () => {
+												clearCurrentUser()
+												setMessage(undefined)
+											},
+										},
+									})
+								}}
+							>
+								Logout
+							</button>
+						</div>
 					</div>
 				</div>
 				<div className={styles.menuOptions}>
@@ -132,11 +140,13 @@ export default function Main() {
 				{currentPage && (
 					<>
 						<div>
-							<h1>{currentPage.text}</h1>
-							<h3>{currentPage.lead}</h3>
+							<h1>{getText(`pages.${currentPage.name}.header.text`)}</h1>
+							<h3>{getText(`pages.${currentPage.name}.header.lead`)}</h3>
 						</div>
 					</>
 				)}
+				{currentPage && currentPage.path === '/account' && <Accounts />}
+				{currentPage && currentPage.path === '/movement' && <Movements />}
 			</div>
 		</div>
 	)

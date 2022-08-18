@@ -4,6 +4,7 @@ import com.michel.gerfinweb.entity.Account;
 import com.michel.gerfinweb.entity.User;
 import com.michel.gerfinweb.model.AccountBalanceModel;
 import com.michel.gerfinweb.model.PaginationModel;
+import com.michel.gerfinweb.model.SimpleAccountModel;
 import com.michel.gerfinweb.repository.AccountRepository;
 import com.michel.gerfinweb.repository.UserRepository;
 import com.michel.gerfinweb.utils.DateUtils;
@@ -70,13 +71,13 @@ public class AccountAPI {
         if (userFinded.isEmpty()) {
             return ResponseEntity.internalServerError().build();
         }
-        if (!account.getUser().getId().equals(userFinded.get().getId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
 
         Optional<Account> originalAccount = accountRepository.findById(account.getId());
         if (originalAccount.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        if (!originalAccount.get().getUser().getId().equals(userFinded.get().getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Account original = originalAccount.get();
         original.setName(account.getName());
@@ -106,14 +107,24 @@ public class AccountAPI {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/findAll")
+    @PostMapping("/findAll")
     private ResponseEntity<?> findAll(Authentication authentication, @RequestParam String dataBase, @RequestBody PaginationModel paginationModel) {
         Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
         if (userFinded.isEmpty()) {
             return ResponseEntity.internalServerError().build();
         }
         PageRequest pageable = PageRequest.of(paginationModel.getPage(), paginationModel.getSize(), Sort.by(Sort.Direction.valueOf(paginationModel.getSortDirection()), paginationModel.getSortField()));
-        Page<AccountBalanceModel> accounts = accountRepository.findByUser(pageable, DateUtils.lastDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), userFinded.get().getId());
+        Page<AccountBalanceModel> accounts = accountRepository.findByUser(pageable, DateUtils.firstDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), DateUtils.lastDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), userFinded.get().getId());
+        return ResponseEntity.ok(accounts);
+    }
+
+    @GetMapping("/findAllSimple")
+    private ResponseEntity<?> findAllSimple(Authentication authentication) {
+        Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
+        if (userFinded.isEmpty()) {
+            return ResponseEntity.internalServerError().build();
+        }
+        List<SimpleAccountModel> accounts = accountRepository.findByUser(userFinded.get().getId());
         return ResponseEntity.ok(accounts);
     }
 

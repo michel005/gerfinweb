@@ -1,19 +1,26 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
+import { LocalizationContext } from './Localization.context'
 
 const MessageContext = createContext({})
 
 export default function MessageProvider({ children }) {
 	const [message, setMessage] = useState(undefined)
+	const { getText } = useContext(LocalizationContext)
 
 	function simpleMessage({ header, text, confirmEvent = () => setMessage(undefined) }) {
 		setMessage({
 			header,
 			text,
-			commands: [{ text: 'Ok', event: confirmEvent }],
+			commands: [{ text: getText('commons.confirm'), event: confirmEvent }],
 		})
 	}
 
-	function choiceMessage({ header, text, option1 = { text: 'Yes', event: () => setMessage(undefined) }, option2 = { text: 'No', event: () => setMessage(undefined) }}) {
+	function choiceMessage({
+		header,
+		text,
+		option1 = { text: getText('commons.yes'), event: () => setMessage(undefined) },
+		option2 = { text: getText('commons.no'), event: () => setMessage(undefined) },
+	}) {
 		setMessage({
 			header,
 			text,
@@ -27,7 +34,7 @@ export default function MessageProvider({ children }) {
 				message,
 				setMessage,
 				simpleMessage,
-                choiceMessage,
+				choiceMessage,
 			}}
 		>
 			{children}

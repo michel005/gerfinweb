@@ -1,9 +1,8 @@
 import {
 	faBank,
-	faIdCard,
 	faCog,
-	faDoorOpen,
 	faHome,
+	faIdCard,
 	faList,
 	faTarp,
 	faUser,
@@ -11,52 +10,39 @@ import {
 
 const PageSettings = {
 	dashboard: {
-		text: 'Dashboard',
-		lead: 'A quick relation of your finance life',
+		name: 'dashboard',
 		path: '/',
 		icon: faHome,
 	},
-	accounts: {
-		text: 'Accounts',
-		lead: 'See the current balance of all your bank accounts',
-		path: '/accounts',
+	account: {
+		name: 'account',
+		path: '/account',
 		icon: faBank,
 	},
-	movements: {
-		text: 'Movements',
-		lead: 'Register all the movement of your finance life',
-		path: '/movements',
+	movement: {
+		name: 'movement',
+		path: '/movement',
 		icon: faList,
 	},
-	templates: {
-		text: 'Templates',
-		lead: 'Made movements more quickly',
+	template: {
+		name: 'template',
 		path: '/templates',
 		icon: faIdCard,
 	},
-	targets: {
-		text: 'Targets',
-		lead: 'Define how you are gonna complete your targets',
+	target: {
+		name: 'target',
 		path: '/targets',
 		icon: faTarp,
 	},
 	settings: {
-		text: 'Settings',
-		lead: 'Customize your GerFinWEB',
+		name: 'settings',
 		path: '/settings',
 		icon: faCog,
 	},
 	user: {
-		text: 'User',
-		lead: 'Modify your full name and the current password',
+		name: 'user',
 		path: '/user',
 		icon: faUser,
-	},
-	logout: {
-		text: 'Logout',
-		lead: '',
-		path: '',
-		icon: faDoorOpen,
 	},
 }
 

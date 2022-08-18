@@ -1,0 +1,114 @@
+{
+  "commons": {
+    "create": "Create",
+    "refresh": "Refresh",
+    "cancel": "Cancel",
+    "save": "Save",
+    "changePassword": "Change Password",
+    "delete": "Delete",
+    "not_found": "Not found",
+    "current_balance": "Current Balance",
+    "future_balance": "Future Balance",
+    "commands": "Commands",
+    "approve": "Approve",
+    "close": "Close",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "componnents": {
+    "table": {
+      "row_counter": "Showing @#PAGE@# of @#TOTAL@# row(s)",
+      "page_counter": "@#CURRENT@# of @#TOTAL@# page(s)",
+      "empty": "No data found"
+    }
+  },
+  "logout": {
+    "header": "Do you realy want to leave?",
+    "text": "You are gonna lose all your unsaved data!"
+  },
+  "pages": {
+    "dashboard": {
+      "header": {
+        "text": "Dashboard",
+        "lead": "A quick relation of your finance life"
+      }
+    },
+    "account": {
+      "header": {
+        "text": "Account",
+        "lead": "See the current balance of all your bank accounts"
+      },
+      "table": {
+        "name": "Name",
+        "bank": "Bank",
+        "type": "Type",
+        "balance": "Balance",
+        "current_balance": "Current",
+        "future_balance": "Future"
+      },
+      "types": {
+        "DEBIT": "Debit",
+        "CREDIT": "Credit",
+        "SAVINGS": "Savings",
+        "INVESTMENT": "Investment"
+      },
+      "new_account": {
+        "name": "New account",
+        "bank": "New bank"
+      },
+      "delete": {
+        "header": "Do you really want to delete this account?",
+        "text": "Account name: @#NAME@#"
+      }
+    },
+    "movement": {
+      "header": {
+        "text": "Movements",
+        "lead": "Register all the movement of your finance life"
+      },
+      "table": {
+        "dueDate": "Due Date",
+        "description": "Description",
+        "account": "Account",
+        "value": "Value",
+        "status": "Status"
+      },
+      "types": {
+        "PENDENT": "Pendent",
+        "APPROVED": "Approved"
+      },
+      "new_movement": {
+        "description": "New movement"
+      },
+      "delete": {
+        "header": "Do you really want to delete this movement?",
+        "text": "This operation can not be reverted!"
+      }
+    },
+    "template": {
+      "header": {
+        "text": "Templates",
+        "lead": "Made movements more quickly"
+      }
+    },
+    "target": {
+      "header": {
+        "text": "Templates",
+        "lead": "Define how you are gonna complete your targets"
+      }
+    },
+    "settings": {
+      "header": {
+        "text": "Settings",
+        "lead": "Customize your GerFinWEB"
+      }
+    },
+    "user": {
+      "header": {
+        "text": "User",
+        "lead": "Modify your full name and the current password"
+      }
+    }
+  }
+}

@@ -1,6 +1,5 @@
 package com.michel.gerfinweb.api;
 
-import com.michel.gerfinweb.entity.Account;
 import com.michel.gerfinweb.entity.Movement;
 import com.michel.gerfinweb.entity.User;
 import com.michel.gerfinweb.model.PaginationModel;
@@ -89,13 +88,13 @@ public class MovementAPI {
         if (userFinded.isEmpty()) {
             return ResponseEntity.internalServerError().build();
         }
-        if (!movement.getUser().getId().equals(userFinded.get().getId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
 
         Optional<Movement> originalMovement = movementRepository.findById(movement.getId());
         if (originalMovement.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        if (!originalMovement.get().getUser().getId().equals(userFinded.get().getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         Movement original = originalMovement.get();
         original.setAccount(movement.getAccount());
@@ -104,7 +103,7 @@ public class MovementAPI {
         original.setStatus(movement.getStatus());
         original.setDueDate(movement.getDueDate());
 
-        Movement movementSaved = movementRepository.save(movement);
+        Movement movementSaved = movementRepository.save(original);
         return ResponseEntity.ok(movementSaved.blurEntity());
     }
 
@@ -142,7 +141,7 @@ public class MovementAPI {
         return ResponseEntity.ok(balances);
     }
 
-    @GetMapping("/findAll")
+    @PostMapping("/findAll")
     private ResponseEntity<?> findAll(Authentication authentication, @RequestParam String dataBase, @RequestBody PaginationModel paginationModel) {
         Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
         if (userFinded.isEmpty()) {
