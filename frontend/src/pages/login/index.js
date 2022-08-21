@@ -4,13 +4,16 @@ import styles from './index.module.scss'
 import { useContext, useState } from 'react'
 import { MessageContext } from '../../hook/Message.context'
 import { UserContext } from '../../hook/User.context'
+import { PageContext } from '../../hook/Page.context'
 import Field from '../../components/Field'
 import Button from '../../components/Button'
+import PageSettings from '../../assets/page.settings'
 
 export default function LoginPage() {
 	const [showCreateAccount, setShowCreateAccount] = useState(false)
 	const { simpleMessage } = useContext(MessageContext)
 	const { defineCurrentUser } = useContext(UserContext)
+	const { defineCurrentPage } = useContext(PageContext)
 
 	function onClick_Login() {
 		let authHeader =
@@ -28,6 +31,7 @@ export default function LoginPage() {
 					currentUser: response.data,
 					authHeader: authHeader,
 				})
+                defineCurrentPage(PageSettings.dashboard)
 			})
 			.catch((error) => {
 				simpleMessage({ header: 'Error on login!', text: 'User or password was not valid!' })

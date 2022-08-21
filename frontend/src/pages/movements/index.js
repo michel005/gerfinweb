@@ -1,8 +1,10 @@
 import { faArrowsRotate, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
+import PageSettings from '../../assets/page.settings'
 import Button from '../../components/Button'
 import Table from '../../components/Table'
+import API from '../../config/API'
 import { ConfigContext } from '../../hook/Config.context'
 import { LocalizationContext } from '../../hook/Localization.context'
 import { MessageContext } from '../../hook/Message.context'
@@ -15,7 +17,8 @@ export default function Movements() {
 	const { getText } = useContext(LocalizationContext)
 	const { updateField, find, create, remove, aditionalInformation } = useContext(TableContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
-	const { dataBase } = useContext(ConfigContext)
+	const { dataBase, setDataBase, formatedDataBaseForURL } = useContext(ConfigContext)
+	const [showTemplates, setShowTemplates] = useState(false)
 
 	function deleteMovement(movement) {
 		choiceMessage({
@@ -32,17 +35,39 @@ export default function Movements() {
 		})
 	}
 
+	function addMovementBasedOnTemplate(template) {
+		setShowTemplates(false)
+		API.post(
+			'/movement/createBasedOnTemplate?id=' + template.id + '&dataBase=' + formatedDataBaseForURL(),
+			{},
+			{
+				headers: {
+					Authorization: localStorage.getItem('authHeader'),
+				},
+			}
+		).then(() => {
+			find({ entity: 'movement' })
+			setDataBase(new Date(dataBase))
+		})
+	}
+
 	return (
 		<MovementStyle>
 			<div className={'commands'}>
 				<Button
+					disabled={aditionalInformation.account.length === 0}
+					title={
+						aditionalInformation.account.length === 0
+							? getText('pages.movement.create_no_account')
+							: ''
+					}
 					onClick={() =>
 						create('movement', {
-                            dueDate: new Date().getDate() + '/' + DateUtils.stringJustDate(dataBase).substring(3),
+							dueDate: new Date().getDate() + '/' + DateUtils.stringJustDate(dataBase).substring(3),
 							description: getText('pages.movement.new_movement.description'),
-                            status: 'PENDENT',
-                            account: aditionalInformation.account[0],
-                            value: 1.0
+							status: 'PENDENT',
+							account: aditionalInformation.account[0],
+							value: 1.0,
 						})
 					}
 				>
@@ -51,6 +76,36 @@ export default function Movements() {
 				<Button onClick={() => find({ entity: 'movement' })}>
 					<FontAwesomeIcon icon={faArrowsRotate} /> {getText('commons.refresh')}
 				</Button>
+				<Button
+					onClick={() => setShowTemplates(!showTemplates)}
+					disabled={aditionalInformation.template.length === 0 || aditionalInformation.account.length === 0}
+					title={
+						aditionalInformation.account.length === 0
+							? getText('pages.movement.create_no_account')
+							: (aditionalInformation.template.length === 0 ? getText('pages.movement.create_no_template') : '')
+					}
+				>
+					<FontAwesomeIcon icon={PageSettings.template.icon} />{' '}
+					{getText('pages.template.header.text')}
+				</Button>
+				{showTemplates && (
+					<>
+						<div className={'templateList'}>
+							{aditionalInformation.template.map((template) => {
+								return (
+									<div
+										key={template.id}
+										className={'templateItem'}
+										onClick={() => addMovementBasedOnTemplate(template)}
+									>
+										<div className={'dueDay'}>{template.dueDay}</div>
+										<div className={'description'}>{template.description}</div>
+									</div>
+								)
+							})}
+						</div>
+					</>
+				)}
 			</div>
 			<Table
 				entity={'movement'}
@@ -62,9 +117,9 @@ export default function Movements() {
 					status: getText('pages.movement.table.status'),
 					commands: '',
 				}}
-                enableOrderBy={{
-                    commands: false,
-                }}
+				enableOrderBy={{
+					commands: false,
+				}}
 				valueMapper={{
 					id: (movement) => {
 						return movement.id
@@ -93,7 +148,14 @@ export default function Movements() {
 						return movement.dueDate
 					},
 					description: (value, movement) => {
-						return movement.description
+						return (
+							<>
+								{movement.description}{' '}
+								{movement.template && (
+									<div className={'templateLabel'}>Template</div>
+								)}
+							</>
+						)
 					},
 					account: (value, movement) => {
 						return movement.account.name
@@ -102,7 +164,7 @@ export default function Movements() {
 						return CurrencyUtils.format(movement.value)
 					},
 					status: (value, movement) => {
-						return movement.status
+						return getText('pages.movement.types.' + movement.status)
 					},
 					commands: (value, movement) => {
 						return (
@@ -144,7 +206,7 @@ export default function Movements() {
 							}}
 							onKeyDown={(ev) => event(ev, movement, field)}
 						>
-                            {aditionalInformation.account.map((account, accountIndex) => {
+							{aditionalInformation.account.map((account, accountIndex) => {
 								return (
 									<option key={accountIndex} value={account.id}>
 										{account.name}
@@ -163,8 +225,8 @@ export default function Movements() {
 					},
 					account: (movement, value) => {
 						updateField('movement', movement, 'account', {
-                            id: value
-                        })
+							id: value,
+						})
 					},
 					value: (movement, value) => {
 						updateField('movement', movement, 'value', value)

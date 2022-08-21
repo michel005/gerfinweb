@@ -30,6 +30,10 @@ public class Movement extends UserAbstractEntity {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    @ManyToOne
+    @JoinColumn(name = "template_id")
+    private Template template;
+
     @Column(name = "description", length = 100)
     private String description;
 

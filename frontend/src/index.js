@@ -16,11 +16,11 @@ root.render(
 			<UserProvider>
 				<PageProvider>
 					<ConfigProvider>
-						<TableProvider>
-							<MessageProvider>
+						<MessageProvider>
+							<TableProvider>
 								<App />
-							</MessageProvider>
-						</TableProvider>
+							</TableProvider>
+						</MessageProvider>
 					</ConfigProvider>
 				</PageProvider>
 			</UserProvider>

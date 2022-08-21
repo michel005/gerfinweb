@@ -11,6 +11,7 @@ import { UserContext } from '../../hook/User.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import Accounts from '../accounts'
 import Movements from '../movements'
+import Templates from '../templates'
 import styles from './index.module.scss'
 
 export default function Main() {
@@ -147,6 +148,7 @@ export default function Main() {
 				)}
 				{currentPage && currentPage.path === '/account' && <Accounts />}
 				{currentPage && currentPage.path === '/movement' && <Movements />}
+				{currentPage && currentPage.path === '/template' && <Templates />}
 			</div>
 		</div>
 	)

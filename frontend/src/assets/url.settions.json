@@ -10,5 +10,11 @@
         "update": "/movement/update",
         "delete": "/movement/delete?id=@#ID@#",
         "find": "/movement/findAll?dataBase=@#DATA_BASE@#"
+    },
+    "template": {
+        "create": "/template/create",
+        "update": "/template/update",
+        "delete": "/template/delete?id=@#ID@#",
+        "find": "/template/findAll?dataBase=@#DATA_BASE@#"
     }
 }

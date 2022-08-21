@@ -4,12 +4,15 @@ import com.michel.gerfinweb.entity.User;
 import com.michel.gerfinweb.model.PasswordChangeModel;
 import com.michel.gerfinweb.model.UserModel;
 import com.michel.gerfinweb.repository.UserRepository;
+import com.michel.gerfinweb.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +69,11 @@ public class UserAPI {
         User user = new User();
         user.setFullName(userModel.getFullName());
         user.setEmail(userModel.getEmail());
-        user.setPassword("{" + userModel.getPassword().hashCode() + "}");
+        try {
+            user.setPassword(SecurityUtils.sha256(userModel.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            return ResponseEntity.internalServerError().body(e);
+        }
 
         userRepository.save(user);
 
@@ -100,9 +107,14 @@ public class UserAPI {
 
         if (passwordChangeModel.getOldPassword() == null || passwordChangeModel.getOldPassword().trim().isEmpty()) {
             errors.add("The old password was not informed!");
-        } else
-        if (!userOptional.get().getPassword().equals("{" + passwordChangeModel.getOldPassword().hashCode() + "}")) {
-            errors.add("The old password was not valid!");
+        } else {
+            try {
+                if (!userOptional.get().getPassword().equals(SecurityUtils.sha256(passwordChangeModel.getOldPassword()))) {
+                    errors.add("The old password was not valid!");
+                }
+            } catch (NoSuchAlgorithmException e) {
+                return ResponseEntity.internalServerError().body(e);
+            }
         }
         if (passwordChangeModel.getNewPassword() == null || passwordChangeModel.getNewPassword().trim().isEmpty()) {
             errors.add("the new password was not informed!");
@@ -118,7 +130,11 @@ public class UserAPI {
         }
 
         User user = userOptional.get();
-        user.setPassword("{" + passwordChangeModel.getNewPassword().hashCode() + "}");
+        try {
+            user.setPassword(SecurityUtils.sha256(passwordChangeModel.getNewPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            return ResponseEntity.internalServerError().body(e);
+        }
         User savedUser = userRepository.save(user);
 
         return ResponseEntity.ok().build();

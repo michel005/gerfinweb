@@ -137,13 +137,13 @@ export default function Accounts() {
 				}}
 				columnAction={{
 					name: (account, value) => {
-						updateField(account.account, 'name', value)
+						updateField('account', account.account, 'name', value)
 					},
 					bank: (account, value) => {
-						updateField(account.account, 'bank', value)
+						updateField('account', account.account, 'bank', value)
 					},
 					type: (account, value) => {
-						updateField(account.account, 'type', value)
+						updateField('account', account.account, 'type', value)
 					},
 				}}
 			/>

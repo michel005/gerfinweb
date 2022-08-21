@@ -1,11 +1,11 @@
 databaseChangeLog:
   - changeSet:
-      id: '3.0'
+      id: '4.0'
       author: Michel Douglas Grigoli
       changes:
         - createTable:
             schemaName: gerfinweb
-            tableName: gf_movement
+            tableName: gf_template
             columns:
               - column:
                   name: id
@@ -21,8 +21,8 @@ databaseChangeLog:
                   name: account_id
                   type: bigint
               - column:
-                  name: due_date
-                  type: date
+                  name: due_day
+                  type: integer
               - column:
                   name: description
                   type: varchar(50)
@@ -30,5 +30,5 @@ databaseChangeLog:
                   name: value
                   type: decimal(10,2)
               - column:
-                  name: status
+                  name: recurrency
                   type: varchar(50)

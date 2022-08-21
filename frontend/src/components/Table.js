@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import { LocalizationContext } from '../hook/Localization.context'
 import { TableContext } from '../hook/Table.context'
+import Button from './Button'
 import TableStyle from './Table.styled'
 
 export default function Table({
@@ -88,7 +89,8 @@ export default function Table({
 
 	function lastPage() {
 		let controller = table.pageController[entity]
-		return controller.currentPage + 1 === controller.totalPages
+        let current = controller.currentPage === 0 ? 0 : controller.currentPage + 1
+		return controller.currentPage === controller.totalPages
 	}
 
 	return (
@@ -157,26 +159,26 @@ export default function Table({
 							.replace('@#TOTAL@#', `${table.pageController[entity].totalRows}`)}
 					</div>
 					<div className={'pageController'}>
-						<button
+						<Button
 							disabled={table.pageController[entity].currentPage === 0}
 							onClick={() => table.find({ entity: entity, page: 0 })}
 						>
 							<FontAwesomeIcon icon={faBackwardFast} />
-						</button>
-						<button
+						</Button>
+						<Button
 							disabled={table.pageController[entity].currentPage === 0}
 							onClick={() =>
 								table.find({ entity: entity, page: table.pageController[entity].currentPage - 1 })
 							}
 						>
 							<FontAwesomeIcon icon={faBackward} />
-						</button>
+						</Button>
 						<div className={'currentPage'}>
 							{getText('componnents.table.page_counter')
 								.replace('@#CURRENT@#', `${table.pageController[entity].currentPage + 1}`)
-								.replace('@#TOTAL@#', `${table.pageController[entity].totalPages}`)}
+								.replace('@#TOTAL@#', `${table.pageController[entity].totalPages === 0 ? 1 : table.pageController[entity].totalPages}`)}
 						</div>
-						<button
+						<Button
 							disabled={
 								table.pageController[entity].currentPage ===
 									table.pageController[entity].totalPages - 1 || table.content[entity].length === 0
@@ -186,15 +188,17 @@ export default function Table({
 							}
 						>
 							<FontAwesomeIcon icon={faForward} />
-						</button>
-						<button
-							disabled={lastPage()}
+						</Button>
+						<Button
+							disabled={
+								table.pageController[entity].currentPage ===
+									table.pageController[entity].totalPages - 1 || table.content[entity].length === 0}
 							onClick={() =>
 								table.find({ entity: entity, page: table.pageController[entity].totalPages - 1 })
 							}
 						>
 							<FontAwesomeIcon icon={faForwardFast} />
-						</button>
+						</Button>
 					</div>
 				</div>
 			</div>

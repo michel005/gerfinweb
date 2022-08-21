@@ -120,8 +120,9 @@ const TableStyle = styled.div`
           display: flex;
           flex-direction: column;
           height: 100%;
+          font-size: 14px;
           justify-content: center;
-          padding: 21px;
+          padding: 15px 17px;
           text-align: center;
 
           &:hover {
@@ -225,16 +226,11 @@ const TableStyle = styled.div`
           background-color: transparent;
           border: none;
           color: #000;
-          cursor: pointer;
           display: flex;
           justify-content: center;
           flex-direction: column;
           margin: 0 7px !important;
           padding: 0px;
-
-          &:disabled {
-            opacity: 0.2;
-          }
         }
 
         .currentPage {

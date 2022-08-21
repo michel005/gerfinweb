@@ -26,12 +26,12 @@ const PageSettings = {
 	},
 	template: {
 		name: 'template',
-		path: '/templates',
+		path: '/template',
 		icon: faIdCard,
 	},
 	target: {
 		name: 'target',
-		path: '/targets',
+		path: '/target',
 		icon: faTarp,
 	},
 	settings: {

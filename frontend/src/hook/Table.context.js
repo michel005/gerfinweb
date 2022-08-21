@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import url from '../assets/url.settions.json'
 import API from '../config/API'
 import { ConfigContext } from './Config.context'
+import { LocalizationContext } from './Localization.context'
+import { MessageContext } from './Message.context'
 import { PageContext } from './Page.context'
 import { UserContext } from './User.context'
 
@@ -9,6 +11,8 @@ export const TableContext = createContext({})
 
 function TableProvider({ children }) {
 	const { formatedDataBaseForURL, dataBase, setDataBase } = useContext(ConfigContext)
+	const { simpleMessage } = useContext(MessageContext)
+	const { getText } = useContext(LocalizationContext)
 	const { user } = useContext(UserContext)
 	const { currentPage } = useContext(PageContext)
 	const [editEvent, setEditEvent] = useState(null)
@@ -21,14 +25,15 @@ function TableProvider({ children }) {
 			field: 'dueDate',
 			direction: 'ASC',
 		},
-	})
-	const [lastFilter, setLastFilter] = useState({
-		account: {},
-		movement: {},
+        template: {
+			field: 'dueDay',
+			direction: 'ASC',
+		},
 	})
 	const [content, setContent] = useState({
 		account: [],
 		movement: [],
+		template: [],
 	})
 	const [pageController, setPageController] = useState({
 		account: {
@@ -43,9 +48,16 @@ function TableProvider({ children }) {
 			totalPages: 0,
 			totalRows: 0,
 		},
+		template: {
+			currentPage: 0,
+			currentPageLength: 0,
+			totalPages: 0,
+			totalRows: 0,
+		},
 	})
 	const [aditionalInformation, setAditionalInformation] = useState({
 		account: [],
+		template: [],
 	})
 
 	function updateContent({ entity, newContent }) {
@@ -92,7 +104,12 @@ function TableProvider({ children }) {
 		}).then(() => {
 			refresh({ entity })
 			setDataBase(new Date(dataBase))
-		})
+		}).catch((error) => {
+            simpleMessage({
+                header: getText('componnents.table.update_field.header'),
+                text: error.response.data[0] ? error.response.data[0] : JSON.stringify(error.response.data)
+            })
+        })
 	}
 
 	function remove(entity, id, after = () => {}) {
@@ -118,8 +135,7 @@ function TableProvider({ children }) {
 				page: pageController[entity].currentPage,
 				size: pageController[entity].currentPageLength,
 				sortField: orderBy[entity].field,
-				sortDirection: orderBy[entity].direction,
-				...lastFilter[entity],
+				sortDirection: orderBy[entity].direction
 			},
 			{
 				headers: {
@@ -142,7 +158,7 @@ function TableProvider({ children }) {
 		})
 	}
 
-	function find({ entity, page = 0, size = 15 }) {
+	function find({ entity, page = 0, size = 10 }) {
 		API.post(
 			url[entity].find.replaceAll('@#DATA_BASE@#', formatedDataBaseForURL()),
 			{
@@ -179,8 +195,7 @@ function TableProvider({ children }) {
 				page: 0,
 				size: 10,
 				sortField: field,
-				sortDirection: direction,
-				...lastFilter[entity],
+				sortDirection: direction
 			},
 			{
 				headers: {
@@ -211,12 +226,80 @@ function TableProvider({ children }) {
 	}
 
 	useEffect(() => {
+		if (!user) {
+            setOrderBy({
+                account: {
+                    field: 'name',
+                    direction: 'ASC',
+                },
+                movement: {
+                    field: 'dueDate',
+                    direction: 'ASC',
+                },
+                template: {
+                    field: 'dueDay',
+                    direction: 'ASC',
+                },
+            })
+            setContent({
+                account: [],
+                movement: [],
+                template: [],
+            })
+            setPageController({
+                account: {
+                    currentPage: 0,
+                    currentPageLength: 0,
+                    totalPages: 0,
+                    totalRows: 0,
+                },
+                movement: {
+                    currentPage: 0,
+                    currentPageLength: 0,
+                    totalPages: 0,
+                    totalRows: 0,
+                },
+                template: {
+                    currentPage: 0,
+                    currentPageLength: 0,
+                    totalPages: 0,
+                    totalRows: 0,
+                },
+            })
+            setAditionalInformation({
+                account: [],
+                template: [],
+            })
+		}
+	}, [user])
+
+	useEffect(() => {
 		if (user && currentPage) {
 			if (currentPage.path === '/account') {
 				find({ entity: 'account', page: 0 })
 			}
 			if (currentPage.path === '/movement') {
 				find({ entity: 'movement', page: 0 })
+				API.get('/account/findAllSimple', {
+					headers: {
+						Authorization: localStorage.getItem('authHeader'),
+					},
+				}).then((accountResponse) => {
+                    API.get('/template/findAllSimple', {
+                        headers: {
+                            Authorization: localStorage.getItem('authHeader'),
+                        },
+                    }).then((templateResponse) => {
+                        setAditionalInformation({
+                            ...aditionalInformation,
+                            template: templateResponse.data,
+                            account: accountResponse.data,
+                        })
+                    })
+				})
+			}
+			if (currentPage.path === '/template') {
+				find({ entity: 'template', page: 0 })
 				API.get('/account/findAllSimple', {
 					headers: {
 						Authorization: localStorage.getItem('authHeader'),

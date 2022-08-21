@@ -1,12 +1,13 @@
 package com.michel.gerfinweb.api;
 
-import com.michel.gerfinweb.entity.Movement;
-import com.michel.gerfinweb.entity.User;
-import com.michel.gerfinweb.model.PaginationModel;
-import com.michel.gerfinweb.repository.MovementRepository;
-import com.michel.gerfinweb.repository.UserRepository;
-import com.michel.gerfinweb.utils.DateUtils;
-import lombok.extern.slf4j.Slf4j;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,19 +15,37 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.*;
+import com.michel.gerfinweb.entity.Movement;
+import com.michel.gerfinweb.entity.Template;
+import com.michel.gerfinweb.entity.User;
+import com.michel.gerfinweb.model.PaginationModel;
+import com.michel.gerfinweb.model.SimpleAccountModel;
+import com.michel.gerfinweb.repository.AccountRepository;
+import com.michel.gerfinweb.repository.MovementRepository;
+import com.michel.gerfinweb.repository.TemplateRepository;
+import com.michel.gerfinweb.repository.UserRepository;
+import com.michel.gerfinweb.type.MovementStatus;
+import com.michel.gerfinweb.utils.DateUtils;
 
-@Slf4j
 @RestController
 @RequestMapping("/movement")
 public class MovementAPI {
 
     @Autowired
     private MovementRepository movementRepository;
+
+    @Autowired
+    private TemplateRepository templateRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -60,7 +79,45 @@ public class MovementAPI {
         movement.setUser(userFinded.get());
         Movement movementSaved = movementRepository.save(movement);
 
-        return ResponseEntity.ok(movementSaved.blurEntity());
+        return ResponseEntity.ok(movementSaved);
+    }
+
+    @PostMapping("/createBasedOnTemplate")
+    private ResponseEntity<?> createBasedOnTemplate(Authentication authentication, @RequestParam Long id, @RequestParam String dataBase) {
+    	Optional<Template> template = templateRepository.findById(id);
+    	
+    	if (template.isEmpty()) {
+            return ResponseEntity.notFound().build();
+    	}
+    	
+        Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
+        if (userFinded.isEmpty()) {
+            return ResponseEntity.internalServerError().build();
+        }
+        
+        if (!template.get().getUser().getId().equals(userFinded.get().getId())) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        List<SimpleAccountModel> accounts = accountRepository.findByUser(userFinded.get().getId());
+        if (accounts.size() == 0) {
+        	return ResponseEntity.badRequest().body("User dont have accounts created!");
+        }
+
+        LocalDate dtBase = DateUtils.toLocalDate(dataBase, "ddMMyyyy");
+        int lastDay = dtBase.getMonth().length(dtBase.isLeapYear());
+        Movement movement = new Movement();
+        movement.setUser(userFinded.get());
+        movement.setDueDate(LocalDate.of(dtBase.getYear(), dtBase.getMonth(), (template.get().getDueDay() == null ? dtBase.getDayOfMonth() : (template.get().getDueDay() > lastDay ? lastDay : template.get().getDueDay()))));
+        movement.setDescription(template.get().getDescription());
+        movement.setStatus(MovementStatus.PENDENT);
+        movement.setValue(template.get().getValue() == null ? BigDecimal.ZERO : template.get().getValue());
+        movement.setAccount(template.get().getAccount() == null ? accountRepository.findById(accounts.get(0).getId()).get() : template.get().getAccount());
+        movement.setTemplate(template.get());
+        
+        Movement savedMovement = movementRepository.save(movement);
+
+        return ResponseEntity.ok(savedMovement);
     }
 
     @PostMapping("/update")

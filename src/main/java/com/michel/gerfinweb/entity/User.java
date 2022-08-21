@@ -26,7 +26,8 @@ public class User extends AbstractEntity {
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "password", length = 50)
+    @Lob
+    @Column(name = "password")
     private String password;
 
     public Map<String, Object> blurUser() {

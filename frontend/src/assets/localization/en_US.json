@@ -20,7 +20,10 @@
     "table": {
       "row_counter": "Showing @#PAGE@# of @#TOTAL@# row(s)",
       "page_counter": "@#CURRENT@# of @#TOTAL@# page(s)",
-      "empty": "No data found"
+      "empty": "No data found",
+      "update_field": {
+        "header": "Error ocourred while update field"
+      }
     }
   },
   "logout": {
@@ -74,6 +77,8 @@
         "value": "Value",
         "status": "Status"
       },
+      "create_no_account": "You need to create an account first",
+      "create_no_template": "You need to create an template first",
       "types": {
         "PENDENT": "Pendent",
         "APPROVED": "Approved"
@@ -90,11 +95,29 @@
       "header": {
         "text": "Templates",
         "lead": "Made movements more quickly"
+      },
+      "table": {
+        "dueDay": "Due Day",
+        "description": "Description",
+        "account": "Account",
+        "value": "Value",
+        "recurrency": "Recurrency"
+      },
+      "recurrency": {
+        "ONE_PER_MONTH": "One per Month",
+        "MANY_PER_MONTH": "Many per Month"
+      },
+      "new_template": {
+        "description": "New template"
+      },
+      "delete": {
+        "header": "Do you really want to delete this template?",
+        "text": "This operation can not be reverted!"
       }
     },
     "target": {
       "header": {
-        "text": "Templates",
+        "text": "Targets",
         "lead": "Define how you are gonna complete your targets"
       }
     },

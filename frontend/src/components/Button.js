@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Button = styled.div`
+const Button = styled.button`
 	background-color: #39f;
 	border: 0px solid transparent;
 	border-radius: 7px;
@@ -17,10 +17,19 @@ const Button = styled.div`
 		background-color: #3090f0;
 	}
 
-    svg {
-        margin-top: 3px;
-        margin-right: 7px;
-    }
+	&:disabled {
+        cursor: not-allowed;
+		opacity: 0.3;
+
+		&:hover {
+			background-color: #39f;
+		}
+	}
+
+	svg {
+		margin-top: 3px;
+		margin-right: 7px;
+	}
 
 	&.transparent {
 		background-color: transparent;
