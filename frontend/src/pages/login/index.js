@@ -31,7 +31,7 @@ export default function LoginPage() {
 					currentUser: response.data,
 					authHeader: authHeader,
 				})
-                defineCurrentPage(PageSettings.dashboard)
+				defineCurrentPage(PageSettings.dashboard)
 			})
 			.catch((error) => {
 				simpleMessage({ header: 'Error on login!', text: 'User or password was not valid!' })
@@ -68,13 +68,15 @@ export default function LoginPage() {
 				<div className={styles.createAccountPage}>
 					<div className={styles.header}>CREATE USER ACCOUNT</div>
 
-					<Field id="fullName" label="Full name" type="text" />
+					<div className={styles.fields}>
+						<Field id="fullName" label="Full name" type="text" />
 
-					<Field id="email" label="Email" type="text" />
+						<Field id="email" label="Email" type="text" />
 
-					<Field id="password" label="Password" type="password" />
+						<Field id="password" label="Password" type="password" />
 
-					<Field id="passwordConfirm" label="Password Confirmation" type="password" />
+						<Field id="passwordConfirm" label="Password Confirmation" type="password" />
+					</div>
 
 					<div className={styles.commandBar}>
 						<Button onClick={onClick_CreateUser}>Create User</Button>
@@ -87,9 +89,11 @@ export default function LoginPage() {
 				<div className={styles.loginPage}>
 					<div className={styles.header}>LOGIN</div>
 
-					<Field id="email" label="Email" type="text" />
+					<div className={styles.fields}>
+						<Field id="email" label="Email" type="text" />
 
-					<Field id="password" label="Password" type="password" />
+						<Field id="password" label="Password" type="password" />
+					</div>
 
 					<div className={styles.commandBar}>
 						<Button onClick={onClick_Login}>Login</Button>

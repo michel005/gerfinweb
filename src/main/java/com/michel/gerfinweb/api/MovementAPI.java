@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.michel.gerfinweb.entity.Movement;
 import com.michel.gerfinweb.entity.Template;
 import com.michel.gerfinweb.entity.User;
+import com.michel.gerfinweb.model.BalanceByDayModel;
 import com.michel.gerfinweb.model.PaginationModel;
 import com.michel.gerfinweb.model.SimpleAccountModel;
+import com.michel.gerfinweb.model.TransferModel;
 import com.michel.gerfinweb.repository.AccountRepository;
 import com.michel.gerfinweb.repository.MovementRepository;
 import com.michel.gerfinweb.repository.TemplateRepository;
@@ -80,6 +82,59 @@ public class MovementAPI {
         Movement movementSaved = movementRepository.save(movement);
 
         return ResponseEntity.ok(movementSaved);
+    }
+
+    @PostMapping("/transfer")
+    private ResponseEntity<?> transfer(Authentication authentication, @RequestBody TransferModel transferModel) {
+        List<String> errors = new ArrayList<>();
+        if (transferModel.getAccountDestiny() == null) {
+            errors.add("Desiny account was not informed!");
+        }
+        if (transferModel.getAccountOrigin() == null) {
+            errors.add("Origin account was not informed!");
+        }
+        if (transferModel.getAccountOrigin() != null && transferModel.getAccountDestiny() != null && transferModel.getAccountOrigin().getId().equals(transferModel.getAccountDestiny().getId())) {
+            errors.add("Origin and destiny account was the same!");
+        }
+        if (transferModel.getDate() == null) {
+            errors.add("Date was not informed!");
+        }
+        if (transferModel.getStatus() == null) {
+            errors.add("Status was not informed!");
+        }
+        if (transferModel.getValue() == null || transferModel.getValue().equals(BigDecimal.ZERO)) {
+            errors.add("Value was not informed!");
+        }
+        if (transferModel.getDescription() == null || transferModel.getDescription().trim().isEmpty()) {
+            errors.add("Description was not informed!");
+        }
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
+        Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
+        if (userFinded.isEmpty()) {
+            return ResponseEntity.internalServerError().build();
+        }
+
+        Movement origin = new Movement();
+        origin.setUser(userFinded.get());
+        origin.setDueDate(transferModel.getDate());
+        origin.setDescription(transferModel.getDescription() + " (OUT)");
+        origin.setAccount(transferModel.getAccountOrigin());
+        origin.setStatus(transferModel.getStatus());
+        origin.setValue(transferModel.getValue().multiply(new BigDecimal(-1)));
+        movementRepository.save(origin);
+
+        Movement destiny = new Movement();
+        destiny.setUser(userFinded.get());
+        destiny.setDueDate(transferModel.getDate());
+        destiny.setDescription(transferModel.getDescription() + " (IN)");
+        destiny.setAccount(transferModel.getAccountDestiny());
+        destiny.setStatus(transferModel.getStatus());
+        destiny.setValue(transferModel.getValue());
+        movementRepository.save(destiny);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/createBasedOnTemplate")
@@ -161,7 +216,7 @@ public class MovementAPI {
         original.setDueDate(movement.getDueDate());
 
         Movement movementSaved = movementRepository.save(original);
-        return ResponseEntity.ok(movementSaved.blurEntity());
+        return ResponseEntity.ok(movementSaved);
     }
 
     @PostMapping("/delete")
@@ -206,6 +261,52 @@ public class MovementAPI {
         }
         PageRequest pageable = PageRequest.of(paginationModel.getPage(), paginationModel.getSize(), Sort.by(Sort.Direction.valueOf(paginationModel.getSortDirection()), paginationModel.getSortField()));
         Page<Movement> movements = movementRepository.findByUser(pageable, DateUtils.firstDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), DateUtils.lastDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), userFinded.get());
+        return ResponseEntity.ok(movements);
+    }
+
+    @PostMapping("/balanceByDay")
+    private ResponseEntity<?> balanceByDay(Authentication authentication, @RequestParam String dataBase) {
+        Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
+        if (userFinded.isEmpty()) {
+            return ResponseEntity.internalServerError().build();
+        }
+        LocalDate finalDataBase = DateUtils.toLocalDate(dataBase, "ddMMyyyy");
+        Map<Integer, BigDecimal> balanceByDay = new HashMap<>();
+        int currentDay = 1;
+        BigDecimal minValue = BigDecimal.ZERO;
+        BigDecimal maxValue = BigDecimal.ZERO;
+        while (currentDay <= finalDataBase.getMonth().length(finalDataBase.isLeapYear())) {
+        	BigDecimal balance = BigDecimal.ZERO;
+        	LocalDate currentDate = LocalDate.of(finalDataBase.getYear(), finalDataBase.getMonth(), currentDay);
+        	if (LocalDate.now().compareTo(currentDate) >= 0) {
+        		balance = movementRepository.currentBalance(currentDate, userFinded.get());
+        	} else {
+        		balance = movementRepository.futureBalance(currentDate, userFinded.get());
+        	}
+        	balanceByDay.put(currentDay, balance);
+        	if (balance.compareTo(minValue) < 0) {
+        		minValue = balance;
+        	}
+        	if (balance.compareTo(maxValue) > 0) {
+        		maxValue = balance;
+        	}
+        	currentDay++;
+        }
+        BalanceByDayModel bbd = new BalanceByDayModel();
+        bbd.setBalances(balanceByDay);
+        bbd.setMaxValue(maxValue);
+        bbd.setMinValue(minValue);
+        return ResponseEntity.ok(bbd);
+    }
+
+    @PostMapping("/findPendent")
+    private ResponseEntity<?> findPendent(Authentication authentication, @RequestParam String dataBase) {
+        Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
+        if (userFinded.isEmpty()) {
+            return ResponseEntity.internalServerError().build();
+        }
+        PageRequest pageable = PageRequest.of(0, 5);
+        Page<Movement> movements = movementRepository.findPendentByUser(pageable, DateUtils.firstDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), DateUtils.lastDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), userFinded.get());
         return ResponseEntity.ok(movements);
     }
 

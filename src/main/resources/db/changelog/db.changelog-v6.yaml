@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: '6.0'
+      author: Michel Douglas Grigoli
+      changes:
+        - createTable:
+            schemaName: gerfinweb
+            tableName: gf_target
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+              - column:
+                  name: account_id
+                  type: bigint
+              - column:
+                  name: description
+                  type: varchar(50)
+              - column:
+                  name: target_value
+                  type: decimal(10,2)
+              - column:
+                  name: target_date
+                  type: date

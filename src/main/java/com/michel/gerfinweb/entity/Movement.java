@@ -1,18 +1,25 @@
 package com.michel.gerfinweb.entity;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.michel.gerfinweb.type.MovementStatus;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -46,15 +53,4 @@ public class Movement extends UserAbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private MovementStatus status;
-
-    @Override
-    public Map<String, Object> blurEntity() {
-        Map<String, Object> entity = new HashMap<>();
-        entity.put("account", account.getId());
-        entity.put("description", description);
-        entity.put("dueDate", dueDate);
-        entity.put("value", value);
-        entity.put("status", status);
-        return entity;
-    }
 }

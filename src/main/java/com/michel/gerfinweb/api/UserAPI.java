@@ -1,23 +1,26 @@
 package com.michel.gerfinweb.api;
 
-import com.michel.gerfinweb.entity.User;
-import com.michel.gerfinweb.model.PasswordChangeModel;
-import com.michel.gerfinweb.model.UserModel;
-import com.michel.gerfinweb.repository.UserRepository;
-import com.michel.gerfinweb.utils.SecurityUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.michel.gerfinweb.entity.User;
+import com.michel.gerfinweb.model.PasswordChangeModel;
+import com.michel.gerfinweb.model.UserModel;
+import com.michel.gerfinweb.repository.UserRepository;
+import com.michel.gerfinweb.utils.SecurityUtils;
+
 @RestController
 @RequestMapping("/user")
 public class UserAPI {
@@ -36,7 +39,7 @@ public class UserAPI {
         if (userFinded.isEmpty()) {
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok(userFinded.get().blurUser());
+        return ResponseEntity.ok(userFinded.get());
     }
 
     @PostMapping("/create")
@@ -94,7 +97,7 @@ public class UserAPI {
         user.setFullName(fullName);
         User savedUser = userRepository.save(user);
 
-        return ResponseEntity.ok(savedUser.blurUser());
+        return ResponseEntity.ok(savedUser);
     }
 
     @PostMapping("/update/password")
@@ -135,9 +138,13 @@ public class UserAPI {
         } catch (NoSuchAlgorithmException e) {
             return ResponseEntity.internalServerError().body(e);
         }
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
 
-        return ResponseEntity.ok().build();
+        try {
+			return ResponseEntity.ok(SecurityUtils.sha256(passwordChangeModel.getNewPassword()));
+		} catch (NoSuchAlgorithmException e) {
+            return ResponseEntity.internalServerError().body(e);
+		}
     }
 
 }

@@ -301,5 +301,11 @@
 		h3 {
 			color: #aaa;
 		}
+
+        & > div {
+            &:last-child {
+                height: calc(100% - 68px - 36px - 28px);
+            }
+        }
 	}
 }

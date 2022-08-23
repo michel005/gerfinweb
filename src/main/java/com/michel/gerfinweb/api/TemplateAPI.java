@@ -1,8 +1,10 @@
 package com.michel.gerfinweb.api;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,12 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.michel.gerfinweb.entity.Movement;
 import com.michel.gerfinweb.entity.Template;
 import com.michel.gerfinweb.entity.User;
 import com.michel.gerfinweb.model.PaginationModel;
 import com.michel.gerfinweb.model.SimpleTemplateModel;
+import com.michel.gerfinweb.repository.MovementRepository;
 import com.michel.gerfinweb.repository.TemplateRepository;
 import com.michel.gerfinweb.repository.UserRepository;
+import com.michel.gerfinweb.type.TemplateRecurrency;
+import com.michel.gerfinweb.utils.DateUtils;
 
 @RestController
 @RequestMapping("/template")
@@ -31,6 +37,8 @@ public class TemplateAPI {
 
     @Autowired
     private TemplateRepository templateRepository;
+    @Autowired
+    private MovementRepository movementRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -112,7 +120,7 @@ public class TemplateAPI {
     }
 
     @PostMapping("/findAll")
-    private ResponseEntity<?> findAll(Authentication authentication, @RequestParam String dataBase, @RequestBody PaginationModel paginationModel) {
+    private ResponseEntity<?> findAll(Authentication authentication, @RequestBody PaginationModel paginationModel) {
         Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
         if (userFinded.isEmpty()) {
             return ResponseEntity.internalServerError().build();
@@ -123,13 +131,19 @@ public class TemplateAPI {
     }
 
     @GetMapping("/findAllSimple")
-    private ResponseEntity<?> findAllSimple(Authentication authentication) {
+    private ResponseEntity<?> findAllSimple(Authentication authentication, @RequestParam String dataBase) {
         Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
         if (userFinded.isEmpty()) {
             return ResponseEntity.internalServerError().build();
         }
+        LocalDate finalDataBase = DateUtils.lastDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy"));
         List<SimpleTemplateModel> templates = templateRepository.findByUser(userFinded.get().getId());
-        return ResponseEntity.ok(templates);
+        List<SimpleTemplateModel> finalTemplates = templates.stream().filter(e -> {
+        	Template fullTemplate = templateRepository.findById(e.getId()).get();
+        	List<Movement> movements = movementRepository.hasMovementWithTemplate(DateUtils.firstDay(finalDataBase), DateUtils.lastDay(finalDataBase), userFinded.get(), fullTemplate);
+        	return movements.size() == 0 || fullTemplate.getRecurrency().equals(TemplateRecurrency.MANY_PER_MONTH);
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(finalTemplates);
     }
 
 }

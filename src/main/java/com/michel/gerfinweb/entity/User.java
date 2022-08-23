@@ -29,11 +29,4 @@ public class User extends AbstractEntity {
     @Lob
     @Column(name = "password")
     private String password;
-
-    public Map<String, Object> blurUser() {
-        Map<String, Object> bluredUser = new HashMap<>();
-        bluredUser.put("fullName", fullName);
-        bluredUser.put("email", email);
-        return bluredUser;
-    }
 }

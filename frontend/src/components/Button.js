@@ -27,7 +27,7 @@ const Button = styled.button`
 	}
 
 	svg {
-		margin-top: 3px;
+		margin-top: 1px;
 		margin-right: 7px;
 	}
 

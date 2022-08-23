@@ -4,17 +4,17 @@ const MovementStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 
-    .templateLabel {
-        background-color: #aaa;
-        border-radius: 4px;
-        color: #fff;
-        font-size: 10px;
-        margin: -2px 14px;
-        padding: 4px 7px;
-    }
+	.templateLabel {
+		background-color: #aaa;
+		border-radius: 4px;
+		color: #fff;
+		font-size: 10px;
+		margin: -2px 14px;
+		padding: 4px 7px;
+	}
 
 	.column_description .columnContent {
-        display: flex;
+		display: flex;
 		flex-direction: row;
 	}
 
@@ -32,11 +32,11 @@ const MovementStyle = styled.div`
 		.templateItem {
 			border-radius: 4px;
 			color: #333;
-            cursor: pointer;
+			cursor: pointer;
 			display: flex;
 			flex-direction: row;
 			font-size: 14px;
-			padding: 14px;
+			padding: 7px;
 			transition: all 0.25s;
 
 			&:hover {
@@ -48,6 +48,65 @@ const MovementStyle = styled.div`
 				flex-direction: row;
 				justify-content: flex-start;
 				width: 50px;
+			}
+		}
+	}
+
+	.transferModal {
+		background-color: #fffc;
+		backdrop-filter: blur(10px);
+		border-radius: 4px;
+		box-shadow: #ccc 0 0 7px;
+		padding: 7px;
+		position: absolute;
+		transform: translateY(44px) translateX(250px);
+		width: 300px;
+		transition: all 0.25s;
+
+		.group {
+			display: flex;
+			flex-direction: row;
+
+			& > * {
+				width: 100%;
+				margin-right: 7px;
+
+				&:last-child {
+					margin-right: 0px;
+				}
+			}
+		}
+
+		.field {
+			margin-top: 7px;
+		}
+
+		.selectGroup {
+			display: flex;
+			flex-direction: column;
+
+			label {
+				color: #666;
+				font-size: 14px;
+				font-weight: bold;
+				margin-bottom: 7px;
+			}
+
+			select {
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				font-size: 14px;
+				padding: 7px;
+				transition: all 0.25s;
+				width: 100%;
+
+				&:focus {
+					border-color: #999;
+				}
+
+				&:disabled {
+					cursor: not-allowed;
+				}
 			}
 		}
 	}

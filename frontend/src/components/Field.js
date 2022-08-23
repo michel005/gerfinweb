@@ -1,10 +1,10 @@
-import styles from './Field.module.scss'
+import FieldStyle from './Field.style'
 
-export default function Field({id, label, type, defaultValue = null}) {
+export default function Field({id, label, type, disabled = false, defaultValue = undefined, value = undefined, onChange = () => {}}) {
 	return (
-		<div className={styles.inputGroup}>
+		<FieldStyle className={'field'}>
 			<label htmlFor={id}>{label}</label>
-			<input id={id} type={type} defaultValue={defaultValue} />
-		</div>
+			<input disabled={disabled} id={id} type={type} defaultValue={defaultValue} value={value} onChange={onChange} />
+		</FieldStyle>
 	)
 }

@@ -1,7 +1,8 @@
-.inputGroup {
+import styled from 'styled-components'
+
+const FieldStyle = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding: 7px 21px;
 
 	label {
 		color: #666;
@@ -20,5 +21,11 @@
 		&:focus {
 			border-color: #999;
 		}
+
+		&:disabled {
+			cursor: not-allowed;
+		}
 	}
-}
+`
+
+export default FieldStyle

@@ -1,8 +1,10 @@
+import { faArrowAltCircleDown } from '@fortawesome/free-regular-svg-icons'
 import { faArrowsRotate, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useState } from 'react'
 import PageSettings from '../../assets/page.settings'
 import Button from '../../components/Button'
+import Field from '../../components/Field'
 import Table from '../../components/Table'
 import API from '../../config/API'
 import { ConfigContext } from '../../hook/Config.context'
@@ -16,9 +18,10 @@ import MovementStyle from './index.style'
 export default function Movements() {
 	const { getText } = useContext(LocalizationContext)
 	const { updateField, find, create, remove, aditionalInformation } = useContext(TableContext)
-	const { choiceMessage, setMessage } = useContext(MessageContext)
+	const { choiceMessage, setMessage, simpleMessage } = useContext(MessageContext)
 	const { dataBase, setDataBase, formatedDataBaseForURL } = useContext(ConfigContext)
 	const [showTemplates, setShowTemplates] = useState(false)
+	const [showTransfer, setShowTransfer] = useState(false)
 
 	function deleteMovement(movement) {
 		choiceMessage({
@@ -51,6 +54,48 @@ export default function Movements() {
 		})
 	}
 
+	function transferValue() {
+		API.post(
+			'/movement/transfer',
+			{
+				date: document.getElementById('transfer_date').value,
+				accountOrigin:
+					document.getElementById('transfer_origin').value === ''
+						? null
+						: {
+								id: document.getElementById('transfer_origin').value,
+						  },
+				accountDestiny:
+					document.getElementById('transfer_destiny').value === ''
+						? null
+						: {
+								id: document.getElementById('transfer_destiny').value,
+						  },
+				description: document.getElementById('transfer_description').value,
+				value: document.getElementById('transfer_value').value,
+				status: document.getElementById('transfer_status').value,
+			},
+			{
+				headers: {
+					Authorization: localStorage.getItem('authHeader'),
+				},
+			}
+		)
+			.then(() => {
+				find({ entity: 'movement' })
+				setDataBase(new Date(dataBase))
+				setShowTransfer(false)
+			})
+			.catch((error) => {
+				simpleMessage({
+					header: getText('componnents.table.update_field.header'),
+					text: error.response.data[0]
+						? error.response.data[0]
+						: JSON.stringify(error.response.data),
+				})
+			})
+	}
+
 	return (
 		<MovementStyle>
 			<div className={'commands'}>
@@ -78,11 +123,15 @@ export default function Movements() {
 				</Button>
 				<Button
 					onClick={() => setShowTemplates(!showTemplates)}
-					disabled={aditionalInformation.template.length === 0 || aditionalInformation.account.length === 0}
+					disabled={
+						aditionalInformation.template.length === 0 || aditionalInformation.account.length === 0
+					}
 					title={
 						aditionalInformation.account.length === 0
 							? getText('pages.movement.create_no_account')
-							: (aditionalInformation.template.length === 0 ? getText('pages.movement.create_no_template') : '')
+							: aditionalInformation.template.length === 0
+							? getText('pages.movement.create_no_template')
+							: ''
 					}
 				>
 					<FontAwesomeIcon icon={PageSettings.template.icon} />{' '}
@@ -103,6 +152,81 @@ export default function Movements() {
 									</div>
 								)
 							})}
+						</div>
+					</>
+				)}
+				<Button
+					disabled={aditionalInformation.account.length === 0}
+					title={
+						aditionalInformation.account.length === 0
+							? getText('pages.movement.create_no_account')
+							: ''
+					}
+					onClick={() => setShowTransfer(!showTransfer)}
+				>
+					<FontAwesomeIcon icon={faArrowAltCircleDown} /> {getText('commons.transfer')}
+				</Button>
+				{showTransfer && (
+					<>
+						<div className={'transferModal'}>
+							<h3>Transfer</h3>
+							<div>
+								<Field
+									id={'transfer_date'}
+									label={'Date'}
+									defaultValue={DateUtils.stringJustDate(new Date(dataBase.getFullYear(), dataBase.getMonth(), new Date().getDate()))}
+								/>
+								<div className={'group'}>
+									<div className={'selectGroup field'}>
+										<label>Origin Account</label>
+										<select id={'transfer_origin'} placeholder="Origin Account">
+											<option></option>
+											{aditionalInformation.account.map((account) => {
+												return (
+													<option key={account.id} value={account.id}>
+														{account.name}
+													</option>
+												)
+											})}
+										</select>
+									</div>
+									<div className={'selectGroup field'}>
+										<label>Destiny Account</label>
+										<select id={'transfer_destiny'} placeholder="Destiny Account">
+											<option></option>
+											{aditionalInformation.account.map((account) => {
+												return (
+													<option key={account.id} value={account.id}>
+														{account.name}
+													</option>
+												)
+											})}
+										</select>
+									</div>
+								</div>
+								<div className={'selectGroup field'}>
+									<label>Status</label>
+									<select id={'transfer_status'} placeholder="Status">
+										{['PENDENT', 'APPROVED'].map((movementType, movementTypeIndex) => {
+											return (
+												<option key={movementTypeIndex} value={movementType}>
+													{getText('pages.movement.types.' + movementType)}
+												</option>
+											)
+										})}
+									</select>
+								</div>
+								<Field
+									id={'transfer_description'}
+									label={'Description'}
+									defaultValue={'Default transfer'}
+								/>
+								<Field id={'transfer_value'} label={'Value'} defaultValue={0.0} />
+
+								<div className={'commands'}>
+									<Button onClick={transferValue}>Confirm</Button>
+								</div>
+							</div>
 						</div>
 					</>
 				)}
@@ -151,9 +275,7 @@ export default function Movements() {
 						return (
 							<>
 								{movement.description}{' '}
-								{movement.template && (
-									<div className={'templateLabel'}>Template</div>
-								)}
+								{movement.template && <div className={'templateLabel'}>Template</div>}
 							</>
 						)
 					},

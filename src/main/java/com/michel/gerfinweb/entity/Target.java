@@ -1,17 +1,18 @@
 package com.michel.gerfinweb.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.michel.gerfinweb.type.TemplateRecurrency;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,8 +22,8 @@ import lombok.ToString;
 @Setter
 @Entity
 @ToString(callSuper = true)
-@Table(name = "gf_template")
-public class Template extends UserAbstractEntity {
+@Table(name = "gf_target")
+public class Target extends UserAbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -36,11 +37,11 @@ public class Template extends UserAbstractEntity {
     @Column(name = "description", length = 100)
     private String description;
 
-    @Column(name = "due_day", length = 100)
-    private Integer dueDay;
+    @Column(name = "target_value")
+    private BigDecimal targetValue;
 
-    private BigDecimal value;
-
-    @Enumerated(EnumType.STRING)
-    private TemplateRecurrency recurrency;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "target_date")
+    private LocalDate targetDate;
 }

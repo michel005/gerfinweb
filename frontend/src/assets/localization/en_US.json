@@ -3,6 +3,7 @@
     "create": "Create",
     "refresh": "Refresh",
     "cancel": "Cancel",
+    "transfer": "Transfer",
     "save": "Save",
     "changePassword": "Change Password",
     "delete": "Delete",
@@ -119,6 +120,19 @@
       "header": {
         "text": "Targets",
         "lead": "Define how you are gonna complete your targets"
+      },
+      "table": {
+        "description": "Description",
+        "account": "Account",
+        "targetValue": "Target Value",
+        "targetDate": "Target Date"
+      },
+      "new_target": {
+        "description": "New target"
+      },
+      "delete": {
+        "header": "Do you really want to delete this target?",
+        "text": "This operation can not be reverted!"
       }
     },
     "settings": {
@@ -131,6 +145,9 @@
       "header": {
         "text": "User",
         "lead": "Modify your full name and the current password"
+      },
+      "update_password": {
+        "header": "Error ocourred while update password"
       }
     }
   }

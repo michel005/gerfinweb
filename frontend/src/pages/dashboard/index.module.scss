@@ -1,4 +1,122 @@
 .dashboard {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
+	margin-top: 21px;
+    min-height: calc(100% - 68px - 28px);
+
+	.group {
+		display: flex;
+		flex-direction: row;
+		margin-top: 21px;
+
+		& > * {
+			flex-grow: 1;
+			margin-right: 21px;
+			width: 100%;
+
+			&:last-child {
+				margin-right: 0px;
+			}
+		}
+	}
+
+    .fullHeight {
+        flex-direction: column;
+    }
+
+    .balances {
+        border-radius: 4px;
+        display: flex;
+        flex-direction: row;
+        min-height: 400px;
+    }
+
+    .notFound {
+        color: #ccc;
+        padding: 14px;
+    }
+
+	.pendentMovements {
+		.movement {
+			display: flex;
+			flex-direction: row;
+            transition: all 0.25s;
+
+            &:hover {
+                background-color: #f8f8f8;
+            }
+
+			&.header {
+				background-color: #eee;
+				border-radius: 4px;
+				font-weight: bold;
+			}
+
+			.dueDate,
+			.description,
+			.value {
+				display: flex;
+				padding: 7px 14px;
+			}
+
+			.dueDate {
+				min-width: 150px;
+			}
+
+			.description {
+				width: 100%;
+			}
+
+			.value {
+				min-width: 150px;
+				justify-content: flex-end;
+			}
+		}
+
+        .moreElements {
+            color: #39fa;
+            cursor: pointer;
+            padding: 7px 14px;
+            transition: all 0.25s;
+
+            &:hover {
+                color: #39f;
+            }
+        }
+	}
+
+	.accountBalance {
+		.account {
+			display: flex;
+			flex-direction: row;
+            transition: all 0.25s;
+
+            &:hover {
+                background-color: #f8f8f8;
+            }
+
+			&.header {
+				background-color: #eee;
+				border-radius: 4px;
+				font-weight: bold;
+			}
+
+			.accountColumn,
+            .balance,
+			.current,
+			.future {
+				display: flex;
+				padding: 7px 14px;
+			}
+
+			.accountColumn {
+				width: 100%;
+			}
+
+			.balance, .current, .future {
+				min-width: 150px;
+				justify-content: flex-end;
+			}
+		}
+	}
 }

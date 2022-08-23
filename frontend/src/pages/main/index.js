@@ -10,8 +10,11 @@ import { PageContext } from '../../hook/Page.context'
 import { UserContext } from '../../hook/User.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import Accounts from '../accounts'
+import Dashboard from '../dashboard'
 import Movements from '../movements'
+import Targets from '../target'
 import Templates from '../templates'
+import User from '../user'
 import styles from './index.module.scss'
 
 export default function Main() {
@@ -146,9 +149,12 @@ export default function Main() {
 						</div>
 					</>
 				)}
+				{currentPage && currentPage.path === '/' && <Dashboard />}
 				{currentPage && currentPage.path === '/account' && <Accounts />}
 				{currentPage && currentPage.path === '/movement' && <Movements />}
 				{currentPage && currentPage.path === '/template' && <Templates />}
+				{currentPage && currentPage.path === '/target' && <Targets />}
+				{currentPage && currentPage.path === '/user' && <User />}
 			</div>
 		</div>
 	)

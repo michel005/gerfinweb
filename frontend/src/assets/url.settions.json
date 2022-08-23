@@ -16,5 +16,11 @@
         "update": "/template/update",
         "delete": "/template/delete?id=@#ID@#",
         "find": "/template/findAll?dataBase=@#DATA_BASE@#"
+    },
+    "target": {
+        "create": "/target/create",
+        "update": "/target/update",
+        "delete": "/target/delete?id=@#ID@#",
+        "find": "/target/findAll?dataBase=@#DATA_BASE@#"
     }
 }

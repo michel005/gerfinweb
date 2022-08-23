@@ -1,10 +1,10 @@
 import {
-    faArrowDownShortWide,
-    faArrowUpShortWide,
-    faBackward,
-    faBackwardFast,
-    faForward,
-    faForwardFast
+	faArrowDownShortWide,
+	faArrowUpShortWide,
+	faBackward,
+	faBackwardFast,
+	faForward,
+	faForwardFast,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
@@ -16,7 +16,6 @@ import TableStyle from './Table.styled'
 export default function Table({
 	entity = null,
 	header = {},
-	footer = null,
 	valueModifier = {},
 	valueMapper = {},
 	columnAction = {},
@@ -87,12 +86,6 @@ export default function Table({
 		)
 	}
 
-	function lastPage() {
-		let controller = table.pageController[entity]
-        let current = controller.currentPage === 0 ? 0 : controller.currentPage + 1
-		return controller.currentPage === controller.totalPages
-	}
-
 	return (
 		<TableStyle empty={table.content[entity].length === 0}>
 			<div className={'table'}>
@@ -151,7 +144,6 @@ export default function Table({
 						<div className={'line emptyTable'}>{getText('componnents.table.empty')}</div>
 					)}
 				</div>
-				{footer}
 				<div className={'page'}>
 					<div className={'currentPageDisplay'}>
 						{getText('componnents.table.row_counter')
@@ -176,7 +168,14 @@ export default function Table({
 						<div className={'currentPage'}>
 							{getText('componnents.table.page_counter')
 								.replace('@#CURRENT@#', `${table.pageController[entity].currentPage + 1}`)
-								.replace('@#TOTAL@#', `${table.pageController[entity].totalPages === 0 ? 1 : table.pageController[entity].totalPages}`)}
+								.replace(
+									'@#TOTAL@#',
+									`${
+										table.pageController[entity].totalPages === 0
+											? 1
+											: table.pageController[entity].totalPages
+									}`
+								)}
 						</div>
 						<Button
 							disabled={
@@ -192,7 +191,8 @@ export default function Table({
 						<Button
 							disabled={
 								table.pageController[entity].currentPage ===
-									table.pageController[entity].totalPages - 1 || table.content[entity].length === 0}
+									table.pageController[entity].totalPages - 1 || table.content[entity].length === 0
+							}
 							onClick={() =>
 								table.find({ entity: entity, page: table.pageController[entity].totalPages - 1 })
 							}
