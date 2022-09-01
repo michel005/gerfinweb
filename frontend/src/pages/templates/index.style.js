@@ -3,6 +3,7 @@ import styled from 'styled-components'
 const TemplateStyle = styled.div`
 	display: flex;
 	flex-direction: column;
+	height: 100%;
 
 	.column_dueDay {
 		max-width: 150px;
@@ -14,6 +15,7 @@ const TemplateStyle = styled.div`
 
 	.column_value {
 		max-width: 250px;
+        text-align: right;
 		justify-content: flex-end;
 	}
 
@@ -22,6 +24,7 @@ const TemplateStyle = styled.div`
 	}
 
 	.column_commands {
+        text-align: right;
 		justify-content: flex-end;
 		max-width: 60px;
 
@@ -44,7 +47,6 @@ const TemplateStyle = styled.div`
 		display: flex;
 		flex-direction: row;
 		margin-bottom: 14px;
-		margin-top: 14px;
 
 		& > * {
 			margin-right: 14px;

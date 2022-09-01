@@ -122,16 +122,6 @@ public class AccountAPI {
         return ResponseEntity.ok(accounts);
     }
 
-    @PostMapping("/findAllWithoutPagination")
-    private ResponseEntity<?> findAllWithoutPagination(Authentication authentication, @RequestParam String dataBase) {
-        Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
-        if (userFinded.isEmpty()) {
-            return ResponseEntity.internalServerError().build();
-        }
-        List<AccountBalanceModel> accounts = accountRepository.findByUser(DateUtils.firstDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), DateUtils.lastDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), userFinded.get().getId());
-        return ResponseEntity.ok(accounts);
-    }
-
     @GetMapping("/findAllSimple")
     private ResponseEntity<?> findAllSimple(Authentication authentication) {
         Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());

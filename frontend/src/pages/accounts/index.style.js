@@ -3,11 +3,17 @@ import styled from 'styled-components'
 const AccountsStyle = styled.div`
 	display: flex;
 	flex-direction: column;
+    height: 100%;
+
+    .column_type {
+		max-width: 150px;
+    }
 
 	.column_currentBalance,
 	.column_futureBalance,
 	.column_balance {
-		justify-content: flex-end;
+        justify-content: flex-end;
+        text-align: right;
 		max-width: 200px;
 	}
 
@@ -34,7 +40,6 @@ const AccountsStyle = styled.div`
 		display: flex;
 		flex-direction: row;
 		margin-bottom: 14px;
-		margin-top: 14px;
 
 		& > * {
 			margin-right: 14px;

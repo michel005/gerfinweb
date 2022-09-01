@@ -1,2 +1,2 @@
-cd frontend
+cd D:\Desenvolvimento\gerfinweb\frontend
 npm start

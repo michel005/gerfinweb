@@ -3,6 +3,7 @@ import styled from 'styled-components'
 const MovementStyle = styled.div`
 	display: flex;
 	flex-direction: column;
+    height: 100%;
 
 	.templateLabel {
 		background-color: #aaa;
@@ -121,6 +122,7 @@ const MovementStyle = styled.div`
 
 	.column_value {
 		max-width: 250px;
+        text-align: right;
 		justify-content: flex-end;
 	}
 
@@ -150,8 +152,7 @@ const MovementStyle = styled.div`
 	.commands {
 		display: flex;
 		flex-direction: row;
-		margin-bottom: 14px;
-		margin-top: 14px;
+		padding-bottom: 14px;
 
 		& > * {
 			margin-right: 14px;

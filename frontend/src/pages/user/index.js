@@ -80,40 +80,40 @@ export default function User() {
 		<UserStyle>
 			<Field
 				id={'fullName'}
-				label={'Full Name'}
+				label={getText('pages.user.form.fullName')}
 				type={'text'}
 				value={fullName}
 				onChange={(e) => setFullName(e.target.value)}
 			/>
 			<Field
 				id={'email'}
-				label={'Email'}
+				label={getText('pages.user.form.email')}
 				type={'text'}
 				disabled={true}
 				defaultValue={user.currentUser.email}
 			/>
-			<Button onClick={changeFullName}>Save new Full Name</Button>
+			<Button onClick={changeFullName}>{getText('pages.user.form.changeFullNameButton')}</Button>
 			<Field
-				label={'Old Password'}
+				label={getText('pages.user.form.oldPassword')}
 				type={'password'}
 				value={oldPassword}
 				onChange={(e) => setOldPassword(e.target.value)}
 			/>
 			<Field
-				label={'New Password'}
+				label={getText('pages.user.form.newPassword')}
 				type={'password'}
 				value={newPassword}
 				onChange={(e) => setNewPassword(e.target.value)}
 			/>
 			<Field
-				label={'New Password Confirmation'}
+				label={getText('pages.user.form.newPasswordConfirm')}
 				type={'password'}
 				value={passwordConfirm}
 				onChange={(e) => setPasswordConfirm(e.target.value)}
 			/>
 			<div className={'commands'}>
-				<Button onClick={changePassword}>Change Password</Button>
-				<div className={'alert'}>Need to do login again</div>
+				<Button onClick={changePassword}>{getText('pages.user.form.changePasswordButton')}</Button>
+				<div className={'alert'}>{getText('pages.user.form.changePasswordHint')}</div>
 			</div>
 		</UserStyle>
 	)

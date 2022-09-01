@@ -1,0 +1,180 @@
+{
+  "commons": {
+    "create": "Criar",
+    "refresh": "Atualizar",
+    "cancel": "Cancelar",
+    "transfer": "Transferir",
+    "save": "Salvar",
+    "changePassword": "Mudar Senha",
+    "delete": "Excluir",
+    "not_found": "Não encontrado",
+    "current_balance": "Saldo Atual",
+    "future_balance": "Saldo Previsto",
+    "commands": "Comandos",
+    "approve": "Aprovar",
+    "close": "Fechar",
+    "confirm": "Confirmar",
+    "yes": "Sim",
+    "no": "Não"
+  },
+  "componnents": {
+    "table": {
+      "row_counter": "Mostrando @#PAGE@# de @#TOTAL@# linha(s)",
+      "page_counter": "@#CURRENT@# de @#TOTAL@# página(s)",
+      "empty": "Nenhum dado encontrado",
+      "update_field": {
+        "header": "Erro ao atualizar campo"
+      }
+    }
+  },
+  "logout": {
+    "header": "Você realmente deseja sair?",
+    "text": "Você ira perder todos os dados não salvos!"
+  },
+  "pages": {
+    "dashboard": {
+      "header": {
+        "text": "Dashboard",
+        "lead": "Uma relação rápida da sua situação financeira"
+      },
+      "current_balance": "Saldo Atual",
+      "future_balance": "Saldo Previsto",
+      "unfinished_targets": "Metas Pendentes",
+      "pendent_movements": "Lançamentos Pendentes",
+      "all_accounts": "Todas as Contas",
+      "dont_have_targets": "Você não possui metas",
+      "dont_have_movements": "Você não possui lançamentos pendêntes",
+      "dont_have_accounts": "Você não possui contas",
+      "account_balances": "Balanço por Contas",
+      "total_pendent_movements": "E outros @#TOTAL_ELEMENTS@# lançamentos...",
+      "due_date": "Dia",
+      "description": "Descrição",
+      "value": "Valor",
+      "account": "Conta",
+      "balance": "Balanço",
+      "balance_by_day": "Balanço por Dia do Mês"
+    },
+    "account": {
+      "header": {
+        "text": "Contas",
+        "lead": "Veja os saldos de todas as contas financeiras"
+      },
+      "table": {
+        "name": "Nome",
+        "bank": "Banco",
+        "type": "Tipo",
+        "balance": "Balanço",
+        "current_balance": "Atual",
+        "future_balance": "Futuro"
+      },
+      "types": {
+        "DEBIT": "Débito",
+        "CREDIT": "Crédito",
+        "SAVINGS": "Salvar",
+        "INVESTMENT": "Investimento"
+      },
+      "new_account": {
+        "name": "Nova conta",
+        "bank": "Nova conta"
+      },
+      "delete": {
+        "header": "Você realmente deseja excluir esta conta?",
+        "text": "Nome da conta: @#NAME@#"
+      }
+    },
+    "movement": {
+      "header": {
+        "text": "Lançamentos",
+        "lead": "Registre todos os seus lançamentos"
+      },
+      "table": {
+        "dueDate": "Vencimento",
+        "description": "Descrição",
+        "account": "Conta",
+        "value": "Valor",
+        "status": "Situação"
+      },
+      "create_no_account": "Você precisa criar uma conta primeiro",
+      "create_no_template": "Você precisa criar um modelo primeiro",
+      "types": {
+        "PENDENT": "Pendênte",
+        "APPROVED": "Aprovado"
+      },
+      "new_movement": {
+        "description": "Novo lançamento"
+      },
+      "delete": {
+        "header": "Você realmente deseja excluir este lançamento?",
+        "text": "Esta operação não pode ser revertido!"
+      }
+    },
+    "template": {
+      "header": {
+        "text": "Modelos",
+        "lead": "Faça um modelo para realizar lançamentos de forma mais rápida"
+      },
+      "table": {
+        "dueDay": "Vencimento",
+        "description": "Descrição",
+        "account": "Conta",
+        "value": "Valor",
+        "recurrency": "Recorrência"
+      },
+      "recurrency": {
+        "ONE_PER_MONTH": "Um por mês",
+        "MANY_PER_MONTH": "Muitos por mês"
+      },
+      "new_template": {
+        "description": "Novo modelo"
+      },
+      "delete": {
+        "header": "Você realmente deseja excluir este modelo de lançamento?",
+        "text": "Esta operação não pode ser revertida!"
+      }
+    },
+    "target": {
+      "header": {
+        "text": "Metas",
+        "lead": "Defina suas metas financeiras e seja avisado quando atingi-las"
+      },
+      "table": {
+        "description": "Descrição",
+        "account": "Conta",
+        "targetValue": "Valor",
+        "targetDate": "Data"
+      },
+      "new_target": {
+        "description": "Nova meta"
+      },
+      "delete": {
+        "header": "Você realmente deseja excluir esta meta?",
+        "text": "Esta operação não pode ser revertida!"
+      }
+    },
+    "settings": {
+      "header": {
+        "text": "Configurações",
+        "lead": "Customize seu GerFinWEB"
+      }
+    },
+    "user": {
+      "header": {
+        "text": "Usuário",
+        "lead": "Modifique o seu nome completo e a senha atual"
+      },
+      "form": {
+        "fullName": "Nome Completo",
+        "email": "E-mail",
+        "changeFullNameButton": "Alterar o Nome Completo",
+        "oldPassword": "Senha Antiga",
+        "newPassword": "Senha Nova",
+        "newPasswordConfirm": "Confirmação da Nova Senha",
+        "changePasswordButton": "Mudar Senha",
+        "changePasswordHint": "Precisa efetuar o login novamente"
+      },
+      "update_password": {
+        "header": "Erro ao atualizar campo"
+      }
+    }
+  }
+}

@@ -6,8 +6,8 @@ const TableStyle = styled.div`
 	box-shadow: #ccc 0 0 7px;
 	display: flex;
 	flex-direction: column;
-	height: 100%;
-	width: 100%;
+    height: 100%;
+    min-height: 500px;
 
 	* {
 		user-select: none;
@@ -26,6 +26,8 @@ const TableStyle = styled.div`
 			border-top-right-radius: 7px;
 			display: flex;
 			flex-direction: row;
+			height: 50px;
+			min-height: 50px;
 			width: 100%;
 			padding-right: 15px;
 
@@ -70,8 +72,8 @@ const TableStyle = styled.div`
 		.body {
 			display: flex;
 			flex-direction: column;
-			height: 100%;
 			overflow-y: scroll;
+			height: 100%;
 
 			::-webkit-scrollbar {
 				width: 15px;
@@ -89,117 +91,104 @@ const TableStyle = styled.div`
 				background: #555;
 			}
 
-			.line {
-				background-color: #fff;
+			.rowsContainer {
 				display: flex;
-				flex-direction: row;
-				transition: all 0.25s;
-				width: 100%;
+				flex-direction: column;
 
-				.hovered {
-					background-color: #f4f4f4 !important;
-				}
-
-				&:nth-child(even) {
-					background-color: #f4f4f4;
-
-					.hovered {
-						background-color: #eee !important;
-					}
-				}
-
-				&:last-child {
-					border-bottom-left-radius: 7px;
-					border-bottom-right-radius: 7px;
-				}
-
-				&:hover {
-					background-color: #ddd;
-					border-radius: 0;
-				}
-
-				&.emptyTable {
-					color: #ccc;
+				.line {
+					background-color: #fff;
 					display: flex;
-					flex-direction: column;
-					height: 100%;
-					font-size: 14px;
-					justify-content: center;
-					padding: 15px 17px;
-					text-align: center;
-
-					&:hover {
-						background-color: transparent;
-						transform: none;
-						box-shadow: none;
-					}
-				}
-
-				& > .column {
-					color: #000;
-					display: flex;
-					flex-grow: 1;
-					font-size: 14px;
-					padding: 10px 17px;
+					flex-direction: row;
 					transition: all 0.25s;
+					height: 50px;
+					min-height: 50px;
 					width: 100%;
 
-					.columnContent {
-						border: 1px solid transparent;
-						border-radius: 4px;
-						padding: 4px;
+					.hovered {
+						background-color: #f4f4f4 !important;
 					}
 
-					select {
-						background-color: #fffc;
-						border-radius: 4px;
-						border: none;
-						color: #333;
-						font-size: 12px;
-						padding: 4px 7px;
+					&:nth-child(even) {
+						background-color: #f4f4f4;
+
+						.hovered {
+							background-color: #eee !important;
+						}
+					}
+
+					&:last-child {
+						border-bottom-left-radius: 7px;
+						border-bottom-right-radius: 7px;
+					}
+
+					&:hover {
+						background-color: #ddd;
+						border-radius: 0;
+					}
+
+					&.emptyTable {
+						color: #ccc;
+						display: flex;
+						flex-direction: column;
 						height: 100%;
-					}
-
-					input {
-						background-color: #fff;
-						border: 1px solid #aaa;
-						border-radius: 4px;
 						font-size: 14px;
-						padding: 4px;
+						justify-content: center;
+						padding: 15px 17px;
+						text-align: center;
+
+						&:hover {
+							background-color: transparent;
+							transform: none;
+							box-shadow: none;
+						}
+					}
+
+					& > .column {
+						color: #000;
+						display: flex;
+						flex-direction: column;
+						flex-grow: 1;
+						font-size: 14px;
+						padding: 0px 17px;
+						justify-content: center;
+						transition: all 0.25s;
 						width: 100%;
+
+						.columnContent {
+							border: 1px solid transparent;
+							border-radius: 4px;
+							padding: 4px;
+						}
+
+						select {
+							background-color: #fffc;
+							border-radius: 4px;
+							border: none;
+							color: #333;
+							font-size: 12px;
+							padding: 4px 7px;
+							height: 100%;
+						}
+
+						input {
+							background-color: #fff;
+							border: 1px solid #aaa;
+							border-radius: 4px;
+							font-size: 14px;
+							padding: 4px;
+							width: 100%;
+						}
+
+						&.right {
+							justify-content: flex-end;
+							text-align: right;
+						}
+
+						&.scrollbarSpace {
+							padding: 0;
+							max-width: 15px;
+						}
 					}
-
-					&.right {
-						justify-content: flex-end;
-						text-align: right;
-					}
-
-					&.scrollbarSpace {
-						padding: 0;
-						max-width: 15px;
-					}
-				}
-			}
-		}
-
-		.footer {
-			border: 0px solid #ccc;
-			border-top-width: 1px;
-			display: flex;
-			flex-direction: row;
-			width: 100%;
-
-			& > .column {
-				color: #000;
-				display: flex;
-				flex-grow: 1;
-				font-weight: bold;
-				padding: 14px 21px;
-				width: 100%;
-
-				&.right {
-					justify-content: flex-end;
-					text-align: right;
 				}
 			}
 		}
@@ -209,14 +198,17 @@ const TableStyle = styled.div`
 			border-top-width: 1px;
 			display: flex;
 			flex-direction: row;
+			height: 50px;
+			min-height: 50px;
 			width: 100%;
 
 			.currentPageDisplay {
 				display: flex;
-				flex-direction: row;
+				flex-direction: column;
+				justify-content: center;
 				flex-grow: 1;
-				padding: 14px 21px;
 				pointer-events: none;
+				padding: 0px 21px;
 				user-select: none;
 			}
 

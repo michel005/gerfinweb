@@ -3,23 +3,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import Button from '../../components/Button'
 import Table from '../../components/Table'
-import { LocalizationContext } from '../../hook/Localization.context'
 import { MessageContext } from '../../hook/Message.context'
 import { TableContext } from '../../hook/Table.context'
+import useLocalization from '../../hook/useLocalization'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import AccountsStyle from './index.style'
 
 export default function Accounts() {
-	const { getText } = useContext(LocalizationContext)
 	const { updateField, find, create, remove } = useContext(TableContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
+	const { loc } = useLocalization('pages.account')
+	const { loc: locCom } = useLocalization('commons')
 
 	function deleteAccount(account) {
 		choiceMessage({
-			header: getText('pages.account.delete.header'),
-			text: getText('pages.account.delete.text').replaceAll('@#NAME@#', account.name),
+			header: loc.delete.header,
+			text: loc.delete.text.replaceAll('@#NAME@#', account.name),
 			option1: {
-				text: getText('commons.yes'),
+				text: locCom.yes,
 				event: () => {
 					remove('account', account.id, () => {
 						setMessage(undefined)
@@ -33,29 +34,29 @@ export default function Accounts() {
 		<AccountsStyle>
 			<div className={'commands'}>
 				<Button
-					onClick={() =>
+					onClick={() => {
 						create('account', {
-							name: getText('pages.account.new_account.name'),
-							bank: getText('pages.account.new_account.bank'),
+							name: loc.new_account.name,
+							bank: loc.new_account.bank,
 							type: 'DEBIT',
 						})
-					}
+					}}
 				>
-					<FontAwesomeIcon icon={faPlus} /> {getText('commons.create')}
+					<FontAwesomeIcon icon={faPlus} /> {locCom.create}
 				</Button>
 				<Button onClick={() => find({ entity: 'account' })}>
-					<FontAwesomeIcon icon={faArrowsRotate} /> {getText('commons.refresh')}
+					<FontAwesomeIcon icon={faArrowsRotate} /> {locCom.refresh}
 				</Button>
 			</div>
 			<Table
 				entity={'account'}
 				header={{
-					name: getText('pages.account.table.name'),
-					bank: getText('pages.account.table.bank'),
-					type: getText('pages.account.table.type'),
-					balance: getText('pages.account.table.balance'),
-					currentBalance: getText('pages.account.table.current_balance'),
-					futureBalance: getText('pages.account.table.future_balance'),
+					name: loc.table.name,
+					bank: loc.table.bank,
+					type: loc.table.type,
+					balance: loc.table.balance,
+					currentBalance: loc.table.current_balance,
+					futureBalance: loc.table.future_balance,
 					commands: '',
 				}}
 				valueMapper={{
@@ -92,7 +93,7 @@ export default function Accounts() {
 						return account.account.bank
 					},
 					type: (value, account) => {
-						return getText('pages.account.types.' + account.account.type)
+						return loc.types[account.account.type]
 					},
 					balance: (value, account) => {
 						return CurrencyUtils.format(account.balance)
@@ -107,7 +108,7 @@ export default function Accounts() {
 						return (
 							<button
 								className="transparent"
-								title={getText('commons.delete')}
+								title={loc.delete}
 								onClick={() => deleteAccount(account.account)}
 							>
 								<FontAwesomeIcon icon={faTrash} />
@@ -128,7 +129,7 @@ export default function Accounts() {
 							{['DEBIT', 'CREDIT', 'SAVINGS', 'INVESTMENT'].map((accountType, accountTypeIndex) => {
 								return (
 									<option key={accountTypeIndex} value={accountType}>
-										{getText('pages.account.types.' + accountType)}
+										{loc.types[accountType]}
 									</option>
 								)
 							})}

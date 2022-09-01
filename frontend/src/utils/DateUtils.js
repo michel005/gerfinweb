@@ -47,6 +47,15 @@ export default class DateUtils {
     return this.stringJustDate(date) + ' ' + this.stringJustTime(date)
   }
 
+  static allMonthValues() {
+    let values = {}
+    for (let month = 1; month <= 12; month++) {
+        let date = new Date(2000, month, 1)
+        values[date.getMonth() + 1] = date.toLocaleString("pt-BR", { month: "long" })
+    }
+    return values
+  }
+
   static stringToDateTime(date) {
     const auxDate = date.split(' ')[0]
     const day = auxDate.split('/')[0]

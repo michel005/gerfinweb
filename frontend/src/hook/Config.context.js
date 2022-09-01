@@ -4,8 +4,18 @@ import { UserContext } from './User.context'
 
 const ConfigContext = createContext({})
 
+const FORM = {
+	ACCOUNT: 'account',
+	MOVEMENT: 'movement',
+	TEMPLATE: 'template',
+	TARGET: 'target',
+}
+
 export default function ConfigProvider({ children }) {
 	const [dataBase, setDataBase] = useState(new Date())
+	const [ux, setUx] = useState({
+		reduced: false,
+	})
 	const [balance, setBalance] = useState()
 	const { user } = useContext(UserContext)
 
@@ -54,6 +64,8 @@ export default function ConfigProvider({ children }) {
 				balance,
 				previewMonth,
 				nextMonth,
+				ux,
+				setUx,
 			}}
 		>
 			{children}
@@ -61,5 +73,5 @@ export default function ConfigProvider({ children }) {
 	)
 }
 
-export { ConfigContext }
+export { ConfigContext, FORM }
 

@@ -9,6 +9,12 @@ const ProgressIndicatorStyled = styled.div`
 		transition: all 0.25s;
 	}
 
+	&.negative {
+		.progresso {
+			background-color: #f009;
+		}
+	}
+
 	.label {
 		color: #aaa;
 		font-size: 12px;

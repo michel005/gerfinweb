@@ -111,38 +111,40 @@ export default function Table({
 					})}
 				</div>
 				<div className={'body'}>
-					{table.content[entity].map((row) => {
-						return (
-							<div key={JSON.stringify(row)} className={'line'}>
-								{Object.keys(header).map((field) => {
-									return (
-										<div
-											key={field}
-											className={'column column_' + field}
-											onDoubleClick={() => enableEditEvent(row, field)}
-										>
-											<>
-												{table.editEvent &&
-												table.editEvent.id === (valueMapper.id ? valueMapper.id(row) : row.id) &&
-												table.editEvent.field === field ? (
-													editField(row, field)
-												) : (
-													<div className={'columnContent'}>
-														{valueModifier[field]
-															? valueModifier[field](row[field], row)
-															: row[field]}
-													</div>
-												)}
-											</>
-										</div>
-									)
-								})}
-							</div>
-						)
-					})}
-					{table.content[entity].length === 0 && (
-						<div className={'line emptyTable'}>{getText('componnents.table.empty')}</div>
-					)}
+					<div className={'rowsContainer'}>
+						{table.content[entity].map((row) => {
+							return (
+								<div key={JSON.stringify(row)} className={'line'}>
+									{Object.keys(header).map((field) => {
+										return (
+											<div
+												key={field}
+												className={'column column_' + field}
+												onDoubleClick={() => enableEditEvent(row, field)}
+											>
+												<>
+													{table.editEvent &&
+													table.editEvent.id === (valueMapper.id ? valueMapper.id(row) : row.id) &&
+													table.editEvent.field === field ? (
+														editField(row, field)
+													) : (
+														<div className={'columnContent'}>
+															{valueModifier[field]
+																? valueModifier[field](row[field], row)
+																: row[field]}
+														</div>
+													)}
+												</>
+											</div>
+										)
+									})}
+								</div>
+							)
+						})}
+						{table.content[entity].length === 0 && (
+							<div className={'line emptyTable'}>{getText('componnents.table.empty')}</div>
+						)}
+					</div>
 				</div>
 				<div className={'page'}>
 					<div className={'currentPageDisplay'}>

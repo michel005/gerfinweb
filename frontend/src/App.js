@@ -11,13 +11,14 @@ function App() {
 	const { user } = useContext(UserContext)
 
 	return (
-		<div>
+		<>
 			<div className={styles.background}></div>
 			{!user && <LoginPage />}
 			{user && <Main />}
 			{message && <Message message={message} />}
-		</div>
+		</>
 	)
 }
 
 export default App
+

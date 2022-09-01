@@ -174,7 +174,9 @@ export default function Movements() {
 								<Field
 									id={'transfer_date'}
 									label={'Date'}
-									defaultValue={DateUtils.stringJustDate(new Date(dataBase.getFullYear(), dataBase.getMonth(), new Date().getDate()))}
+									defaultValue={DateUtils.stringJustDate(
+										new Date(dataBase.getFullYear(), dataBase.getMonth(), new Date().getDate())
+									)}
 								/>
 								<div className={'group'}>
 									<div className={'selectGroup field'}>

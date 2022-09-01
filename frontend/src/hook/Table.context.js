@@ -8,6 +8,7 @@ import { PageContext } from './Page.context'
 import { UserContext } from './User.context'
 
 export const TableContext = createContext({})
+const PAGE_SIZE = 20;
 
 function TableProvider({ children }) {
 	const { formatedDataBaseForURL, dataBase, setDataBase } = useContext(ConfigContext)
@@ -16,31 +17,31 @@ function TableProvider({ children }) {
 	const { user } = useContext(UserContext)
 	const { currentPage } = useContext(PageContext)
 	const [editEvent, setEditEvent] = useState(null)
-	const [orderBy, setOrderBy] = useState({
-		account: {
-			field: 'name',
-			direction: 'ASC',
-		},
-		movement: {
-			field: 'dueDate',
-			direction: 'ASC',
-		},
-		template: {
-			field: 'dueDay',
-			direction: 'ASC',
-		},
-		target: {
-			field: 'description',
-			direction: 'ASC',
-		},
-	})
-	const [content, setContent] = useState({
+    const initialOrderBy = {
+        account: {
+            field: 'name',
+            direction: 'ASC',
+        },
+        movement: {
+            field: 'dueDate',
+            direction: 'DESC',
+        },
+        template: {
+            field: 'dueDay',
+            direction: 'ASC',
+        },
+        target: {
+            field: 'description',
+            direction: 'ASC',
+        },
+    }
+    const initialContent = {
 		account: [],
 		movement: [],
 		template: [],
-		target: [],
-	})
-	const [pageController, setPageController] = useState({
+		target: []
+	}
+    const initialPageController = {
 		account: {
 			currentPage: 0,
 			currentPageLength: 0,
@@ -65,12 +66,23 @@ function TableProvider({ children }) {
 			totalPages: 0,
 			totalRows: 0,
 		},
-	})
-	const [aditionalInformation, setAditionalInformation] = useState({
+	}
+    const initialAditionalInformation = {
 		account: [],
 		template: [],
 		target: [],
-	})
+		dashboard: {
+            targets: [],
+            pendentMovements: {
+                content: [],
+                totalElements: 0
+            }
+        },
+	}
+	const [orderBy, setOrderBy] = useState(initialOrderBy)
+	const [content, setContent] = useState(initialContent)
+	const [pageController, setPageController] = useState(initialPageController)
+	const [aditionalInformation, setAditionalInformation] = useState(initialAditionalInformation)
 
 	function updateContent({ entity, newContent }) {
 		let tempResults = { ...content }
@@ -93,11 +105,11 @@ function TableProvider({ children }) {
 		let entityCopy = { ...entityValue }
 		entityCopy[field] = value
 		update(entity, entityValue.id, entityCopy, () => {
-            find({
-                entity: entity,
-                page: pageController[entity].currentPage
-            })
-        })
+			find({
+				entity: entity,
+				page: pageController[entity].currentPage,
+			})
+		})
 		setEditEvent(null)
 	}
 
@@ -120,11 +132,11 @@ function TableProvider({ children }) {
 			},
 		})
 			.then(() => {
-                if (after) {
-                    after()
-                } else {
-                    setDataBase(new Date(dataBase))
-                }
+				if (after) {
+					after()
+				} else {
+					setDataBase(new Date(dataBase))
+				}
 			})
 			.catch((error) => {
 				simpleMessage({
@@ -182,7 +194,7 @@ function TableProvider({ children }) {
 		})
 	}
 
-	function find({ entity, page = 0, size = 20 }) {
+	function find({ entity, page = 0, size = PAGE_SIZE }) {
 		API.post(
 			url[entity].find.replaceAll('@#DATA_BASE@#', formatedDataBaseForURL()),
 			{
@@ -217,7 +229,7 @@ function TableProvider({ children }) {
 			url[entity].find.replaceAll('@#DATA_BASE@#', formatedDataBaseForURL()),
 			{
 				page: 0,
-				size: 20,
+				size: PAGE_SIZE,
 				sortField: field,
 				sortDirection: direction,
 			},
@@ -251,68 +263,17 @@ function TableProvider({ children }) {
 
 	useEffect(() => {
 		if (!user) {
-			setOrderBy({
-				account: {
-					field: 'name',
-					direction: 'ASC',
-				},
-				movement: {
-					field: 'dueDate',
-					direction: 'ASC',
-				},
-				template: {
-					field: 'dueDay',
-					direction: 'ASC',
-				},
-				target: {
-					field: 'description',
-					direction: 'ASC',
-				},
-			})
-			setContent({
-				account: [],
-				movement: [],
-				template: [],
-				target: [],
-			})
-			setPageController({
-				account: {
-					currentPage: 0,
-					currentPageLength: 0,
-					totalPages: 0,
-					totalRows: 0,
-				},
-				movement: {
-					currentPage: 0,
-					currentPageLength: 0,
-					totalPages: 0,
-					totalRows: 0,
-				},
-				template: {
-					currentPage: 0,
-					currentPageLength: 0,
-					totalPages: 0,
-					totalRows: 0,
-				},
-				target: {
-					currentPage: 0,
-					currentPageLength: 0,
-					totalPages: 0,
-					totalRows: 0,
-				},
-			})
-			setAditionalInformation({
-				account: [],
-				template: [],
-				target: [],
-			})
+			setOrderBy(initialOrderBy)
+			setContent(initialContent)
+			setPageController(initialPageController)
+			setAditionalInformation(initialAditionalInformation)
 		}
 	}, [user])
 
 	useEffect(() => {
 		if (user && currentPage) {
 			if (currentPage.path === '/') {
-				API.get('/target/findAllWihtoutPagination', {
+				API.get('/dashboard?dataBase=' + formatedDataBaseForURL(), {
 					headers: {
 						Authorization: localStorage.getItem('authHeader'),
 					},
@@ -320,43 +281,7 @@ function TableProvider({ children }) {
 					setAditionalInformation((value) => {
 						return {
 							...value,
-							target: targetResponse.data,
-						}
-					})
-				})
-				API.post('/movement/findPendent?dataBase=' + formatedDataBaseForURL(), {}, {
-					headers: {
-						Authorization: localStorage.getItem('authHeader'),
-					},
-				}).then((movementResponse) => {
-					setAditionalInformation((value) => {
-						return {
-							...value,
-							pendentMovements: movementResponse.data,
-						}
-					})
-				})
-				API.post('/movement/balanceByDay?dataBase=' + formatedDataBaseForURL(), {}, {
-					headers: {
-						Authorization: localStorage.getItem('authHeader'),
-					},
-				}).then((balanceByDayResponse) => {
-					setAditionalInformation((value) => {
-						return {
-							...value,
-							balanceByDay: balanceByDayResponse.data,
-						}
-					})
-				})
-				API.post('/account/findAllWithoutPagination?dataBase=' + formatedDataBaseForURL(), {}, {
-					headers: {
-						Authorization: localStorage.getItem('authHeader'),
-					},
-				}).then((accountResponse) => {
-					setAditionalInformation((value) => {
-						return {
-							...value,
-							accountDashboard: accountResponse.data,
+							dashboard: targetResponse.data,
 						}
 					})
 				})
@@ -371,16 +296,17 @@ function TableProvider({ children }) {
 						Authorization: localStorage.getItem('authHeader'),
 					},
 				}).then((accountResponse) => {
-					API.get('/template/findAllSimple?dataBase=' + formatedDataBaseForURL(), {
-						headers: {
-							Authorization: localStorage.getItem('authHeader'),
-						},
-					}).then((templateResponse) => {
-						setAditionalInformation({
-							...aditionalInformation,
-							template: templateResponse.data,
-							account: accountResponse.data,
-						})
+					setAditionalInformation((value) => {
+						return { ...value, account: accountResponse.data }
+					})
+				})
+				API.get('/template/findAllSimple?dataBase=' + formatedDataBaseForURL(), {
+					headers: {
+						Authorization: localStorage.getItem('authHeader'),
+					},
+				}).then((response) => {
+					setAditionalInformation((value) => {
+						return { ...value, template: response.data }
 					})
 				})
 			}
@@ -391,9 +317,11 @@ function TableProvider({ children }) {
 						Authorization: localStorage.getItem('authHeader'),
 					},
 				}).then((response) => {
-					setAditionalInformation({
-						...aditionalInformation,
-						account: response.data,
+					setAditionalInformation((value) => {
+						return {
+							...value,
+							account: response.data,
+						}
 					})
 				})
 			}
@@ -404,9 +332,11 @@ function TableProvider({ children }) {
 						Authorization: localStorage.getItem('authHeader'),
 					},
 				}).then((response) => {
-					setAditionalInformation({
-						...aditionalInformation,
-						account: response.data,
+					setAditionalInformation((value) => {
+						return {
+							...value,
+							account: response.data,
+						}
 					})
 				})
 			}

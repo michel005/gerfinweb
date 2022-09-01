@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 const UserStyle = styled.div`
 .field {
-    margin-bottom: 14px;
     margin-top: 14px;
+    margin-bottom: 14px;
 }
 
 .commands {
