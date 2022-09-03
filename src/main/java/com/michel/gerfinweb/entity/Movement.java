@@ -46,8 +46,13 @@ public class Movement extends UserAbstractEntity {
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "due_date", length = 100)
+    @Column(name = "due_date")
     private LocalDate dueDate;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "movement_date")
+    private LocalDate movementDate;
 
     private BigDecimal value;
 

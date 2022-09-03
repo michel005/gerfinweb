@@ -241,6 +241,7 @@ export default function Movements() {
 					account: getText('pages.movement.table.account'),
 					value: getText('pages.movement.table.value'),
 					status: getText('pages.movement.table.status'),
+					movementDate: getText('pages.movement.table.movementDate'),
 					commands: '',
 				}}
 				enableOrderBy={{
@@ -264,6 +265,9 @@ export default function Movements() {
 					},
 					status: (movement) => {
 						return movement.status
+					},
+					movementDate: (movement) => {
+						return movement.movementDate
 					},
 				}}
 				valueModifier={{
@@ -289,6 +293,9 @@ export default function Movements() {
 					},
 					status: (value, movement) => {
 						return getText('pages.movement.types.' + movement.status)
+					},
+					movementDate: (value, movement) => {
+						return movement.movementDate
 					},
 					commands: (value, movement) => {
 						return (
@@ -339,6 +346,18 @@ export default function Movements() {
 							})}
 						</select>
 					),
+                    movementDate: (movement, field, event, defaultEditor, noEditEvent) => {
+						if (movement.status !== 'APPROVED') {
+							simpleMessage({
+								header: 'Movimentação nao aprovada!',
+								text: 'Esta movimentação nao foi aprovada, portando, não pode conter uma data de movimentação.'
+							})
+                            noEditEvent()
+                            return <></>
+                        } else {
+                            return defaultEditor
+                        }
+                    }
 				}}
 				columnAction={{
 					dueDate: (movement, value) => {
@@ -354,6 +373,16 @@ export default function Movements() {
 					},
 					value: (movement, value) => {
 						updateField('movement', movement, 'value', value)
+					},
+					movementDate: (movement, value) => {
+						if (movement.status !== 'APPROVED' && value !== null) {
+							simpleMessage({
+								header: 'Movimentação nao aprovada!',
+								text: 'Esta movimentação nao foi aprovada, portando, não pode conter uma data de movimentação.'
+							})
+						} else {
+							updateField('movement', movement, 'movementDate', value)
+						}
 					},
 					status: (movement, value) => {
 						updateField('movement', movement, 'status', value)

@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: '7.0'
+      author: Michel Douglas Grigoli
+      changes:
+        - addColumn:
+            schemaName: gerfinweb
+            tableName: gf_movement
+            columns:
+              - column:
+                  name: movement_date
+                  type: date

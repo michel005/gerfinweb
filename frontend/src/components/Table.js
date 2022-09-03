@@ -30,7 +30,12 @@ export default function Table({
 			table.updateOrderBy({
 				entity,
 				field,
-				direction: table.orderBy[entity].direction === 'ASC' ? 'DESC' : 'ASC',
+				direction:
+					table.orderBy[entity].field !== field
+						? 'ASC'
+						: table.orderBy[entity].direction === 'ASC'
+						? 'DESC'
+						: 'ASC',
 			})
 		}
 	}
@@ -74,9 +79,7 @@ export default function Table({
 	}
 
 	function editField(row, field) {
-		return editModifier[field] ? (
-			editModifier[field](row, field, actionEditField)
-		) : (
+		let defaultEditor = (
 			<input
 				type={'text'}
 				id={'edit_field_' + field}
@@ -84,6 +87,12 @@ export default function Table({
 				onKeyDown={(event) => actionEditField(event, row, field)}
 			/>
 		)
+        let noEditEvent = () => {
+            table.setEditEvent(null)
+        }
+		return editModifier[field]
+			? editModifier[field](row, field, actionEditField, defaultEditor, noEditEvent)
+			: defaultEditor
 	}
 
 	return (

@@ -1,20 +1,22 @@
-.dashboard {
+const { default: styled } = require('styled-components')
+
+const DashboardStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 
-    h1 {
-        margin-top: 21px;
-        margin-bottom: 21px;
-    }
+	h1 {
+		margin-top: 21px;
+		margin-bottom: 21px;
+	}
 
 	.groups {
 		display: flex;
 		flex-direction: row;
 		margin-top: 14px;
 
-        &:first-child {
-            margin-top: 0px;
-        }
+		&:first-child {
+			margin-top: 0px;
+		}
 
 		& > * {
 			flex-grow: 1;
@@ -27,33 +29,33 @@
 		}
 	}
 
-    .fullHeight {
-        display: flex;
-        flex-grow: 1;
-        height: 500px;
-    }
+	.fullHeight {
+		display: flex;
+		flex-grow: 1;
+		height: 500px;
+	}
 
-    .balances {
-        border-radius: 4px;
-        display: flex;
-        flex-direction: row;
-        flex-grow: 1;
-    }
+	.balances {
+		border-radius: 4px;
+		display: flex;
+		flex-direction: row;
+		flex-grow: 1;
+	}
 
-    .notFound {
-        color: #ccc;
-        padding: 14px;
-    }
+	.notFound {
+		color: #ccc;
+		padding: 14px;
+	}
 
 	.pendentMovements {
 		.movement {
 			display: flex;
 			flex-direction: row;
-            transition: all 0.25s;
+			transition: all 0.25s;
 
-            &:hover {
-                background-color: #f8f8f8;
-            }
+			&:hover {
+				background-color: #f8f8f8;
+			}
 
 			&.header {
 				background-color: #eee;
@@ -82,27 +84,27 @@
 			}
 		}
 
-        .moreElements {
-            color: #39fa;
-            cursor: pointer;
-            padding: 7px 14px;
-            transition: all 0.25s;
+		.moreElements {
+			color: #39fa;
+			cursor: pointer;
+			padding: 7px 14px;
+			transition: all 0.25s;
 
-            &:hover {
-                color: #39f;
-            }
-        }
+			&:hover {
+				color: #39f;
+			}
+		}
 	}
 
 	.accountBalance {
 		.account {
 			display: flex;
 			flex-direction: row;
-            transition: all 0.25s;
+			transition: all 0.25s;
 
-            &:hover {
-                background-color: #f8f8f8;
-            }
+			&:hover {
+				background-color: #f8f8f8;
+			}
 
 			&.header {
 				background-color: #eee;
@@ -111,7 +113,7 @@
 			}
 
 			.accountColumn,
-            .balance,
+			.balance,
 			.current,
 			.future {
 				display: flex;
@@ -128,4 +130,6 @@
 			}
 		}
 	}
-}
+`
+
+export default DashboardStyle

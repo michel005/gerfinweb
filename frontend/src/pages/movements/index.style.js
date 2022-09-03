@@ -112,7 +112,8 @@ const MovementStyle = styled.div`
 		}
 	}
 
-	.column_dueDate {
+	.column_dueDate,
+    .column_movementDate {
 		max-width: 150px;
 	}
 

@@ -17,18 +17,18 @@ import com.michel.gerfinweb.entity.User;
 @Repository
 public interface MovementRepository extends JpaRepository<Movement, Long> {
 
-    @Query("select m from Movement m where user = :user and dueDate between :startDate and :finishDate")
+    @Query("select m from Movement m where user = :user and coalesce(movementDate, dueDate) between :startDate and :finishDate")
     Page<Movement> findByUser(Pageable pageable, LocalDate startDate, LocalDate finishDate, User user);
 
-    @Query("select m from Movement m where user = :user and dueDate between :startDate and :finishDate and status = 'PENDENT'")
+    @Query("select m from Movement m where user = :user and coalesce(movementDate, dueDate) between :startDate and :finishDate and status = 'PENDENT'")
     Page<Movement> findPendentByUser(Pageable pageable, LocalDate startDate, LocalDate finishDate, User user);
 
-    @Query("select coalesce(sum(m.value), 0) from Movement m where user = :user and dueDate <= :finalDate")
+    @Query("select coalesce(sum(m.value), 0) from Movement m where user = :user and coalesce(movementDate, dueDate) <= :finalDate")
     BigDecimal futureBalance(LocalDate finalDate, User user);
 
-    @Query("select coalesce(sum(m.value), 0) from Movement m where user = :user and dueDate <= :finalDate and status = 'APPROVED'")
+    @Query("select coalesce(sum(m.value), 0) from Movement m where user = :user and coalesce(movementDate, dueDate) <= :finalDate and status = 'APPROVED'")
     BigDecimal currentBalance(LocalDate finalDate, User user);
 
-    @Query("select m from Movement m where user = :user and dueDate between :startDate and :finishDate and m.template = :template")
+    @Query("select m from Movement m where user = :user and coalesce(movementDate, dueDate) between :startDate and :finishDate and m.template = :template")
     List<Movement> hasMovementWithTemplate(LocalDate startDate, LocalDate finishDate, User user, Template template);
 }

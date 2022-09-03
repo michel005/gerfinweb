@@ -50,6 +50,11 @@ export default function Accounts() {
 			</div>
 			<Table
 				entity={'account'}
+                enableOrderBy={{
+                    name: true,
+                    bank: true,
+                    type: true
+                }}
 				header={{
 					name: loc.table.name,
 					bank: loc.table.bank,

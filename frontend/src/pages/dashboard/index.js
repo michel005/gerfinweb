@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import PageSettings from '../../assets/page.settings'
 import Group from '../../components/Group'
 import ProgressIndicator from '../../components/ProgressIndicator'
@@ -7,24 +7,21 @@ import { ConfigContext } from '../../hook/Config.context'
 import { PageContext } from '../../hook/Page.context'
 import { TableContext } from '../../hook/Table.context'
 import useLocalization from '../../hook/useLocalization'
-import { UserContext } from '../../hook/User.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import DateUtils from '../../utils/DateUtils'
-import styles from './index.module.scss'
+import DashboardStyle from './index.style'
 
 export default function Dashboard() {
 	const { aditionalInformation } = useContext(TableContext)
-	const { user } = useContext(UserContext)
 	const { defineCurrentPage } = useContext(PageContext)
 	const { balance, dataBase } = useContext(ConfigContext)
 	const { loc } = useLocalization('pages.dashboard')
 
 	return (
-		<div className={styles.dashboard}>
-			<h1>Bem vindo, {user.currentUser.fullName}</h1>
-			<div className={styles.scroll}>
+		<DashboardStyle>
+			<div className={'scroll'}>
 				{aditionalInformation.dashboard && (
-					<div className={styles.groups}>
+					<div className={'groups'}>
 						<Group header={loc.current_balance}>
 							{balance && CurrencyUtils.format(balance.current)}
 						</Group>
@@ -40,9 +37,9 @@ export default function Dashboard() {
 						</Group>
 					</div>
 				)}
-				<div className={styles.groups}>
-					{aditionalInformation.dashboard.targets &&
-						aditionalInformation.dashboard.targets
+				{aditionalInformation.dashboard.targets && aditionalInformation.dashboard.targets.length > 0 && (
+					<div className={'groups'}>
+						{aditionalInformation.dashboard.targets
 							.filter((v, index) => index <= 4)
 							.map((target, index) => {
 								let account =
@@ -88,38 +85,39 @@ export default function Dashboard() {
 									</Group>
 								)
 							})}
-				</div>
-				<div className={styles.groups}>
-					<div className={styles.pendentMovements}>
+					</div>
+				)}
+				<div className={'groups'}>
+					<div className={'pendentMovements'}>
 						<Group header={loc.pendent_movements}>
 							{
 								<>
-									<div className={styles.movement + ' ' + styles.header}>
-										<div className={styles.dueDate}>{loc.due_date}</div>
-										<div className={styles.description}>{loc.description}</div>
-										<div className={styles.value}>{loc.value}</div>
+									<div className={'movement header'}>
+										<div className={'dueDate'}>{loc.due_date}</div>
+										<div className={'description'}>{loc.description}</div>
+										<div className={'value'}>{loc.value}</div>
 									</div>
 									{aditionalInformation.dashboard.pendentMovements &&
 										aditionalInformation.dashboard.pendentMovements.content.map((movement) => {
 											return (
-												<div className={styles.movement} key={movement.id}>
-													<div className={styles.dueDate}>{movement.dueDate.substr(0, 2)}</div>
-													<div className={styles.description}>{movement.description}</div>
-													<div className={styles.value}>{CurrencyUtils.format(movement.value)}</div>
+												<div className={'movement'} key={movement.id}>
+													<div className={'dueDate'}>{movement.dueDate.substr(0, 2)}</div>
+													<div className={'description'}>{movement.description}</div>
+													<div className={'value'}>{CurrencyUtils.format(movement.value)}</div>
 												</div>
 											)
 										})}
 									{aditionalInformation.dashboard.pendentMovements &&
 										aditionalInformation.dashboard.pendentMovements.content.length === 0 && (
 											<>
-												<div className={styles.notFound}>{loc.dont_have_movements}</div>
+												<div className={'notFound'}>{loc.dont_have_movements}</div>
 											</>
 										)}
 									{aditionalInformation.dashboard.pendentMovements &&
 										aditionalInformation.dashboard.pendentMovements.totalElements > 5 && (
 											<>
 												<div
-													className={styles.moreElements}
+													className={'moreElements'}
 													onClick={() => {
 														defineCurrentPage(PageSettings.movement)
 													}}
@@ -135,29 +133,27 @@ export default function Dashboard() {
 							}
 						</Group>
 					</div>
-					<div className={styles.accountBalance}>
+					<div className={'accountBalance'}>
 						<Group header={loc.account_balances}>
 							{
 								<>
-									<div className={styles.account + ' ' + styles.header}>
-										<div className={styles.accountColumn}>{loc.account}</div>
-										<div className={styles.balance}>{loc.balance}</div>
+									<div className={'account header'}>
+										<div className={'accountColumn'}>{loc.account}</div>
+										<div className={'balance'}>{loc.balance}</div>
 									</div>
 									{aditionalInformation.dashboard.accounts &&
 										aditionalInformation.dashboard.accounts.map((account) => {
 											return (
-												<div className={styles.account} key={account.account.id}>
-													<div className={styles.accountColumn}>{account.account.name}</div>
-													<div className={styles.balance}>
-														{CurrencyUtils.format(account.balance)}
-													</div>
+												<div className={'account'} key={account.account.id}>
+													<div className={'accountColumn'}>{account.account.name}</div>
+													<div className={'balance'}>{CurrencyUtils.format(account.balance)}</div>
 												</div>
 											)
 										})}
 									{aditionalInformation.dashboard.accounts &&
 										aditionalInformation.dashboard.accounts.length === 0 && (
 											<>
-												<div className={styles.notFound}>{loc.dont_have_accounts}</div>
+												<div className={'notFound'}>{loc.dont_have_accounts}</div>
 											</>
 										)}
 								</>
@@ -165,9 +161,9 @@ export default function Dashboard() {
 						</Group>
 					</div>
 				</div>
-				<div className={styles.groups + ' ' + styles.fullHeight}>
+				<div className={'groups fullHeight'}>
 					<Group header={loc.balance_by_day}>
-						<div className={styles.balances}>
+						<div className={'balances'}>
 							{aditionalInformation.dashboard.balancePerDay &&
 								Object.keys(aditionalInformation.dashboard.balancePerDay.balances).map(
 									(balanceByDay) => {
@@ -202,6 +198,6 @@ export default function Dashboard() {
 					</Group>
 				</div>
 			</div>
-		</div>
+		</DashboardStyle>
 	)
 }

@@ -33,10 +33,6 @@ const VerticalProgressIndicatorStyle = styled.div`
 			background-color: #f00;
 		}
 
-		.value {
-			opacity: 1;
-		}
-
 		.label {
 			background-color: #111;
 		}
@@ -90,17 +86,6 @@ const VerticalProgressIndicatorStyle = styled.div`
 		text-align: center;
 		justify-content: center;
 		font-size: 12px;
-	}
-
-	.value {
-		position: fixed;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		opacity: 0;
-		writing-mode: vertical-lr;
-		width: 30px;
-		transform: translateY(14px) translateX(10px);
 	}
 `
 

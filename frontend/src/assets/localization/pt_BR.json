@@ -64,8 +64,8 @@
         "bank": "Banco",
         "type": "Tipo",
         "balance": "Balanço",
-        "current_balance": "Atual",
-        "future_balance": "Futuro"
+        "current_balance": "Saldo Atual",
+        "future_balance": "Saldo Futuro"
       },
       "types": {
         "DEBIT": "Débito",
@@ -92,7 +92,8 @@
         "description": "Descrição",
         "account": "Conta",
         "value": "Valor",
-        "status": "Situação"
+        "status": "Situação",
+        "movementDate": "Aprovação"
       },
       "create_no_account": "Você precisa criar uma conta primeiro",
       "create_no_template": "Você precisa criar um modelo primeiro",
@@ -170,7 +171,7 @@
         "newPassword": "Senha Nova",
         "newPasswordConfirm": "Confirmação da Nova Senha",
         "changePasswordButton": "Mudar Senha",
-        "changePasswordHint": "Precisa efetuar o login novamente"
+        "changePasswordHint": "Tera que efetuar o login novamente"
       },
       "update_password": {
         "header": "Erro ao atualizar campo"

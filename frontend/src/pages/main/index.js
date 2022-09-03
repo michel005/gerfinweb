@@ -1,12 +1,14 @@
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import PageSettings from '../../assets/page.settings'
+import DataBasePicker from '../../components/DataBasePicker'
 import { ConfigContext } from '../../hook/Config.context'
 import { LocalizationContext } from '../../hook/Localization.context'
 import { MessageContext } from '../../hook/Message.context'
 import { PageContext } from '../../hook/Page.context'
 import { UserContext } from '../../hook/User.context'
+import CurrencyUtils from '../../utils/CurrencyUtils'
 import DateUtils from '../../utils/DateUtils'
 import Accounts from '../accounts'
 import Dashboard from '../dashboard'
@@ -17,105 +19,111 @@ import User from '../user'
 import MainStyle from './index.style'
 
 export default function Main() {
-	const { clearCurrentUser, user } = useContext(UserContext)
-	const { choiceMessage, setMessage } = useContext(MessageContext)
 	const { currentPage, defineCurrentPage } = useContext(PageContext)
 	const { getText } = useContext(LocalizationContext)
-	const { formatedDataBase, previewMonth, nextMonth, setDataBase, dataBase } =
-		useContext(ConfigContext)
-	const months = DateUtils.allMonthValues()
+	const { user, clearCurrentUser } = useContext(UserContext)
+	const { choiceMessage, setMessage } = useContext(MessageContext)
+	const { balance, dataBase } = useContext(ConfigContext)
+	const [reduced, setReduced] = useState(false)
 
 	return (
-		<MainStyle>
+		<MainStyle reduced={reduced}>
 			<div className="menu">
-				<div className="centeredMenu">
-					<div className="topDivision">
-						<div className="appName">GerFinWEB</div>
-						<div className="options">
-							{Object.keys(PageSettings).map((page, index) => {
-								return (
-									<div className="optionContainer">
-										<button
-											key={index}
-											className={
-												PageSettings[page].path === window.location.pathname ? 'active' : ''
-											}
-											onClick={() => defineCurrentPage(PageSettings[page])}
-										>
-											{getText('pages.' + PageSettings[page].name + '.header.text')}
-										</button>
-									</div>
-								)
-							})}
-						</div>
-						<div className="userInfo">
-							<div className="details">
-								<div className="fullName">{user.currentUser.fullName}</div>
-								<div className="commands">
-									<button
-										onClick={() => {
-											choiceMessage({
-												header: getText('logout.header'),
-												text: getText('logout.text'),
-												option1: {
-													text: getText('commons.yes'),
-													event: () => {
-														clearCurrentUser()
-														setMessage(undefined)
-													},
-												},
-											})
-										}}
-									>
-										Logoff
-									</button>
-								</div>
-							</div>
-						</div>
+				<div className="options">
+					<div className="optionContainer reduceButton">
+						<button onClick={() => setReduced(!reduced)}>
+							<FontAwesomeIcon icon={faBars} />
+						</button>
 					</div>
-				</div>
-			</div>
-			<div className="monthController">
-                <div className="allMonths">
-                    <div className='month dark'>DATA BASE</div>
-                </div>
-				<div className="allMonths">
-					{Object.keys(months).map((month, index) => {
+					{Object.keys(PageSettings).map((page, index) => {
 						return (
-							<div
-								key={index}
-								className={
-									'month ' + (dataBase.getMonth() + 1 === parseInt(month) ? 'currentMonth' : '')
-								}
-								onClick={() => {
-									setDataBase(new Date(dataBase.getFullYear(), month - 1, 1))
-								}}
-							>
-								{months[month].toUpperCase().substring(0, 3)}
+							<div className="optionContainer">
+								<button
+									key={index}
+									className={PageSettings[page].path === window.location.pathname ? 'active' : ''}
+									onClick={() => defineCurrentPage(PageSettings[page])}
+								>
+									<FontAwesomeIcon icon={PageSettings[page].icon} />{' '}
+									{!reduced && getText('pages.' + PageSettings[page].name + '.header.text')}
+								</button>
 							</div>
 						)
 					})}
+					<div className="fullHeight"></div>
+					<DataBasePicker reduced={reduced} />
+					<div className="balances">
+						{new Date(new Date().getFullYear(), new Date().getMonth(), 1) >=
+							new Date(dataBase.getFullYear(), dataBase.getMonth(), 1) && (
+							<div className="balance">
+								<div className="title">{getText('commons.current_balance')}</div>
+								<div className="value">
+									<div className="currency">R$</div>
+									<div className="val">{CurrencyUtils.format(balance?.current).substring(3)}</div>
+								</div>
+							</div>
+						)}
+						{new Date(new Date().getFullYear(), new Date().getMonth(), 1) <=
+							new Date(dataBase.getFullYear(), dataBase.getMonth(), 1) && (
+							<div className="balance">
+								<div className="title">{getText('commons.future_balance')}</div>
+								<div className="value">
+									<div className="currency">R$</div>
+									<div className="val">{CurrencyUtils.format(balance?.future).substring(3)}</div>
+								</div>
+							</div>
+						)}
+					</div>
 				</div>
-				<button
-					onClick={() => {
-						setDataBase(new Date(dataBase.getFullYear() - 1, dataBase.getMonth(), 1))
-					}}
-				>
-					<FontAwesomeIcon icon={faArrowLeft} />
-				</button>
-				<div className="allMonths">
-					<div className="month">{formatedDataBase().substr(6)}</div>
-				</div>
-				<button
-					onClick={() => {
-						setDataBase(new Date(dataBase.getFullYear() + 1, dataBase.getMonth(), 1))
-					}}
-				>
-					<FontAwesomeIcon icon={faArrowRight} />
-				</button>
 			</div>
 			<div className="content">
 				<div className="centeredContent">
+					{currentPage && (
+						<div className="mainHeader">
+							<div className="header">
+								<h1>
+									<FontAwesomeIcon icon={currentPage.icon} />{' '}
+									{getText('pages.' + currentPage.name + '.header.text')}
+								</h1>
+								<h3>{getText('pages.' + currentPage.name + '.header.lead')}</h3>
+							</div>
+							<div>
+								<div className="userInfo">
+									<div className="userImage">
+										<FontAwesomeIcon icon={faUser} />
+									</div>
+									<div className="info">
+										<div className="fullName">{user && user.currentUser.fullName}</div>
+										<div className="commands">
+											<button
+												onClick={() => {
+													defineCurrentPage(PageSettings.user)
+												}}
+											>
+												Meu Perfil
+											</button>
+											<button
+												onClick={() => {
+													choiceMessage({
+														header: getText('logout.header'),
+														text: getText('logout.text'),
+														option1: {
+															text: getText('commons.yes'),
+															event: () => {
+																clearCurrentUser()
+																setMessage(undefined)
+															},
+														},
+													})
+												}}
+											>
+												Logoff
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					)}
 					{currentPage && currentPage.path === '/' && <Dashboard />}
 					{currentPage && currentPage.path === '/account' && <Accounts />}
 					{currentPage && currentPage.path === '/movement' && <Movements />}

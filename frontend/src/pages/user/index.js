@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import Button from '../../components/Button'
 import Field from '../../components/Field'
 import API from '../../config/API'
@@ -92,7 +92,9 @@ export default function User() {
 				disabled={true}
 				defaultValue={user.currentUser.email}
 			/>
-			<Button onClick={changeFullName}>{getText('pages.user.form.changeFullNameButton')}</Button>
+			<div className={'commands'}>
+				<Button onClick={changeFullName}>{getText('pages.user.form.changeFullNameButton')}</Button>
+			</div>
 			<Field
 				label={getText('pages.user.form.oldPassword')}
 				type={'password'}

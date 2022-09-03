@@ -51,6 +51,18 @@ public class MovementAPI {
 
     @Autowired
     private UserRepository userRepository;
+    
+    private void defineMovementDate(Movement movement) {
+        if (movement.getStatus().equals(MovementStatus.APPROVED)) {
+        	if (movement.getMovementDate() == null) {
+        		movement.setMovementDate(LocalDate.now());
+        	}
+        } else {
+        	if (movement.getMovementDate() != null) {
+        		movement.setMovementDate(null);
+        	}
+        }
+    }
 
     @PostMapping("/create")
     private ResponseEntity<?> create(Authentication authentication, @RequestBody Movement movement) {
@@ -78,6 +90,7 @@ public class MovementAPI {
             return ResponseEntity.internalServerError().build();
         }
 
+        defineMovementDate(movement);
         movement.setUser(userFinded.get());
         Movement movementSaved = movementRepository.save(movement);
 
@@ -123,6 +136,7 @@ public class MovementAPI {
         origin.setAccount(transferModel.getAccountOrigin());
         origin.setStatus(transferModel.getStatus());
         origin.setValue(transferModel.getValue().multiply(new BigDecimal(-1)));
+        defineMovementDate(origin);
         movementRepository.save(origin);
 
         Movement destiny = new Movement();
@@ -132,6 +146,7 @@ public class MovementAPI {
         destiny.setAccount(transferModel.getAccountDestiny());
         destiny.setStatus(transferModel.getStatus());
         destiny.setValue(transferModel.getValue());
+        defineMovementDate(destiny);
         movementRepository.save(destiny);
 
         return ResponseEntity.ok().build();
@@ -169,7 +184,8 @@ public class MovementAPI {
         movement.setValue(template.get().getValue() == null ? BigDecimal.ZERO : template.get().getValue());
         movement.setAccount(template.get().getAccount() == null ? accountRepository.findById(accounts.get(0).getId()).get() : template.get().getAccount());
         movement.setTemplate(template.get());
-        
+
+        defineMovementDate(movement);
         Movement savedMovement = movementRepository.save(movement);
 
         return ResponseEntity.ok(savedMovement);
@@ -211,10 +227,12 @@ public class MovementAPI {
         Movement original = originalMovement.get();
         original.setAccount(movement.getAccount());
         original.setDescription(movement.getDescription());
+        original.setMovementDate(movement.getMovementDate());
         original.setValue(movement.getValue());
         original.setStatus(movement.getStatus());
         original.setDueDate(movement.getDueDate());
 
+        defineMovementDate(original);
         Movement movementSaved = movementRepository.save(original);
         return ResponseEntity.ok(movementSaved);
     }

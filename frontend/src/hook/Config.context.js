@@ -23,6 +23,10 @@ export default function ConfigProvider({ children }) {
 		return dataBase.toLocaleDateString('pt-BR')
 	}
 
+	function formatedForUX() {
+		return dataBase.toLocaleDateString('pt-BR').substring(3)
+	}
+
 	function formatedDataBaseForURL() {
 		return dataBase.toLocaleDateString('pt-BR').replaceAll('/', '')
 	}
@@ -60,6 +64,7 @@ export default function ConfigProvider({ children }) {
 				dataBase,
 				setDataBase,
 				formatedDataBase,
+                formatedForUX,
 				formatedDataBaseForURL,
 				balance,
 				previewMonth,

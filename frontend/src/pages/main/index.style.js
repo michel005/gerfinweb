@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 
-const MENU_WIDTH = '100%'
-const MENU_HEIGHT = '60px'
-
+const MENU_WIDTH = '230px'
+const MENU_REDUCED_WIDTH = '58px'
+const HEADER_HEIGHT = '84px'
 const MONTH_HEIGHT = '30px'
 
 const MainStyle = styled.div`
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	height: 100vh;
 	left: 0;
 	position: fixed;
@@ -16,168 +16,137 @@ const MainStyle = styled.div`
 	z-index: 10;
 
 	.menu {
-		background-color: #39f;
+		background-color: ${(props) => (props.reduced ? 'transparent' : '#39f')};
+		box-shadow: ${(props) => (props.reduced ? 'none' : '#3339 0 0 14px')};
 		display: flex;
 		flex-direction: column;
-		height: ${MENU_HEIGHT};
+		height: 100vh;
 		left: 0;
 		position: fixed;
 		top: 0;
-		width: 100%;
-		z-index: 20;
+		width: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
+		transition: all 0.25s;
+		z-index: 30;
 
-		.centeredMenu {
+		.options {
 			display: flex;
 			flex-direction: column;
-			height: ${MENU_HEIGHT};
-			max-width: ${MENU_WIDTH};
-			transform: translateX(-50%);
-			margin-left: 50%;
-			width: 100%;
+			justify-content: flex-start;
+			flex-grow: 1;
+			height: 100%;
 
-			.topDivision {
+			.fullHeight {
 				display: flex;
-				flex-direction: row;
-				height: ${MENU_HEIGHT / 2}px;
-				width: 100%;
+				flex-direction: column;
+				flex-grow: 1;
+				height: 100%;
+			}
 
-				.appName {
-					color: #f4f4f4;
-					display: flex;
-					flex-direction: column;
-					font-size: 24px;
-					justify-content: center;
-					height: ${MENU_HEIGHT};
-					padding: 0 14px 5px;
-				}
+			.optionContainer {
+				display: flex;
+				flex-direction: column;
 
-				.options {
-					display: flex;
-					flex-direction: row;
-					justify-content: center;
-					flex-grow: 1;
-					width: 100%;
+				button {
+					background-color: transparent;
+					border: 0 solid transparent;
+					border-left-width: 7px;
+					color: ${(props) => (props.reduced ? 'transparent' : '#fff')};
+					cursor: pointer;
+					font-size: 14px;
+					height: 100%;
+					margin-top: 14px;
+					text-overflow: ellipsis;
+					min-width: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
+					padding: 14px 21px 14px 14px;
+					text-align: left;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+					transition: all 0.25s;
 
-					.optionContainer {
-						display: flex;
-						flex-direction: column;
-						justify-content: center;
+					&:hover {
+						background-color: ${(props) => (props.reduced ? '#3331' : '#fff6')};
+					}
 
-						button {
-							background-color: transparent;
-							border: none;
-							border-radius: 4px;
-							/* border: 0 solid transparent; */
-							/* border-width: 2px 0 2px 0; */
-							color: #fff;
-							cursor: pointer;
-							font-size: 16px;
-							height: auto;
-							padding: 7px 10px;
-							margin: 0 7px;
-							transition: all 0.25s;
+					&.active {
+						background-color: ${(props) => (props.reduced ? '#3333' : '#fff3')};
+						border-left-color: ${(props) => (props.reduced ? '#333' : '#fff')};
+						border-left-width: 7px;
+					}
 
-							&:hover {
-								background-color: #fff6;
-							}
-
-							&.active {
-								/* border-bottom-color: #fff; */
-								background-color: #fff3;
-							}
-						}
+					svg {
+						color: ${(props) => (props.reduced ? '#333' : '#fff')};
+						margin-right: 14px;
 					}
 				}
 
-				.userInfo {
-					color: #fff;
-					display: flex;
-					flex-direction: row;
-					height: ${MENU_HEIGHT};
-					justify-content: flex-end;
-					padding: 10px;
-					min-width: 250px;
+				&.reduceButton {
+					width: ${MENU_REDUCED_WIDTH};
 
-					.details {
-						display: flex;
-						flex-direction: column;
+					button {
+						color: ${(props) => (props.reduced ? '#333' : '#fff')};
 
-						.fullName {
-							font-size: 18px;
+						svg {
+							margin-right: 0px;
 						}
+					}
 
-						.commands {
-							display: flex;
-							flex-direction: row;
-							justify-content: flex-end;
-
-							button {
-								color: #fffa;
-								cursor: pointer;
-								border: none;
-								background-color: transparent;
-							}
-						}
+					button:hover {
+						background-color: transparent !important;
+						color: #111;
 					}
 				}
 			}
-		}
-	}
 
-	.monthController {
-		background-color: #222;
-		display: flex;
-		flex-direction: row;
-		flex-grow: 1;
-		height: ${MONTH_HEIGHT};
-		font-size: 12px;
-		justify-content: center;
-		left: 0;
-		position: fixed;
-		top: ${MENU_HEIGHT};
-		width: 100%;
-		z-index: 20;
-
-		.allMonths {
-			display: flex;
-			flex-direction: row;
-			color: #fff;
-
-			.month {
-				padding: 6px 10px;
-				cursor: pointer;
+			.balances {
+				background-color: ${(props) => (props.reduced ? '#1113' : '#fff3')};
+				backdrop-filter: ${(props) => (props.reduced ? 'blur(15px)' : 'none')};
+				box-shadow: ${(props) => (props.reduced ? '#aaa9 0 0 7px' : 'none')};
+				border-radius: 4px;
+				color: #fff;
+				margin: 14px 14px 21px;
+				padding: 14px;
+				position: ${(props) => (props.reduced ? 'fixed' : 'relative')};
+				bottom: ${(props) => (props.reduced ? '0' : 'auto')};
+				left: ${(props) => (props.reduced ? '-161px' : 'auto')};
+				width: 202px;
 				transition: all 0.25s;
 
 				&:hover {
-					background-color: #fff6;
+					left: ${(props) => (props.reduced ? '0' : 'auto')};
 				}
 
-				&.currentMonth {
-					background-color: #fff3;
-				}
+				.balance {
+					display: flex;
+					flex-direction: column;
+					margin-bottom: 14px;
+					transition: all 0.25s;
 
-				&.dark {
-					font-weight: bold;
+					&:last-child {
+						margin-bottom: 0px;
+					}
 
-					&:hover {
-						cursor: initial;
-						background-color: transparent;
+					.title {
+						font-weight: bold;
+					}
+
+					.value {
+						display: flex;
+						flex-direction: row;
+
+						.currency {
+							font-size: 14px;
+							margin-top: 5px;
+						}
+
+						.val {
+							font-size: 30px;
+							text-align: right;
+							width: 100%;
+						}
 					}
 				}
 			}
-		}
-
-		button {
-			background-color: transparent;
-			border: none;
-			color: #fff;
-			cursor: pointer;
-			margin: 0 14px;
-		}
-
-		.month {
-			color: #fff;
-			padding: 4px 14px;
 		}
 	}
 
@@ -185,26 +154,115 @@ const MainStyle = styled.div`
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
-		height: calc(100% - ${MENU_HEIGHT} - ${MONTH_HEIGHT});
-		left: 0;
+		height: 100%;
+		left: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
 		position: fixed;
-		top: calc(${MENU_HEIGHT} + ${MONTH_HEIGHT});
-		width: 100%;
+		bottom: 0;
+		width: calc(100% - ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)});
+		transition: all 0.25s;
 		z-index: 10;
 
 		.centeredContent {
-			//background-color: #fff;
-			//box-shadow: #ccc 0 0 7px;
 			display: flex;
 			flex-direction: column;
-			min-height: 100%;
-			max-width: 100%;
-			transform: translateX(-50%);
-			margin-left: 50%;
-			padding: 14px;
+			min-height: calc(100% - ${HEADER_HEIGHT} - ${MONTH_HEIGHT});
+			height: calc(100% - ${HEADER_HEIGHT} - ${MONTH_HEIGHT});
+			max-height: calc(100% - ${HEADER_HEIGHT} - ${MONTH_HEIGHT});
+			margin-top: calc(${MONTH_HEIGHT} + ${HEADER_HEIGHT});
+			padding: 21px;
 			overflow-y: auto;
 			overflow-x: none;
-			width: ${MENU_WIDTH};
+			transition: all 0.25s;
+			width: 100%;
+
+			.mainHeader {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-end;
+				min-height: ${HEADER_HEIGHT};
+				position: fixed;
+				top: 0;
+				width: calc(100% - ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)} - 42px);
+				transition: all 0.25s;
+
+				.userInfo {
+					background-color: #fff9;
+					border-radius: 7px;
+					box-shadow: #eee 0 0 14px;
+					display: flex;
+					flex-direction: row;
+					margin: 14px -7px 14px 14px;
+					padding: 10px;
+					min-width: 280px;
+
+					.userImage {
+						background-color: #ccc;
+						border-radius: 18px;
+						display: flex;
+						flex-direction: column;
+						min-height: 36px;
+						min-width: 36px;
+						height: 36px;
+						width: 36px;
+						text-align: center;
+						justify-content: center;
+
+						svg {
+							color: #fff;
+						}
+					}
+
+					.info {
+						width: 100%;
+
+						.fullName {
+							font-size: 18px;
+							text-align: right;
+						}
+
+						.commands {
+							display: flex;
+							flex-direction: column;
+
+							button {
+								color: #999;
+								cursor: pointer;
+								border: none;
+								background-color: transparent;
+								margin-top: 4px;
+								text-align: right;
+								transition: all 0.25s;
+
+								&:hover {
+									color: #333;
+								}
+							}
+						}
+					}
+				}
+
+				.header {
+					display: flex;
+					flex-direction: column;
+					flex-grow: 1;
+					width: 100%;
+
+					h1 {
+						margin-top: 20px;
+						margin-bottom: 4px;
+
+						svg {
+							margin-right: 7px;
+						}
+					}
+
+					h3 {
+						color: #aaa;
+						font-weight: normal;
+						margin-bottom: 14px;
+					}
+				}
+			}
 		}
 	}
 `
