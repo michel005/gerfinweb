@@ -281,7 +281,11 @@ export default function Movements() {
 						return (
 							<>
 								{movement.description}{' '}
-								{movement.template && <div className={'templateLabel'}>Template</div>}
+								{movement.template && (
+									<div>
+										<div className={'templateLabel'}>Template</div>
+									</div>
+								)}
 							</>
 						)
 					},
@@ -346,18 +350,18 @@ export default function Movements() {
 							})}
 						</select>
 					),
-                    movementDate: (movement, field, event, defaultEditor, noEditEvent) => {
+					movementDate: (movement, field, event, defaultEditor, noEditEvent) => {
 						if (movement.status !== 'APPROVED') {
 							simpleMessage({
 								header: 'Movimentação nao aprovada!',
-								text: 'Esta movimentação nao foi aprovada, portando, não pode conter uma data de movimentação.'
+								text: 'Esta movimentação nao foi aprovada, portando, não pode conter uma data de movimentação.',
 							})
-                            noEditEvent()
-                            return <></>
-                        } else {
-                            return defaultEditor
-                        }
-                    }
+							noEditEvent()
+							return <></>
+						} else {
+							return defaultEditor
+						}
+					},
 				}}
 				columnAction={{
 					dueDate: (movement, value) => {
@@ -378,7 +382,7 @@ export default function Movements() {
 						if (movement.status !== 'APPROVED' && value !== null) {
 							simpleMessage({
 								header: 'Movimentação nao aprovada!',
-								text: 'Esta movimentação nao foi aprovada, portando, não pode conter uma data de movimentação.'
+								text: 'Esta movimentação nao foi aprovada, portando, não pode conter uma data de movimentação.',
 							})
 						} else {
 							updateField('movement', movement, 'movementDate', value)

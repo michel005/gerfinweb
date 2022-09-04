@@ -18,14 +18,15 @@ const AccountsStyle = styled.div`
 	}
 
 	.column_commands {
-		justify-content: flex-end;
-		max-width: 60px;
+        text-align: right;
+        justify-content: flex-end;
+		max-width: 120px;
 
 		button {
 			background-color: transparent;
 			border: none;
 			cursor: pointer;
-			margin: 0;
+			margin: 0 0 0 14px;
 			padding: 0;
             transition: all 0.25s;
 

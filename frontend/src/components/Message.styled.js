@@ -15,7 +15,7 @@ const MessageStyle = styled.div`
 		border-radius: 4px;
 		box-shadow: #3333 0 0 7px;
 		left: 50%;
-		padding: 21px 21px 28px;
+		padding: 21px 21px 21px;
 		position: fixed;
 		top: 50%;
 		transform: translateX(-50%) translateY(-50%);

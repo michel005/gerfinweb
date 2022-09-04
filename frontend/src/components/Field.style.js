@@ -9,6 +9,7 @@ const FieldStyle = styled.div`
 		font-size: 14px;
 		font-weight: bold;
 		margin-bottom: 7px;
+        text-align: left;
 	}
 
 	input {

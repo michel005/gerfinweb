@@ -1,6 +1,10 @@
+import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { faUserAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useState } from 'react'
 import Button from '../../components/Button'
 import Field from '../../components/Field'
+import Group from '../../components/Group'
 import API from '../../config/API'
 import { LocalizationContext } from '../../hook/Localization.context'
 import { MessageContext } from '../../hook/Message.context'
@@ -78,44 +82,63 @@ export default function User() {
 
 	return (
 		<UserStyle>
-			<Field
-				id={'fullName'}
-				label={getText('pages.user.form.fullName')}
-				type={'text'}
-				value={fullName}
-				onChange={(e) => setFullName(e.target.value)}
-			/>
-			<Field
-				id={'email'}
-				label={getText('pages.user.form.email')}
-				type={'text'}
-				disabled={true}
-				defaultValue={user.currentUser.email}
-			/>
-			<div className={'commands'}>
-				<Button onClick={changeFullName}>{getText('pages.user.form.changeFullNameButton')}</Button>
-			</div>
-			<Field
-				label={getText('pages.user.form.oldPassword')}
-				type={'password'}
-				value={oldPassword}
-				onChange={(e) => setOldPassword(e.target.value)}
-			/>
-			<Field
-				label={getText('pages.user.form.newPassword')}
-				type={'password'}
-				value={newPassword}
-				onChange={(e) => setNewPassword(e.target.value)}
-			/>
-			<Field
-				label={getText('pages.user.form.newPasswordConfirm')}
-				type={'password'}
-				value={passwordConfirm}
-				onChange={(e) => setPasswordConfirm(e.target.value)}
-			/>
-			<div className={'commands'}>
-				<Button onClick={changePassword}>{getText('pages.user.form.changePasswordButton')}</Button>
-				<div className={'alert'}>{getText('pages.user.form.changePasswordHint')}</div>
+			<div className={'horizontalGroup'}>
+				<div className={'verticalGroup profilePictureGroup'}>
+					<Group header={'Imagem do Perfil'}>
+						<div className={'profilePicture'}></div>
+						<div className={'commands'}>
+							<Button>Mudar Foto</Button>
+							<Button>Remover Foto</Button>
+						</div>
+						<Field
+							id={'fullName'}
+							label={getText('pages.user.form.fullName')}
+							type={'text'}
+							value={fullName}
+							onChange={(e) => setFullName(e.target.value)}
+						/>
+						<Field
+							id={'email'}
+							label={getText('pages.user.form.email')}
+							type={'text'}
+							disabled={true}
+							defaultValue={user.currentUser.email}
+						/>
+						<div className={'commands'}>
+							<Button onClick={changeFullName}>
+								{getText('commons.save')}
+							</Button>
+						</div>
+					</Group>
+				</div>
+				<div>
+					<Group header={'Alteração de senha'}>
+						<Field
+							label={getText('pages.user.form.oldPassword')}
+							type={'password'}
+							value={oldPassword}
+							onChange={(e) => setOldPassword(e.target.value)}
+						/>
+						<Field
+							label={getText('pages.user.form.newPassword')}
+							type={'password'}
+							value={newPassword}
+							onChange={(e) => setNewPassword(e.target.value)}
+						/>
+						<Field
+							label={getText('pages.user.form.newPasswordConfirm')}
+							type={'password'}
+							value={passwordConfirm}
+							onChange={(e) => setPasswordConfirm(e.target.value)}
+						/>
+						<div className={'commands'}>
+							<Button onClick={changePassword}>
+								{getText('pages.user.form.changePasswordButton')}
+							</Button>
+							<div className={'alert'}>{getText('pages.user.form.changePasswordHint')}</div>
+						</div>
+					</Group>
+				</div>
 			</div>
 		</UserStyle>
 	)

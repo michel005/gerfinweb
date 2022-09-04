@@ -29,15 +29,53 @@ export default function Main() {
 	return (
 		<MainStyle reduced={reduced}>
 			<div className="menu">
-				<div className="options">
-					<div className="optionContainer reduceButton">
-						<button onClick={() => setReduced(!reduced)}>
-							<FontAwesomeIcon icon={faBars} />
-						</button>
+				<div className="reduceButton">
+					<button onClick={() => setReduced(!reduced)}>
+						<FontAwesomeIcon icon={faBars} />
+					</button>
+				</div>
+				<div className={'userInfo'}>
+					<div className={'userImage'}>
+						<div className={'userImageMocked'}></div>
 					</div>
+					{!reduced && (
+						<div className={'userDescription'}>
+							<div className={'userFullName'}>{user.currentUser.fullName}</div>
+							<div className={'userEmail'}>{user.currentUser.email}</div>
+							<div className={'commands'}>
+								<button
+									onClick={() => {
+										defineCurrentPage(PageSettings.user)
+									}}
+								>
+									Meu Perfil
+								</button>
+								<button
+									onClick={() => {
+										choiceMessage({
+											header: getText('logout.header'),
+											text: getText('logout.text'),
+											option1: {
+												text: getText('commons.yes'),
+												event: () => {
+													clearCurrentUser()
+													setMessage(undefined)
+												},
+											},
+										})
+									}}
+								>
+									Logoff
+								</button>
+							</div>
+						</div>
+					)}
+				</div>
+				<div className="options">
 					{Object.keys(PageSettings).map((page, index) => {
 						return (
 							<div className="optionContainer">
+								<div className="spacer"></div>
 								<button
 									key={index}
 									className={PageSettings[page].path === window.location.pathname ? 'active' : ''}
@@ -50,7 +88,6 @@ export default function Main() {
 						)
 					})}
 					<div className="fullHeight"></div>
-					<DataBasePicker reduced={reduced} />
 					<div className="balances">
 						{new Date(new Date().getFullYear(), new Date().getMonth(), 1) >=
 							new Date(dataBase.getFullYear(), dataBase.getMonth(), 1) && (
@@ -73,6 +110,7 @@ export default function Main() {
 							</div>
 						)}
 					</div>
+					<DataBasePicker reduced={reduced} />
 				</div>
 			</div>
 			<div className="content">
@@ -85,42 +123,6 @@ export default function Main() {
 									{getText('pages.' + currentPage.name + '.header.text')}
 								</h1>
 								<h3>{getText('pages.' + currentPage.name + '.header.lead')}</h3>
-							</div>
-							<div>
-								<div className="userInfo">
-									<div className="userImage">
-										<FontAwesomeIcon icon={faUser} />
-									</div>
-									<div className="info">
-										<div className="fullName">{user && user.currentUser.fullName}</div>
-										<div className="commands">
-											<button
-												onClick={() => {
-													defineCurrentPage(PageSettings.user)
-												}}
-											>
-												Meu Perfil
-											</button>
-											<button
-												onClick={() => {
-													choiceMessage({
-														header: getText('logout.header'),
-														text: getText('logout.text'),
-														option1: {
-															text: getText('commons.yes'),
-															event: () => {
-																clearCurrentUser()
-																setMessage(undefined)
-															},
-														},
-													})
-												}}
-											>
-												Logoff
-											</button>
-										</div>
-									</div>
-								</div>
 							</div>
 						</div>
 					)}

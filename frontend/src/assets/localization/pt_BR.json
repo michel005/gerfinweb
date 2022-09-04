@@ -65,7 +65,9 @@
         "type": "Tipo",
         "balance": "Balanço",
         "current_balance": "Saldo Atual",
-        "future_balance": "Saldo Futuro"
+        "future_balance": "Saldo Futuro",
+        "delete_command": "Excluir Conta",
+        "adjust_balance_command": "Ajustar Saldo da Conta"
       },
       "types": {
         "DEBIT": "Débito",

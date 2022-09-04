@@ -162,11 +162,8 @@ const TableStyle = styled.div`
 
 						select {
 							background-color: #fffc;
-							border-radius: 4px;
 							border: none;
 							color: #333;
-							font-size: 12px;
-							padding: 4px 7px;
 							height: 100%;
 						}
 

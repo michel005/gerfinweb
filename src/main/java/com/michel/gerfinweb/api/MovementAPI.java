@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.michel.gerfinweb.entity.Movement;
 import com.michel.gerfinweb.entity.Template;
 import com.michel.gerfinweb.entity.User;
+import com.michel.gerfinweb.model.AccountBalanceModel;
+import com.michel.gerfinweb.model.AjustAccountBalanceModel;
 import com.michel.gerfinweb.model.BalanceByDayModel;
 import com.michel.gerfinweb.model.PaginationModel;
 import com.michel.gerfinweb.model.SimpleAccountModel;
@@ -62,6 +64,49 @@ public class MovementAPI {
         		movement.setMovementDate(null);
         	}
         }
+    }
+
+    @PostMapping("/adjustAccountBalance")
+    private ResponseEntity<?> adjustAccountBalance(Authentication authentication, @RequestBody AjustAccountBalanceModel ajustAccountBalanceModel) {
+        List<String> errors = new ArrayList<>();
+        if (ajustAccountBalanceModel.getAccount() == null) {
+            errors.add("Account was not informed!");
+        }
+        if (ajustAccountBalanceModel.getDate() == null) {
+            errors.add("Date was not informed!");
+        }
+        if (ajustAccountBalanceModel.getValue() == null || ajustAccountBalanceModel.getValue().equals(BigDecimal.ZERO)) {
+            errors.add("Value was not informed!");
+        }
+        if (ajustAccountBalanceModel.getDescription() == null || ajustAccountBalanceModel.getDescription().trim().isEmpty()) {
+            errors.add("Description was not informed!");
+        }
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
+        Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
+        if (userFinded.isEmpty()) {
+            return ResponseEntity.internalServerError().build();
+        }
+        
+        Optional<AccountBalanceModel> optAccount = accountRepository.findByUserAndAccount(DateUtils.firstDay(ajustAccountBalanceModel.getDate()), DateUtils.lastDay(ajustAccountBalanceModel.getDate()), userFinded.get().getId(), ajustAccountBalanceModel.getAccount());
+        if (optAccount.isEmpty()) {
+            return ResponseEntity.badRequest().body("Account was not found!");
+        }
+        
+        BigDecimal balanceAjusted = ajustAccountBalanceModel.getValue().subtract(optAccount.get().getCurrentBalance());
+        
+        Movement movement = new Movement();
+        movement.setAccount(ajustAccountBalanceModel.getAccount());
+        movement.setDescription(ajustAccountBalanceModel.getDescription());
+        movement.setDueDate(ajustAccountBalanceModel.getDate());
+        movement.setMovementDate(ajustAccountBalanceModel.getDate());
+        movement.setStatus(MovementStatus.APPROVED);
+        movement.setValue(balanceAjusted);
+        movement.setUser(userFinded.get());
+        Movement movementSaved = movementRepository.save(movement);
+
+        return ResponseEntity.ok(movementSaved);
     }
 
     @PostMapping("/create")

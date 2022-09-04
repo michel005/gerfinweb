@@ -23,10 +23,93 @@ const MainStyle = styled.div`
 		height: 100vh;
 		left: 0;
 		position: fixed;
+		padding-bottom: 21px;
 		top: 0;
 		width: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
 		transition: all 0.25s;
 		z-index: 30;
+
+		.userInfo {
+			background-color: #222;
+			background-image: ${(props) => (props.reduced ? 'url(https://randomuser.me/api/portraits/men/9.jpg)' : 'none')};
+			border-radius: ${(props) => (props.reduced ? '0 0 4px 0' : '0')};
+			background-size: cover;
+			display: flex;
+			flex-direction: column;
+			padding: ${(props) => (props.reduced ? '10px 0px' : '24px 14px 14px')};
+			transition: all 0.25s;
+
+			.userImage {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				width: 100%;
+				opacity: ${(props) => (props.reduced ? '0' : '1')};
+
+				.userImageMocked {
+					background-color: #fff;
+					background-image: url(https://randomuser.me/api/portraits/men/9.jpg);
+					background-size: cover;
+					box-shadow: #111 0 0 7px;
+					border-radius: 50px;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					font-size: 50px;
+					font-size: ${(props) => (props.reduced ? '12px' : '50px')};
+					height: ${(props) => (props.reduced ? '40px' : '100px')};
+					width: ${(props) => (props.reduced ? '40px' : '100px')};
+				}
+			}
+
+			.userDescription {
+				color: #fff;
+				display: flex;
+				flex-direction: column;
+				padding-top: 21px;
+
+				.userFullName,
+				.userEmail {
+					font-size: 14px;
+				}
+
+				.commands {
+					display: flex;
+					flex-direction: row;
+					margin-top: 4px;
+
+					button {
+						background-color: transparent;
+						border: none;
+						color: #fff;
+						cursor: pointer;
+						margin-right: 8px;
+						text-align: left;
+						transition: all 0.25s;
+
+						&:hover {
+							color: #39f;
+						}
+					}
+				}
+			}
+		}
+
+		.reduceButton {
+			left: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
+			position: fixed;
+			transition: all 0.25s;
+
+			button {
+				background-color: #222;
+				border: none;
+				border-bottom-right-radius: 4px;
+				color: ${(props) => (props.reduced ? '#fff' : '#fff')};
+				cursor: pointer;
+				margin: 0;
+				padding: 7px;
+			}
+		}
 
 		.options {
 			display: flex;
@@ -46,6 +129,10 @@ const MainStyle = styled.div`
 				display: flex;
 				flex-direction: column;
 
+				.spacer {
+					height: 14px;
+				}
+
 				button {
 					background-color: transparent;
 					border: 0 solid transparent;
@@ -54,10 +141,9 @@ const MainStyle = styled.div`
 					cursor: pointer;
 					font-size: 14px;
 					height: 100%;
-					margin-top: 14px;
 					text-overflow: ellipsis;
 					min-width: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
-					padding: 14px 21px 14px 14px;
+					padding: 14px;
 					text-align: left;
 					text-overflow: ellipsis;
 					white-space: nowrap;
@@ -79,41 +165,22 @@ const MainStyle = styled.div`
 						margin-right: 14px;
 					}
 				}
-
-				&.reduceButton {
-					width: ${MENU_REDUCED_WIDTH};
-
-					button {
-						color: ${(props) => (props.reduced ? '#333' : '#fff')};
-
-						svg {
-							margin-right: 0px;
-						}
-					}
-
-					button:hover {
-						background-color: transparent !important;
-						color: #111;
-					}
-				}
 			}
 
 			.balances {
-				background-color: ${(props) => (props.reduced ? '#1113' : '#fff3')};
+				background-color: ${(props) => (props.reduced ? '#3336' : '#fff3')};
 				backdrop-filter: ${(props) => (props.reduced ? 'blur(15px)' : 'none')};
 				box-shadow: ${(props) => (props.reduced ? '#aaa9 0 0 7px' : 'none')};
 				border-radius: 4px;
 				color: #fff;
-				margin: 14px 14px 21px;
+				margin: 14px;
 				padding: 14px;
-				position: ${(props) => (props.reduced ? 'fixed' : 'relative')};
-				bottom: ${(props) => (props.reduced ? '0' : 'auto')};
-				left: ${(props) => (props.reduced ? '-161px' : 'auto')};
+				transform: ${(props) => (props.reduced ? 'translateX(-170px)' : 'none')};
 				width: 202px;
 				transition: all 0.25s;
 
 				&:hover {
-					left: ${(props) => (props.reduced ? '0' : 'auto')};
+					transform: ${(props) => (props.reduced ? 'translateX(-0)' : 'none')};
 				}
 
 				.balance {
@@ -185,62 +252,6 @@ const MainStyle = styled.div`
 				width: calc(100% - ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)} - 42px);
 				transition: all 0.25s;
 
-				.userInfo {
-					background-color: #fff9;
-					border-radius: 7px;
-					box-shadow: #eee 0 0 14px;
-					display: flex;
-					flex-direction: row;
-					margin: 14px -7px 14px 14px;
-					padding: 10px;
-					min-width: 280px;
-
-					.userImage {
-						background-color: #ccc;
-						border-radius: 18px;
-						display: flex;
-						flex-direction: column;
-						min-height: 36px;
-						min-width: 36px;
-						height: 36px;
-						width: 36px;
-						text-align: center;
-						justify-content: center;
-
-						svg {
-							color: #fff;
-						}
-					}
-
-					.info {
-						width: 100%;
-
-						.fullName {
-							font-size: 18px;
-							text-align: right;
-						}
-
-						.commands {
-							display: flex;
-							flex-direction: column;
-
-							button {
-								color: #999;
-								cursor: pointer;
-								border: none;
-								background-color: transparent;
-								margin-top: 4px;
-								text-align: right;
-								transition: all 0.25s;
-
-								&:hover {
-									color: #333;
-								}
-							}
-						}
-					}
-				}
-
 				.header {
 					display: flex;
 					flex-direction: column;
@@ -248,7 +259,7 @@ const MainStyle = styled.div`
 					width: 100%;
 
 					h1 {
-						margin-top: 20px;
+						margin-top: 30px;
 						margin-bottom: 4px;
 
 						svg {
@@ -259,7 +270,7 @@ const MainStyle = styled.div`
 					h3 {
 						color: #aaa;
 						font-weight: normal;
-						margin-bottom: 14px;
+						margin-bottom: 7px;
 					}
 				}
 			}

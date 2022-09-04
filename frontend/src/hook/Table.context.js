@@ -356,6 +356,7 @@ function TableProvider({ children }) {
 				remove,
 				content,
 				updateField,
+                refresh,
 				pageController,
 				aditionalInformation,
 			}}

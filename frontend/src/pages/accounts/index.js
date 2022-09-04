@@ -1,16 +1,19 @@
-import { faArrowsRotate, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faArrowsRotate, faDollar, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import Button from '../../components/Button'
+import Field from '../../components/Field'
 import Table from '../../components/Table'
+import API from '../../config/API'
 import { MessageContext } from '../../hook/Message.context'
 import { TableContext } from '../../hook/Table.context'
 import useLocalization from '../../hook/useLocalization'
 import CurrencyUtils from '../../utils/CurrencyUtils'
+import DateUtils from '../../utils/DateUtils'
 import AccountsStyle from './index.style'
 
 export default function Accounts() {
-	const { updateField, find, create, remove } = useContext(TableContext)
+	const { updateField, find, create, remove, refresh } = useContext(TableContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
 	const { loc } = useLocalization('pages.account')
 	const { loc: locCom } = useLocalization('commons')
@@ -27,6 +30,44 @@ export default function Accounts() {
 					})
 				},
 			},
+		})
+	}
+
+	function adjustAccountBalance(account) {
+		choiceMessage({
+			header: 'Informe o novo saldo atual da conta',
+			text: (
+				<div>
+					<Field id={'newAccountBalance'} label={'Novo Saldo da Conta'} defaultValue={'0,00'} />
+					<Field id={'descriptionBalance'} label={'Descrição'} defaultValue={'Ajuste de Saldo'} />
+				</div>
+			),
+			option1: {
+				text: 'Confirmar',
+				event: () => {
+					API.post(
+						'/movement/adjustAccountBalance',
+						{
+							date: DateUtils.stringJustDate(new Date()),
+							description: document.getElementById('descriptionBalance').value,
+							value: parseFloat(document.getElementById('newAccountBalance').value.replaceAll(',', '.')),
+                            account: account
+						},
+						{
+							headers: {
+								Authorization: localStorage.getItem('authHeader'),
+							},
+						}
+					).then(() => {
+                        refresh({entity: 'account'})
+                        setMessage(undefined)
+                    })
+				},
+			},
+            option2: {
+                text: 'Cancelar',
+                event: () => setMessage(undefined)
+            }
 		})
 	}
 
@@ -50,11 +91,11 @@ export default function Accounts() {
 			</div>
 			<Table
 				entity={'account'}
-                enableOrderBy={{
-                    name: true,
-                    bank: true,
-                    type: true
-                }}
+				enableOrderBy={{
+					name: true,
+					bank: true,
+					type: true,
+				}}
 				header={{
 					name: loc.table.name,
 					bank: loc.table.bank,
@@ -111,13 +152,22 @@ export default function Accounts() {
 					},
 					commands: (value, account) => {
 						return (
-							<button
-								className="transparent"
-								title={loc.delete}
-								onClick={() => deleteAccount(account.account)}
-							>
-								<FontAwesomeIcon icon={faTrash} />
-							</button>
+							<>
+								<button
+									className="transparent"
+									title={loc.table.adjust_balance_command}
+									onClick={() => adjustAccountBalance(account.account)}
+								>
+									<FontAwesomeIcon icon={faDollar} />
+								</button>
+								<button
+									className="transparent"
+									title={loc.table.delete_command}
+									onClick={() => deleteAccount(account.account)}
+								>
+									<FontAwesomeIcon icon={faTrash} />
+								</button>
+							</>
 						)
 					},
 				}}
