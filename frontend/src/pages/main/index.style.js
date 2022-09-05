@@ -31,13 +31,18 @@ const MainStyle = styled.div`
 
 		.userInfo {
 			background-color: #222;
-			background-image: ${(props) => (props.reduced ? 'url(https://randomuser.me/api/portraits/men/9.jpg)' : 'none')};
+			background-image: ${(props) => `url(${props.userProfileImage})`};
 			border-radius: ${(props) => (props.reduced ? '0 0 4px 0' : '0')};
 			background-size: cover;
+			background-position: center;
+			box-shadow: ${(props) => (props.reduced ? '#aaa 0 0 7px' : 'none')};
 			display: flex;
 			flex-direction: column;
-			padding: ${(props) => (props.reduced ? '10px 0px' : '24px 14px 14px')};
+			justify-content: flex-end;
+			height: ${(props) => (props.reduced ? '60px' : '300px')};
+			width: 100%;
 			transition: all 0.25s;
+			overflow: hidden;
 
 			.userImage {
 				display: flex;
@@ -45,32 +50,26 @@ const MainStyle = styled.div`
 				justify-content: center;
 				width: 100%;
 				opacity: ${(props) => (props.reduced ? '0' : '1')};
-
-				.userImageMocked {
-					background-color: #fff;
-					background-image: url(https://randomuser.me/api/portraits/men/9.jpg);
-					background-size: cover;
-					box-shadow: #111 0 0 7px;
-					border-radius: 50px;
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					font-size: 50px;
-					font-size: ${(props) => (props.reduced ? '12px' : '50px')};
-					height: ${(props) => (props.reduced ? '40px' : '100px')};
-					width: ${(props) => (props.reduced ? '40px' : '100px')};
-				}
 			}
 
 			.userDescription {
+				background-color: #3336;
+				backdrop-filter: blur(10px);
 				color: #fff;
 				display: flex;
 				flex-direction: column;
-				padding-top: 21px;
+				padding: 10px;
+				transform: translateY(50px);
+				transition: all 0.25s;
+
+				&:hover {
+					transform: translateY(0);
+				}
 
 				.userFullName,
 				.userEmail {
 					font-size: 14px;
+					padding-bottom: 4px;
 				}
 
 				.commands {
@@ -83,6 +82,7 @@ const MainStyle = styled.div`
 						border: none;
 						color: #fff;
 						cursor: pointer;
+						font-weight: bold;
 						margin-right: 8px;
 						text-align: left;
 						transition: all 0.25s;
@@ -101,13 +101,18 @@ const MainStyle = styled.div`
 			transition: all 0.25s;
 
 			button {
-				background-color: #222;
+				background-color: ${(props) => (props.reduced ? 'transparent' : '#222')};
 				border: none;
 				border-bottom-right-radius: 4px;
-				color: ${(props) => (props.reduced ? '#fff' : '#fff')};
+				color: ${(props) => (props.reduced ? '#222' : '#fff')};
 				cursor: pointer;
 				margin: 0;
-				padding: 7px;
+				padding: 7px 10px;
+				transition: all 0.25s;
+
+				&:hover {
+					background-color: ${(props) => (props.reduced ? 'transparent' : '#2229')};
+				}
 			}
 		}
 
@@ -128,6 +133,9 @@ const MainStyle = styled.div`
 			.optionContainer {
 				display: flex;
 				flex-direction: column;
+				padding: 7px 7px 0 7px;
+				justify-content: center;
+				text-align: center;
 
 				.spacer {
 					height: 14px;
@@ -135,15 +143,17 @@ const MainStyle = styled.div`
 
 				button {
 					background-color: transparent;
-					border: 0 solid transparent;
-					border-left-width: 7px;
+					border: none;
+					border-radius: 4px;
 					color: ${(props) => (props.reduced ? 'transparent' : '#fff')};
 					cursor: pointer;
 					font-size: 14px;
 					height: 100%;
 					text-overflow: ellipsis;
-					min-width: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
-					padding: 14px;
+					min-width: calc(
+						${(props) => (props.reduced ? MENU_REDUCED_WIDTH + ' - 14px' : MENU_WIDTH + ' - 14px')}
+					);
+					padding: 10px 14px;
 					text-align: left;
 					text-overflow: ellipsis;
 					white-space: nowrap;
@@ -156,8 +166,6 @@ const MainStyle = styled.div`
 
 					&.active {
 						background-color: ${(props) => (props.reduced ? '#3333' : '#fff3')};
-						border-left-color: ${(props) => (props.reduced ? '#333' : '#fff')};
-						border-left-width: 7px;
 					}
 
 					svg {
@@ -236,7 +244,7 @@ const MainStyle = styled.div`
 			height: calc(100% - ${HEADER_HEIGHT} - ${MONTH_HEIGHT});
 			max-height: calc(100% - ${HEADER_HEIGHT} - ${MONTH_HEIGHT});
 			margin-top: calc(${MONTH_HEIGHT} + ${HEADER_HEIGHT});
-			padding: 21px;
+			padding: 7px 21px 21px;
 			overflow-y: auto;
 			overflow-x: none;
 			transition: all 0.25s;

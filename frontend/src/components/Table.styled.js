@@ -6,8 +6,8 @@ const TableStyle = styled.div`
 	box-shadow: #ccc 0 0 7px;
 	display: flex;
 	flex-direction: column;
-    height: 100%;
-    min-height: 500px;
+	height: 100%;
+	min-height: 500px;
 
 	* {
 		user-select: none;
@@ -153,6 +153,9 @@ const TableStyle = styled.div`
 						justify-content: center;
 						transition: all 0.25s;
 						width: 100%;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						overflow: hidden;
 
 						.columnContent {
 							border: 1px solid transparent;

@@ -26,7 +26,7 @@ const MovementStyle = styled.div`
 		box-shadow: #ccc 0 0 7px;
 		padding: 7px;
 		position: absolute;
-		transform: translateY(44px) translateX(130px);
+		transform: translateY(44px) translateX(20px);
 		width: 300px;
 		transition: all 0.25s;
 
@@ -60,7 +60,7 @@ const MovementStyle = styled.div`
 		box-shadow: #ccc 0 0 7px;
 		padding: 7px;
 		position: absolute;
-		transform: translateY(44px) translateX(250px);
+		transform: translateY(44px) translateX(80px);
 		width: 300px;
 		transition: all 0.25s;
 
@@ -156,7 +156,7 @@ const MovementStyle = styled.div`
 		padding-bottom: 14px;
 
 		& > * {
-			margin-right: 14px;
+			margin-right: 7px;
 		}
 	}
 `

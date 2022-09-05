@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { MessageContext } from '../hook/Message.context'
+import Button from './Button'
 import MessageStyle from './Message.styled'
 
 export default function Message() {
@@ -14,9 +15,9 @@ export default function Message() {
 					{message.commands &&
 						message.commands.map((command, index) => {
 							return (
-								<button key={index} onClick={command.event}>
+								<Button key={index} onClick={command.event} className={index > 0 ? 'transparent' : ''}>
 									{command.text}
-								</button>
+								</Button>
 							)
 						})}
 				</div>

@@ -37,8 +37,7 @@ export default function Dashboard() {
 						</Group>
 					</div>
 				)}
-				{false &&
-					aditionalInformation.dashboard.targets &&
+				{aditionalInformation.dashboard.targets &&
 					aditionalInformation.dashboard.targets.length > 0 && (
 						<div className={'groups'}>
 							{aditionalInformation.dashboard.targets

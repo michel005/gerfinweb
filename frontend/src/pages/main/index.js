@@ -1,7 +1,8 @@
-import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useState } from 'react'
 import PageSettings from '../../assets/page.settings'
+import ProfileImage from '../../assets/profile.jpg'
 import DataBasePicker from '../../components/DataBasePicker'
 import { ConfigContext } from '../../hook/Config.context'
 import { LocalizationContext } from '../../hook/Localization.context'
@@ -9,7 +10,6 @@ import { MessageContext } from '../../hook/Message.context'
 import { PageContext } from '../../hook/Page.context'
 import { UserContext } from '../../hook/User.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
-import DateUtils from '../../utils/DateUtils'
 import Accounts from '../accounts'
 import Dashboard from '../dashboard'
 import Movements from '../movements'
@@ -27,7 +27,7 @@ export default function Main() {
 	const [reduced, setReduced] = useState(false)
 
 	return (
-		<MainStyle reduced={reduced}>
+		<MainStyle reduced={reduced} userProfileImage={ProfileImage}>
 			<div className="menu">
 				<div className="reduceButton">
 					<button onClick={() => setReduced(!reduced)}>
@@ -74,10 +74,8 @@ export default function Main() {
 				<div className="options">
 					{Object.keys(PageSettings).map((page, index) => {
 						return (
-							<div className="optionContainer">
-								<div className="spacer"></div>
+							<div key={index} className="optionContainer">
 								<button
-									key={index}
 									className={PageSettings[page].path === window.location.pathname ? 'active' : ''}
 									onClick={() => defineCurrentPage(PageSettings[page])}
 								>

@@ -118,11 +118,14 @@ export default function Movements() {
 				>
 					<FontAwesomeIcon icon={faPlus} /> {getText('commons.create')}
 				</Button>
-				<Button onClick={() => find({ entity: 'movement' })}>
-					<FontAwesomeIcon icon={faArrowsRotate} /> {getText('commons.refresh')}
+				<Button className={'noText'} onClick={() => find({ entity: 'movement' })}>
+					<FontAwesomeIcon icon={faArrowsRotate} />
 				</Button>
 				<Button
-					onClick={() => setShowTemplates(!showTemplates)}
+					onClick={() => {
+                        setShowTemplates(!showTemplates)
+                        setShowTransfer(false)
+                    }}
 					disabled={
 						aditionalInformation.template.length === 0 || aditionalInformation.account.length === 0
 					}
@@ -131,11 +134,11 @@ export default function Movements() {
 							? getText('pages.movement.create_no_account')
 							: aditionalInformation.template.length === 0
 							? getText('pages.movement.create_no_template')
-							: ''
+							: getText('pages.template.header.text')
 					}
+                    className={'noText'}
 				>
-					<FontAwesomeIcon icon={PageSettings.template.icon} />{' '}
-					{getText('pages.template.header.text')}
+					<FontAwesomeIcon icon={PageSettings.template.icon} />
 				</Button>
 				{showTemplates && (
 					<>
@@ -160,11 +163,15 @@ export default function Movements() {
 					title={
 						aditionalInformation.account.length === 0
 							? getText('pages.movement.create_no_account')
-							: ''
+							: getText('commons.transfer')
 					}
-					onClick={() => setShowTransfer(!showTransfer)}
+					onClick={() => {
+                        setShowTransfer(!showTransfer)
+                        setShowTemplates(false)
+                    }}
+                    className={'noText'}
 				>
-					<FontAwesomeIcon icon={faArrowAltCircleDown} /> {getText('commons.transfer')}
+					<FontAwesomeIcon icon={faArrowAltCircleDown} />
 				</Button>
 				{showTransfer && (
 					<>

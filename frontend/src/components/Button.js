@@ -10,7 +10,7 @@ const Button = styled.button`
 	flex-direction: row;
 	font-size: 14px;
 	justify-content: center;
-	padding: 10px 14px;
+	padding: 7px 10px;
 	transition: all 0.25s;
 
 	&:hover {
@@ -18,7 +18,7 @@ const Button = styled.button`
 	}
 
 	&:disabled {
-        cursor: not-allowed;
+		cursor: not-allowed;
 		opacity: 0.3;
 
 		&:hover {
@@ -27,8 +27,17 @@ const Button = styled.button`
 	}
 
 	svg {
-		margin-top: 1px;
+		margin-top: 2.5px;
 		margin-right: 7px;
+	}
+
+	&.noText {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		svg {
+			margin: 0;
+		}
 	}
 
 	&.transparent {

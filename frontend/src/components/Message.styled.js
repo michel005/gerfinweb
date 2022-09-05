@@ -15,11 +15,12 @@ const MessageStyle = styled.div`
 		border-radius: 4px;
 		box-shadow: #3333 0 0 7px;
 		left: 50%;
-		padding: 21px 21px 21px;
+		padding: 14px;
 		position: fixed;
 		top: 50%;
 		transform: translateX(-50%) translateY(-50%);
-		width: 600px;
+		min-width: 500px;
+		max-width: 600px;
 
 		.header {
 			color: #333;
@@ -41,43 +42,11 @@ const MessageStyle = styled.div`
 			margin-top: 21px;
 
 			button {
-				margin-right: 14px;
+				margin-right: 10px;
 
 				&:last-child {
 					margin-right: 0;
 				}
-			}
-		}
-	}
-
-	button {
-		background-color: #39f;
-		border: 0px solid transparent;
-		border-radius: 7px;
-		color: #fff;
-		cursor: pointer;
-		display: flex;
-		flex-direction: row;
-		font-size: 14px;
-		justify-content: center;
-		min-width: 100px;
-		padding: 10px 14px;
-		transition: all 0.25s;
-
-		.logo {
-			margin-bottom: -4px;
-		}
-
-		&:hover {
-			background-color: #3090f0;
-		}
-
-		&.transparent {
-			background-color: transparent;
-			color: #333;
-
-			&:hover {
-				background-color: #3331;
 			}
 		}
 	}

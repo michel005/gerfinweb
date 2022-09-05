@@ -85,8 +85,8 @@ export default function Accounts() {
 				>
 					<FontAwesomeIcon icon={faPlus} /> {locCom.create}
 				</Button>
-				<Button onClick={() => find({ entity: 'account' })}>
-					<FontAwesomeIcon icon={faArrowsRotate} /> {locCom.refresh}
+				<Button className={'noText'} onClick={() => find({ entity: 'account' })}>
+					<FontAwesomeIcon icon={faArrowsRotate} />
 				</Button>
 			</div>
 			<Table
@@ -95,6 +95,10 @@ export default function Accounts() {
 					name: true,
 					bank: true,
 					type: true,
+					balance: false,
+					currentBalance: false,
+					futureBalance: false,
+					commands: false,
 				}}
 				header={{
 					name: loc.table.name,

@@ -22,8 +22,9 @@ const UserStyle = styled.div`
 
 			.profilePicture {
 				background-color: #fff;
-				background-image: url(https://randomuser.me/api/portraits/men/9.jpg);
+				background-image: ${(props) => `url(${props.userProfileImage})`};
 				background-size: cover;
+				background-position: center;
 				box-shadow: #111 0 0 7px;
 				border-radius: 100px;
 				display: flex;

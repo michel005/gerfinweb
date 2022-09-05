@@ -49,7 +49,7 @@ const TemplateStyle = styled.div`
 		margin-bottom: 14px;
 
 		& > * {
-			margin-right: 14px;
+			margin-right: 7px;
 		}
 	}
 `

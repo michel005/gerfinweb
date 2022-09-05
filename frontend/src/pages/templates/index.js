@@ -3,19 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import Button from '../../components/Button'
 import Table from '../../components/Table'
-import { ConfigContext } from '../../hook/Config.context'
 import { LocalizationContext } from '../../hook/Localization.context'
 import { MessageContext } from '../../hook/Message.context'
 import { TableContext } from '../../hook/Table.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
-import DateUtils from '../../utils/DateUtils'
 import TemplateStyle from './index.style'
 
 export default function Templates() {
 	const { getText } = useContext(LocalizationContext)
 	const { updateField, find, create, remove, aditionalInformation } = useContext(TableContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
-	const { dataBase } = useContext(ConfigContext)
 
 	function deleteTemplate(movement) {
 		choiceMessage({
@@ -48,8 +45,8 @@ export default function Templates() {
 				>
 					<FontAwesomeIcon icon={faPlus} /> {getText('commons.create')}
 				</Button>
-				<Button onClick={() => find({ entity: 'movement' })}>
-					<FontAwesomeIcon icon={faArrowsRotate} /> {getText('commons.refresh')}
+				<Button className={'noText'} onClick={() => find({ entity: 'movement' })}>
+					<FontAwesomeIcon icon={faArrowsRotate} />
 				</Button>
 			</div>
 			<Table

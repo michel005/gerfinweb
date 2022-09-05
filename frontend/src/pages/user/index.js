@@ -1,7 +1,5 @@
-import { faUser } from '@fortawesome/free-regular-svg-icons'
-import { faUserAlt } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useState } from 'react'
+import ProfileImage from '../../assets/profile.jpg'
 import Button from '../../components/Button'
 import Field from '../../components/Field'
 import Group from '../../components/Group'
@@ -81,7 +79,7 @@ export default function User() {
 	}
 
 	return (
-		<UserStyle>
+		<UserStyle userProfileImage={ProfileImage}>
 			<div className={'horizontalGroup'}>
 				<div className={'verticalGroup profilePictureGroup'}>
 					<Group header={'Imagem do Perfil'}>
@@ -105,9 +103,7 @@ export default function User() {
 							defaultValue={user.currentUser.email}
 						/>
 						<div className={'commands'}>
-							<Button onClick={changeFullName}>
-								{getText('commons.save')}
-							</Button>
+							<Button onClick={changeFullName}>{getText('commons.save')}</Button>
 						</div>
 					</Group>
 				</div>

@@ -4,11 +4,6 @@ const DashboardStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	h1 {
-		margin-top: 21px;
-		margin-bottom: 21px;
-	}
-
 	.groups {
 		display: flex;
 		flex-direction: row;
