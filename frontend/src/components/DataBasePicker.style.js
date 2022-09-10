@@ -11,7 +11,6 @@ const DataBasePickerStyle = styled.div`
 	margin: 0 14px;
 	bottom: ${(props) => (props.reduced ? '199px' : 'auto')};
 	transform: ${(props) => (props.reduced ? 'translateX(-170px)' : 'none')};
-	width: 204px;
 	width: 202px;
 	transition: all 0.25s;
 
@@ -30,7 +29,6 @@ const DataBasePickerStyle = styled.div`
 	}
 
 	button {
-		padding: 0;
 		height: 100%;
 		flex-direction: column;
 		justify-content: center;

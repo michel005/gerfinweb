@@ -10,7 +10,7 @@ const Button = styled.button`
 	flex-direction: row;
 	font-size: 14px;
 	justify-content: center;
-	padding: 7px 10px;
+	padding: 7px 14px 8px;
 	transition: all 0.25s;
 
 	&:hover {

@@ -8,10 +8,12 @@ import { MessageContext } from '../../hook/Message.context'
 import { TableContext } from '../../hook/Table.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import TemplateStyle from './index.style'
+import { ConfigContext } from '../../hook/Config.context'
 
 export default function Templates() {
 	const { getText } = useContext(LocalizationContext)
 	const { updateField, find, create, remove, aditionalInformation } = useContext(TableContext)
+	const { setShowForm } = useContext(ConfigContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
 
 	function deleteTemplate(movement) {
@@ -20,6 +22,7 @@ export default function Templates() {
 			text: getText('pages.template.delete.text'),
 			option1: {
 				text: getText('commons.yes'),
+				icon: faTrash,
 				event: () => {
 					remove('template', movement.id, () => {
 						setMessage(undefined)
@@ -33,15 +36,11 @@ export default function Templates() {
 		<TemplateStyle>
 			<div className={'commands'}>
 				<Button
-					onClick={() =>
-						create('template', {
-							dueDay: new Date().getDate(),
-							description: getText('pages.template.new_template.description'),
-							recurrency: 'MANY_PER_MONTH',
-							account: aditionalInformation.account[0],
-							value: 1.0,
+					onClick={() => {
+						setShowForm((sf) => {
+							return { ...sf, template: true }
 						})
-					}
+					}}
 				>
 					<FontAwesomeIcon icon={faPlus} /> {getText('commons.create')}
 				</Button>
@@ -160,9 +159,16 @@ export default function Templates() {
 						updateField('template', template, 'description', value)
 					},
 					account: (template, value) => {
-						updateField('template', template, 'account', value === '' ? null : {
-							id: value,
-						})
+						updateField(
+							'template',
+							template,
+							'account',
+							value === ''
+								? null
+								: {
+										id: value,
+								  }
+						)
 					},
 					value: (template, value) => {
 						updateField('template', template, 'value', value)

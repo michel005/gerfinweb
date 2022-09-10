@@ -9,10 +9,11 @@ const FieldStyle = styled.div`
 		font-size: 14px;
 		font-weight: bold;
 		margin-bottom: 7px;
-        text-align: left;
+		text-align: left;
 	}
 
-	input {
+	input,
+	select {
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		font-size: 14px;

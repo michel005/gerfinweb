@@ -87,9 +87,9 @@ export default function Table({
 				onKeyDown={(event) => actionEditField(event, row, field)}
 			/>
 		)
-        let noEditEvent = () => {
-            table.setEditEvent(null)
-        }
+		let noEditEvent = () => {
+			table.setEditEvent(null)
+		}
 		return editModifier[field]
 			? editModifier[field](row, field, actionEditField, defaultEditor, noEditEvent)
 			: defaultEditor

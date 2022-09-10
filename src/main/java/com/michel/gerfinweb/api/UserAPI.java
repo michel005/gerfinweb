@@ -1,32 +1,47 @@
 package com.michel.gerfinweb.api;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.michel.gerfinweb.entity.User;
 import com.michel.gerfinweb.model.PasswordChangeModel;
 import com.michel.gerfinweb.model.UserModel;
 import com.michel.gerfinweb.repository.UserRepository;
+import com.michel.gerfinweb.utils.FileUploadUtil;
 import com.michel.gerfinweb.utils.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
 public class UserAPI {
 
+    @Value("${gerfinweb.user.imageFolder}")
+    private String userImageFolder;
+
     @Autowired
     private UserRepository userRepository;
+
+    private byte[] getUserImage(User user) {
+        try {
+            return Files.readAllBytes(Path.of(userImageFolder + user.getId() + "\\profile_image.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @GetMapping("/verify")
     public ResponseEntity<?> verify(Authentication authentication) {
@@ -39,6 +54,7 @@ public class UserAPI {
         if (userFinded.isEmpty()) {
             return ResponseEntity.internalServerError().build();
         }
+        userFinded.get().setProfileImage(getUserImage(userFinded.get()));
         return ResponseEntity.ok(userFinded.get());
     }
 
@@ -97,7 +113,46 @@ public class UserAPI {
         user.setFullName(fullName);
         User savedUser = userRepository.save(user);
 
+        savedUser.setProfileImage(getUserImage(savedUser));
         return ResponseEntity.ok(savedUser);
+    }
+
+    @PostMapping("/update/image")
+    public ResponseEntity<?> updateImage(Authentication authentication, @RequestParam("image") MultipartFile multipartFile) {
+        Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
+        if (userFinded.isEmpty()) {
+            return ResponseEntity.internalServerError().build();
+        }
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+
+        String uploadDir = userImageFolder + userFinded.get().getId();
+
+        try {
+            FileUploadUtil.saveFile(uploadDir, "profile_image.png", multipartFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+
+        userFinded.get().setProfileImage(getUserImage(userFinded.get()));
+
+        return ResponseEntity.ok(userFinded.get());
+    }
+
+    @PostMapping("/remove/image")
+    public ResponseEntity<?> removeImage(Authentication authentication) {
+        Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
+        if (userFinded.isEmpty()) {
+            return ResponseEntity.internalServerError().build();
+        }
+
+        String uploadDir = userImageFolder + userFinded.get().getId();
+
+        File file = new File(uploadDir, "profile_image.png");
+        file.delete();
+        userFinded.get().setProfileImage(null);
+
+        return ResponseEntity.ok(userFinded.get());
     }
 
     @PostMapping("/update/password")

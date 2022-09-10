@@ -3,15 +3,26 @@ import styled from 'styled-components'
 const MovementStyle = styled.div`
 	display: flex;
 	flex-direction: column;
-    height: 100%;
+	height: 100%;
 
-	.templateLabel {
-		background-color: #aaa;
+	.label {
 		border-radius: 4px;
 		color: #fff;
 		font-size: 10px;
 		margin: -2px 14px;
 		padding: 4px 7px;
+
+		&.template {
+			background-color: #0c9;
+		}
+
+		&.transferDestiny {
+			background-color: #c09;
+		}
+
+		&.transferOrigin {
+			background-color: #09c;
+		}
 	}
 
 	.column_description .columnContent {
@@ -113,7 +124,7 @@ const MovementStyle = styled.div`
 	}
 
 	.column_dueDate,
-    .column_movementDate {
+	.column_movementDate {
 		max-width: 150px;
 	}
 
@@ -123,7 +134,7 @@ const MovementStyle = styled.div`
 
 	.column_value {
 		max-width: 250px;
-        text-align: right;
+		text-align: right;
 		justify-content: flex-end;
 	}
 

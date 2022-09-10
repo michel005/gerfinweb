@@ -24,13 +24,35 @@ const MessageStyle = styled.div`
 
 		.header {
 			color: #333;
+			display: flex;
+			flex-direction: row;
 			font-size: 24px;
+
+			.headerText {
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+			}
+
+			svg {
+				color: #aaa;
+				cursor: pointer;
+				transition: all 0.25s;
+
+				&:hover {
+					color: #ccc;
+				}
+			}
 		}
 
 		.text {
 			color: #999;
 			font-size: 16px;
 			margin-top: 14px;
+
+			.field {
+				margin-bottom: 10px;
+			}
 		}
 
 		.commands {
@@ -43,6 +65,10 @@ const MessageStyle = styled.div`
 
 			button {
 				margin-right: 10px;
+
+				svg {
+					margin-top: 4px;
+				}
 
 				&:last-child {
 					margin-right: 0;

@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GerfinwebApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GerfinwebApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GerfinwebApplication.class, args);
+    }
 
 }

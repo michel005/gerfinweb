@@ -1,6 +1,6 @@
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import PageSettings from '../../assets/page.settings'
 import ProfileImage from '../../assets/profile.jpg'
 import DataBasePicker from '../../components/DataBasePicker'
@@ -17,6 +17,7 @@ import Targets from '../target'
 import Templates from '../templates'
 import User from '../user'
 import MainStyle from './index.style'
+import AccountForm from '../accounts/form'
 
 export default function Main() {
 	const { currentPage, defineCurrentPage } = useContext(PageContext)
@@ -27,7 +28,10 @@ export default function Main() {
 	const [reduced, setReduced] = useState(false)
 
 	return (
-		<MainStyle reduced={reduced} userProfileImage={ProfileImage}>
+		<MainStyle
+			reduced={reduced}
+			userProfileImage={'data:image/png;base64,' + user.currentUser.profileImage}
+		>
 			<div className="menu">
 				<div className="reduceButton">
 					<button onClick={() => setReduced(!reduced)}>
@@ -57,6 +61,7 @@ export default function Main() {
 											text: getText('logout.text'),
 											option1: {
 												text: getText('commons.yes'),
+												icon: faCheck,
 												event: () => {
 													clearCurrentUser()
 													setMessage(undefined)

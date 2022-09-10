@@ -8,7 +8,7 @@ import { PageContext } from './Page.context'
 import { UserContext } from './User.context'
 
 export const TableContext = createContext({})
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 20
 
 function TableProvider({ children }) {
 	const { formatedDataBaseForURL, dataBase, setDataBase } = useContext(ConfigContext)
@@ -17,31 +17,31 @@ function TableProvider({ children }) {
 	const { user } = useContext(UserContext)
 	const { currentPage } = useContext(PageContext)
 	const [editEvent, setEditEvent] = useState(null)
-    const initialOrderBy = {
-        account: {
-            field: 'name',
-            direction: 'ASC',
-        },
-        movement: {
-            field: 'dueDate',
-            direction: 'DESC',
-        },
-        template: {
-            field: 'dueDay',
-            direction: 'ASC',
-        },
-        target: {
-            field: 'description',
-            direction: 'ASC',
-        },
-    }
-    const initialContent = {
+	const initialOrderBy = {
+		account: {
+			field: 'name',
+			direction: 'ASC',
+		},
+		movement: {
+			field: 'dueDate',
+			direction: 'DESC',
+		},
+		template: {
+			field: 'dueDay',
+			direction: 'ASC',
+		},
+		target: {
+			field: 'description',
+			direction: 'ASC',
+		},
+	}
+	const initialContent = {
 		account: [],
 		movement: [],
 		template: [],
-		target: []
+		target: [],
 	}
-    const initialPageController = {
+	const initialPageController = {
 		account: {
 			currentPage: 0,
 			currentPageLength: 0,
@@ -67,19 +67,19 @@ function TableProvider({ children }) {
 			totalRows: 0,
 		},
 	}
-    const initialAditionalInformation = {
+	const initialAditionalInformation = {
 		account: [],
 		template: [],
 		target: [],
 		dashboard: {
-            targets: [],
-            pendentMovements: {
-                content: [],
-                totalElements: 0
-            }
-        },
+			targets: [],
+			pendentMovements: {
+				content: [],
+				totalElements: 0,
+			},
+		},
 	}
-	const [orderBy, setOrderBy] = useState(initialOrderBy)
+	const [orderBy, setOrderBy] = useState({ ...JSON.parse(localStorage.getItem('orderBy')) })
 	const [content, setContent] = useState(initialContent)
 	const [pageController, setPageController] = useState(initialPageController)
 	const [aditionalInformation, setAditionalInformation] = useState(initialAditionalInformation)
@@ -113,15 +113,18 @@ function TableProvider({ children }) {
 		setEditEvent(null)
 	}
 
-	function create(entity, value) {
+	function create(entity, value, onSuccess = () => {}, onError = () => {}) {
 		API.post(url[entity].create, value, {
 			headers: {
 				Authorization: localStorage.getItem('authHeader'),
 			},
-		}).then(() => {
-			find({ entity })
-			setDataBase(new Date(dataBase))
 		})
+			.then((response) => {
+				onSuccess(response)
+				find({ entity })
+				setDataBase(new Date(dataBase))
+			})
+			.catch(onError)
 	}
 
 	function update(entity, id, value, after = () => {}) {
@@ -253,6 +256,7 @@ function TableProvider({ children }) {
 				direction: direction,
 			}
 			setOrderBy(tempOrderBy)
+			localStorage.setItem('orderBy', JSON.stringify(tempOrderBy))
 
 			updateContent({
 				entity: entity,
@@ -260,15 +264,6 @@ function TableProvider({ children }) {
 			})
 		})
 	}
-
-	useEffect(() => {
-		if (!user) {
-			setOrderBy(initialOrderBy)
-			setContent(initialContent)
-			setPageController(initialPageController)
-			setAditionalInformation(initialAditionalInformation)
-		}
-	}, [user])
 
 	useEffect(() => {
 		if (user && currentPage) {
@@ -356,7 +351,7 @@ function TableProvider({ children }) {
 				remove,
 				content,
 				updateField,
-                refresh,
+				refresh,
 				pageController,
 				aditionalInformation,
 			}}

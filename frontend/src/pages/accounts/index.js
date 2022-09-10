@@ -1,6 +1,15 @@
-import { faArrowsRotate, faDollar, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {
+	faArrowsRotate,
+	faCheck,
+	faClose,
+	faDollar,
+	faDoorOpen,
+	faPlus,
+	faSave,
+	faTrash,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import Button from '../../components/Button'
 import Field from '../../components/Field'
 import Table from '../../components/Table'
@@ -11,10 +20,13 @@ import useLocalization from '../../hook/useLocalization'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import DateUtils from '../../utils/DateUtils'
 import AccountsStyle from './index.style'
+import AccountForm from './form'
+import { ConfigContext } from '../../hook/Config.context'
 
 export default function Accounts() {
-	const { updateField, find, create, remove, refresh } = useContext(TableContext)
+	const { updateField, find, remove, refresh } = useContext(TableContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
+	const { showForm, setShowForm } = useContext(ConfigContext)
 	const { loc } = useLocalization('pages.account')
 	const { loc: locCom } = useLocalization('commons')
 
@@ -24,6 +36,7 @@ export default function Accounts() {
 			text: loc.delete.text.replaceAll('@#NAME@#', account.name),
 			option1: {
 				text: locCom.yes,
+				icon: faTrash,
 				event: () => {
 					remove('account', account.id, () => {
 						setMessage(undefined)
@@ -44,14 +57,17 @@ export default function Accounts() {
 			),
 			option1: {
 				text: 'Confirmar',
+				icon: faCheck,
 				event: () => {
 					API.post(
 						'/movement/adjustAccountBalance',
 						{
 							date: DateUtils.stringJustDate(new Date()),
 							description: document.getElementById('descriptionBalance').value,
-							value: parseFloat(document.getElementById('newAccountBalance').value.replaceAll(',', '.')),
-                            account: account
+							value: parseFloat(
+								document.getElementById('newAccountBalance').value.replaceAll(',', '.')
+							),
+							account: account,
 						},
 						{
 							headers: {
@@ -59,15 +75,16 @@ export default function Accounts() {
 							},
 						}
 					).then(() => {
-                        refresh({entity: 'account'})
-                        setMessage(undefined)
-                    })
+						refresh({ entity: 'account' })
+						setMessage(undefined)
+					})
 				},
 			},
-            option2: {
-                text: 'Cancelar',
-                event: () => setMessage(undefined)
-            }
+			option2: {
+				text: 'Cancelar',
+				icon: faClose,
+				event: () => setMessage(undefined),
+			},
 		})
 	}
 
@@ -76,10 +93,8 @@ export default function Accounts() {
 			<div className={'commands'}>
 				<Button
 					onClick={() => {
-						create('account', {
-							name: loc.new_account.name,
-							bank: loc.new_account.bank,
-							type: 'DEBIT',
+						setShowForm((sf) => {
+							return { ...sf, account: true }
 						})
 					}}
 				>
@@ -185,7 +200,7 @@ export default function Accounts() {
 							}}
 							onKeyDown={(ev) => event(ev, account, field)}
 						>
-							{['DEBIT', 'CREDIT', 'SAVINGS', 'INVESTMENT'].map((accountType, accountTypeIndex) => {
+							{Object.keys(loc.types).map((accountType, accountTypeIndex) => {
 								return (
 									<option key={accountTypeIndex} value={accountType}>
 										{loc.types[accountType]}

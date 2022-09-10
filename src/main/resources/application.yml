@@ -16,3 +16,6 @@ spring:
 app:
   cors:
     allowedOrigins: http://localhost:3000,http://localhost:8080
+gerfinweb:
+  user:
+    imageFolder: 'D:\Desenvolvimento\gerfinweb\user-image\'

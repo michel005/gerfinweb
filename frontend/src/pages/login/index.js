@@ -1,6 +1,5 @@
 import API from '../../config/API'
 import { Buffer } from 'buffer'
-import styles from './index.module.scss'
 import { useContext, useState } from 'react'
 import { MessageContext } from '../../hook/Message.context'
 import { UserContext } from '../../hook/User.context'
@@ -8,6 +7,7 @@ import { PageContext } from '../../hook/Page.context'
 import Field from '../../components/Field'
 import Button from '../../components/Button'
 import PageSettings from '../../assets/page.settings'
+import LoginStyle from './index.style'
 
 export default function LoginPage() {
 	const [showCreateAccount, setShowCreateAccount] = useState(false)
@@ -33,7 +33,7 @@ export default function LoginPage() {
 				})
 				defineCurrentPage(PageSettings.dashboard)
 			})
-			.catch((error) => {
+			.catch(() => {
 				simpleMessage({ header: 'Error on login!', text: 'User or password was not valid!' })
 			})
 	}
@@ -63,12 +63,12 @@ export default function LoginPage() {
 	}
 
 	return (
-		<>
+		<LoginStyle>
 			{showCreateAccount === true ? (
-				<div className={styles.createAccountPage}>
-					<div className={styles.header}>CREATE USER ACCOUNT</div>
+				<div className={'createAccountPage'}>
+					<div className={'header'}>CREATE USER ACCOUNT</div>
 
-					<div className={styles.fields}>
+					<div className={'fields'}>
 						<Field id="fullName" label="Full name" type="text" />
 
 						<Field id="email" label="Email" type="text" />
@@ -78,7 +78,7 @@ export default function LoginPage() {
 						<Field id="passwordConfirm" label="Password Confirmation" type="password" />
 					</div>
 
-					<div className={styles.commandBar}>
+					<div className={'commandBar'}>
 						<Button onClick={onClick_CreateUser}>Create User</Button>
 						<Button onClick={onClick_ShowLogin} className={'transparent'}>
 							Login
@@ -86,16 +86,16 @@ export default function LoginPage() {
 					</div>
 				</div>
 			) : (
-				<div className={styles.loginPage}>
-					<div className={styles.header}>LOGIN</div>
+				<div className={'loginPage'}>
+					<div className={'header'}>LOGIN</div>
 
-					<div className={styles.fields}>
+					<div className={'fields'}>
 						<Field id="email" label="Email" type="text" />
 
 						<Field id="password" label="Password" type="password" />
 					</div>
 
-					<div className={styles.commandBar}>
+					<div className={'commandBar'}>
 						<Button onClick={onClick_Login}>Login</Button>
 						<Button onClick={onClick_ShowCreateUser} className={'transparent'}>
 							Create user
@@ -103,6 +103,6 @@ export default function LoginPage() {
 					</div>
 				</div>
 			)}
-		</>
+		</LoginStyle>
 	)
 }

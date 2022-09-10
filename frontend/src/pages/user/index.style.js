@@ -20,21 +20,81 @@ const UserStyle = styled.div`
 				text-align: left;
 			}
 
-			.profilePicture {
-				background-color: #fff;
-				background-image: ${(props) => `url(${props.userProfileImage})`};
-				background-size: cover;
-				background-position: center;
-				box-shadow: #111 0 0 7px;
-				border-radius: 100px;
+			.profile {
+				display: flex;
+				flex-direction: row;
+				width: 100%;
+				transition: all 0.25s;
+				height: 144px;
+			}
+
+			.iconTransferContainer {
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
-				font-size: 100px;
-				color: #fff;
-				width: 150px;
-				height: 150px;
-				margin: 0 auto;
+				margin: 0 -10px;
+
+				.iconTransfer {
+					padding: 21px;
+				}
+			}
+
+			.profPic {
+				width: 100%;
+
+				.deleteImageButtonContainer {
+					display: flex;
+					flex-direction: row;
+					justify-content: center;
+					margin-top: -96px;
+
+					.deleteImageButton {
+						cursor: pointer;
+						background-color: #3339;
+						backdrop-filter: blur(10px);
+						border-radius: 80px;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						padding: 14px;
+						width: 50px;
+						height: 50px;
+						overflow: hidden;
+						transition: all 0.25s;
+						opacity: 0;
+						pointer-events: none;
+
+						svg {
+							color: #fff;
+						}
+					}
+				}
+
+				&:hover {
+					.deleteImageButton {
+						opacity: 1;
+						pointer-events: auto;
+					}
+				}
+
+				.profilePicture {
+					background-color: #333;
+					box-shadow: #666 0 0 7px;
+					border-radius: 100px;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					color: #fff;
+					width: 144px;
+					height: 144px;
+					overflow: hidden;
+					margin: 0 auto;
+					transition: all 0.25s;
+				}
+
+				img {
+					transition: all 0.25s;
+				}
 			}
 		}
 	}

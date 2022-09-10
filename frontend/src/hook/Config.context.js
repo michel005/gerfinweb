@@ -1,18 +1,21 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import API from '../config/API'
 import { UserContext } from './User.context'
+import DateUtils from '../utils/DateUtils'
 
 const ConfigContext = createContext({})
 
-const FORM = {
-	ACCOUNT: 'account',
-	MOVEMENT: 'movement',
-	TEMPLATE: 'template',
-	TARGET: 'target',
+const initialShowForm = {
+	account: false,
+	movement: false,
+	transfer: false,
+	template: false,
+	target: false,
 }
 
 export default function ConfigProvider({ children }) {
 	const [dataBase, setDataBase] = useState(new Date())
+	const [showForm, setShowForm] = useState(initialShowForm)
 	const [ux, setUx] = useState({
 		reduced: false,
 	})
@@ -32,18 +35,23 @@ export default function ConfigProvider({ children }) {
 	}
 
 	function previewMonth() {
-		var dt = new Date(dataBase)
-		dt.setMonth(dt.getMonth() - 1)
-		setDataBase(dt)
+		setDataBase((d) => {
+			let dt = new Date(d)
+			dt.setMonth(dt.getMonth() - 1)
+			return dt
+		})
 	}
 
 	function nextMonth() {
-		var dt = new Date(dataBase)
-		dt.setMonth(dt.getMonth() + 1)
-		setDataBase(dt)
+		setDataBase((d) => {
+			let dt = new Date(d)
+			dt.setMonth(dt.getMonth() + 1)
+			return dt
+		})
 	}
 
 	useEffect(() => {
+		console.log(DateUtils.stringJustDate(dataBase))
 		if (user) {
 			API.get(
 				'/movement/balance?dataBase=' + dataBase.toLocaleDateString('pt-BR').replaceAll('/', ''),
@@ -64,13 +72,15 @@ export default function ConfigProvider({ children }) {
 				dataBase,
 				setDataBase,
 				formatedDataBase,
-                formatedForUX,
+				formatedForUX,
 				formatedDataBaseForURL,
 				balance,
 				previewMonth,
 				nextMonth,
 				ux,
 				setUx,
+				showForm,
+				setShowForm,
 			}}
 		>
 			{children}
@@ -78,5 +88,4 @@ export default function ConfigProvider({ children }) {
 	)
 }
 
-export { ConfigContext, FORM }
-
+export { ConfigContext, initialShowForm }

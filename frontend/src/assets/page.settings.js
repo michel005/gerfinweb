@@ -34,11 +34,6 @@ const PageSettings = {
 		path: '/target',
 		icon: faTarp,
 	},
-	settings: {
-		name: 'settings',
-		path: '/settings',
-		icon: faCog,
-	},
 	user: {
 		name: 'user',
 		path: '/user',

@@ -25,7 +25,7 @@ function LocalizationProvider({ children }) {
 	}
 
 	function getText(path) {
-		let x = path.split('.')
+		let x = [...path.split('.')]
 		if (currentLocalization) {
 			let current = currentLocalization
 			x.map((value) => {
