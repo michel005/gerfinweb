@@ -138,7 +138,7 @@
 			},
 			"recurrency_description": {
 				"ONE_PER_MONTH": "<b>Um por mês</b> permite usar o template apenas uma vez em cada mês. É muito útil quando você precisa saber se um lançamento já ocorreu no mês atual ou não.",
-				"MANY_PER_MONTH": "<b>Muitos por mês</b> permite usar este template o quanto quiser. Muito útil quando um lançamento é muito recorrente no mesmo mês."
+				"MANY_PER_MONTH": "<b>Muitos por mês</b> permite usar este template quantas vezes forem necessárias no mês. Muito útil quando um lançamento é muito recorrente no mesmo mês."
 			},
 			"new_template": {
 				"description": "Novo modelo"
@@ -190,7 +190,8 @@
 				"profilePicture": "Imagem do Usuário"
 			},
 			"update_password": {
-				"header": "Erro ao atualizar campo"
+				"header": "Erro ao atualizar campo",
+				"tip": "Evite senhas com menos de 8 caracteres. Tente sempre utiliar letras maiusculas e minusculas, números e caracteres especiais."
 			}
 		}
 	}

@@ -108,6 +108,12 @@ const UserStyle = styled.div`
 		flex-direction: row;
 	}
 
+	.passwordAlert {
+		margin-top: 14px;
+		margin-bottom: 0px;
+		max-width: 400px;
+	}
+
 	.commands {
 		display: flex;
 		flex-direction: row;

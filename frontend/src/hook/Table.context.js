@@ -79,7 +79,7 @@ function TableProvider({ children }) {
 			},
 		},
 	}
-	const [orderBy, setOrderBy] = useState({ ...JSON.parse(localStorage.getItem('orderBy')) })
+	const [orderBy, setOrderBy] = useState({ ...initialOrderBy })
 	const [content, setContent] = useState(initialContent)
 	const [pageController, setPageController] = useState(initialPageController)
 	const [aditionalInformation, setAditionalInformation] = useState(initialAditionalInformation)

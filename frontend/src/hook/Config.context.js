@@ -51,7 +51,6 @@ export default function ConfigProvider({ children }) {
 	}
 
 	useEffect(() => {
-		console.log(DateUtils.stringJustDate(dataBase))
 		if (user) {
 			API.get(
 				'/movement/balance?dataBase=' + dataBase.toLocaleDateString('pt-BR').replaceAll('/', ''),

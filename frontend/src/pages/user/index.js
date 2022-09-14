@@ -17,6 +17,8 @@ import {
 	faSave,
 	faTrash,
 } from '@fortawesome/free-solid-svg-icons'
+import Alert from '../../components/Alert'
+import useLocalization from '../../hook/useLocalization'
 
 export default function User() {
 	const { user, defineCurrentUser, clearCurrentUser } = useContext(UserContext)
@@ -27,6 +29,7 @@ export default function User() {
 	const [newPassword, setNewPassword] = useState('')
 	const [passwordConfirm, setPasswordConfirm] = useState('')
 	const [inputProfilePicture, setInputProfilePicture] = useState(null)
+	const { loc } = useLocalization('pages.user')
 
 	function changeFullName() {
 		API.post(
@@ -231,6 +234,7 @@ export default function User() {
 							value={passwordConfirm}
 							onChange={(e) => setPasswordConfirm(e.target.value)}
 						/>
+						<Alert alert={loc.update_password.tip} className={'passwordAlert'} />
 						<div className={'commands'}>
 							<Button onClick={changePassword}>
 								<FontAwesomeIcon icon={faPassport} />{' '}

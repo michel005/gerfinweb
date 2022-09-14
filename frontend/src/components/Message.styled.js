@@ -19,8 +19,8 @@ const MessageStyle = styled.div`
 		position: fixed;
 		top: 50%;
 		transform: translateX(-50%) translateY(-50%);
-		min-width: 500px;
-		max-width: 600px;
+		min-width: 430px;
+		max-width: 550px;
 
 		.header {
 			color: #333;
@@ -37,7 +37,11 @@ const MessageStyle = styled.div`
 			svg {
 				color: #aaa;
 				cursor: pointer;
+				font-size: 18px;
 				transition: all 0.25s;
+				margin-left: 7px;
+				margin-top: 7px;
+				margin-bottom: 7px;
 
 				&:hover {
 					color: #ccc;
@@ -60,7 +64,7 @@ const MessageStyle = styled.div`
 			color: #999;
 			flex-direction: row;
 			font-size: 16px;
-			justify-content: center;
+			justify-content: flex-end;
 			margin-top: 21px;
 
 			button {

@@ -16,7 +16,7 @@ const MainStyle = styled.div`
 	z-index: 10;
 
 	.menu {
-		background-color: ${(props) => (props.reduced ? 'transparent' : '#39f')};
+		background-color: ${(props) => (props.reduced ? 'transparent' : '#222')};
 		box-shadow: ${(props) => (props.reduced ? 'none' : '#3339 0 0 14px')};
 		display: flex;
 		flex-direction: column;
@@ -30,9 +30,9 @@ const MainStyle = styled.div`
 		z-index: 30;
 
 		.userInfo {
-			background-color: #222;
-			background-image: ${(props) => `url(${props.userProfileImage})`};
+			background-color: #333;
 			border-radius: ${(props) => (props.reduced ? '0 0 4px 0' : '0')};
+			background-image: ${(props) => `url(${props.reduced ? props.userProfileImage : 'null'})`};
 			background-size: cover;
 			background-position: center;
 			box-shadow: ${(props) => (props.reduced ? '#aaa 0 0 7px' : 'none')};
@@ -48,8 +48,26 @@ const MainStyle = styled.div`
 				display: flex;
 				flex-direction: row;
 				justify-content: center;
-				width: 100%;
-				opacity: ${(props) => (props.reduced ? '0' : '1')};
+				position: fixed;
+				top: 0;
+				left: 0;
+				height: 220px;
+				width: ${MENU_WIDTH};
+				pointer-events: none;
+				padding-top: 30px;
+
+				.userImageMocked {
+					background-image: ${(props) => `url(${props.userProfileImage})`};
+					background-size: cover;
+					background-position: center;
+					box-shadow: #222 0 0 7px;
+					border-radius: 100px;
+					opacity: ${(props) => (props.reduced ? '0' : '1')};
+					height: 150px;
+					width: 150px;
+					transition: all 0.25s;
+					overflow: hidden;
+				}
 			}
 
 			.userDescription {
@@ -59,11 +77,11 @@ const MainStyle = styled.div`
 				display: flex;
 				flex-direction: column;
 				padding: 10px;
-				transform: translateY(50px);
+				margin-bottom: -50px;
 				transition: all 0.25s;
 
 				&:hover {
-					transform: translateY(0);
+					margin-bottom: 0;
 				}
 
 				.userFullName,

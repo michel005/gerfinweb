@@ -28,6 +28,8 @@ const AlertStyle = styled.div`
 	}
 
 	.alertText {
+		color: #999;
+		font-size: 14px;
 		padding: 7px 10px;
 	}
 
