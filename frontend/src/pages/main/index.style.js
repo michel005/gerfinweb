@@ -29,70 +29,53 @@ const MainStyle = styled.div`
 		transition: all 0.25s;
 		z-index: 30;
 
-		.userInfo {
-			background-color: #333;
-			border-radius: ${(props) => (props.reduced ? '0 0 4px 0' : '0')};
-			background-image: ${(props) => `url(${props.reduced ? props.userProfileImage : 'null'})`};
-			background-size: cover;
-			background-position: center;
-			box-shadow: ${(props) => (props.reduced ? '#aaa 0 0 7px' : 'none')};
+		.userImageContainer {
 			display: flex;
-			flex-direction: column;
-			justify-content: flex-end;
-			height: ${(props) => (props.reduced ? '60px' : '300px')};
+			flex-direction: row;
+			justify-content: center;
+			padding: ${(props) => (props.reduced ? '14px 0 0 0' : '20px 0')};
+
+			.userImg {
+				border-radius: ${(props) => (props.reduced ? '20px' : '100px')};
+				height: ${(props) => (props.reduced ? `calc(${MENU_REDUCED_WIDTH} - 18px)` : '150px')};
+				width: ${(props) => (props.reduced ? `calc(${MENU_REDUCED_WIDTH} - 18px)` : '150px')};
+				transition: all 0.25s;
+			}
+		}
+
+		.userInfo {
 			width: 100%;
 			transition: all 0.25s;
-			overflow: hidden;
-
-			.userImage {
-				display: flex;
-				flex-direction: row;
-				justify-content: center;
-				position: fixed;
-				top: 0;
-				left: 0;
-				height: 220px;
-				width: ${MENU_WIDTH};
-				pointer-events: none;
-				padding-top: 30px;
-
-				.userImageMocked {
-					background-image: ${(props) => `url(${props.userProfileImage})`};
-					background-size: cover;
-					background-position: center;
-					box-shadow: #222 0 0 7px;
-					border-radius: 100px;
-					opacity: ${(props) => (props.reduced ? '0' : '1')};
-					height: 150px;
-					width: 150px;
-					transition: all 0.25s;
-					overflow: hidden;
-				}
-			}
+			margin-bottom: 7px;
 
 			.userDescription {
 				background-color: #3336;
 				backdrop-filter: blur(10px);
 				color: #fff;
-				display: flex;
+				display: ${(props) => (props.reduced ? 'none' : 'flex')};
 				flex-direction: column;
 				padding: 10px;
-				margin-bottom: -50px;
 				transition: all 0.25s;
-
-				&:hover {
-					margin-bottom: 0;
-				}
+				opacity: ${(props) => (props.reduced ? '0' : '1')};
+				pointer-events: ${(props) => (props.reduced ? 'none' : 'auto')};
 
 				.userFullName,
 				.userEmail {
 					font-size: 14px;
 					padding-bottom: 4px;
+					text-align: center;
+				}
+
+				.userFullName {
+					svg {
+						margin-right: 7px;
+					}
 				}
 
 				.commands {
 					display: flex;
 					flex-direction: row;
+					justify-content: center;
 					margin-top: 4px;
 
 					button {
