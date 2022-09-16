@@ -100,7 +100,10 @@ export default function Main() {
 								<div className="title">{getText('commons.current_balance')}</div>
 								<div className="value">
 									<div className="currency">R$</div>
-									<div className="val">{CurrencyUtils.format(balance?.current).substring(3)}</div>
+									<div className="val">
+										{(balance?.current < 0 ? '-' : '') +
+											CurrencyUtils.format(balance?.current).substring(3)}
+									</div>
 								</div>
 							</div>
 						)}
@@ -110,7 +113,10 @@ export default function Main() {
 								<div className="title">{getText('commons.future_balance')}</div>
 								<div className="value">
 									<div className="currency">R$</div>
-									<div className="val">{CurrencyUtils.format(balance?.future).substring(3)}</div>
+									<div className="val">
+										{(balance?.future < 0 ? '-' : '') +
+											CurrencyUtils.format(balance?.future).substring(3)}
+									</div>
 								</div>
 							</div>
 						)}
