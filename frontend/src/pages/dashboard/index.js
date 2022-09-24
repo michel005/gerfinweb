@@ -20,23 +20,6 @@ export default function Dashboard() {
 	return (
 		<DashboardStyle>
 			<div className={'scroll'}>
-				{false && aditionalInformation.dashboard && (
-					<div className={'groups'}>
-						<Group header={loc.current_balance}>
-							{balance && CurrencyUtils.format(balance.current)}
-						</Group>
-						<Group header={loc.future_balance}>
-							{balance && CurrencyUtils.format(balance.future)}
-						</Group>
-						<Group header={loc.unfinished_targets}>
-							{aditionalInformation.dashboard.targets.length}
-						</Group>
-						<Group header={loc.pendent_movements}>
-							{aditionalInformation.dashboard &&
-								aditionalInformation.dashboard.pendentMovements.totalElements}
-						</Group>
-					</div>
-				)}
 				{aditionalInformation.dashboard.targets &&
 					aditionalInformation.dashboard.targets.length > 0 && (
 						<div className={'groups'}>

@@ -7,25 +7,27 @@ import Button from '../../components/Button'
 import Table from '../../components/Table'
 import API from '../../config/API'
 import { ConfigContext } from '../../hook/Config.context'
-import { LocalizationContext } from '../../hook/Localization.context'
 import { MessageContext } from '../../hook/Message.context'
 import { TableContext } from '../../hook/Table.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import MovementStyle from './index.style'
+import useLocalization from '../../hook/useLocalization'
 
 export default function Movements() {
-	const { getText } = useContext(LocalizationContext)
 	const { updateField, find, remove, aditionalInformation } = useContext(TableContext)
 	const { choiceMessage, setMessage, simpleMessage } = useContext(MessageContext)
 	const { dataBase, setDataBase, formatedDataBaseForURL, setShowForm } = useContext(ConfigContext)
 	const [showTemplates, setShowTemplates] = useState(false)
+	const { loc } = useLocalization('pages.movement')
+	const { loc: locTemplate } = useLocalization('pages.template')
+	const { loc: locCommons } = useLocalization('commons')
 
 	function deleteMovement(movement) {
 		choiceMessage({
-			header: getText('pages.movement.delete.header'),
-			text: getText('pages.movement.delete.text'),
+			header: loc.delete.header,
+			text: loc.delete.text,
 			option1: {
-				text: getText('commons.yes'),
+				text: locCommons.yes,
 				icon: faTrash,
 				event: () => {
 					remove('movement', movement.id, () => {
@@ -57,25 +59,17 @@ export default function Movements() {
 			<div className={'commands'}>
 				<Button
 					disabled={aditionalInformation.account.length === 0}
-					title={
-						aditionalInformation.account.length === 0
-							? getText('pages.movement.create_no_account')
-							: ''
-					}
+					title={aditionalInformation.account.length === 0 ? loc.create_no_account : ''}
 					onClick={() => {
 						setShowForm((sf) => {
 							return { ...sf, movement: true }
 						})
 					}}
 				>
-					<FontAwesomeIcon icon={faPlus} /> {getText('commons.create')}
+					<FontAwesomeIcon icon={faPlus} /> {locCommons.create}
 				</Button>
-				<Button
-					className={'noText'}
-					title={getText('commons.refresh')}
-					onClick={() => find({ entity: 'movement' })}
-				>
-					<FontAwesomeIcon icon={faArrowsRotate} />
+				<Button onClick={() => find({ entity: 'movement' })}>
+					<FontAwesomeIcon icon={faArrowsRotate} /> {locCommons.refresh}
 				</Button>
 				<Button
 					onClick={() => {
@@ -86,14 +80,13 @@ export default function Movements() {
 					}
 					title={
 						aditionalInformation.account.length === 0
-							? getText('pages.movement.create_no_account')
+							? loc.create_no_account
 							: aditionalInformation.template.length === 0
-							? getText('pages.movement.create_no_template')
-							: getText('pages.template.header.text')
+							? loc.create_no_template
+							: locTemplate.header.text
 					}
 				>
-					<FontAwesomeIcon icon={PageSettings.template.icon} />{' '}
-					{getText('pages.template.header.text')}
+					<FontAwesomeIcon icon={PageSettings.template.icon} /> {locTemplate.header.text}
 				</Button>
 				{showTemplates && (
 					<div className={'templateList'}>
@@ -113,29 +106,25 @@ export default function Movements() {
 				)}
 				<Button
 					disabled={aditionalInformation.account.length === 0}
-					title={
-						aditionalInformation.account.length === 0
-							? getText('pages.movement.create_no_account')
-							: ''
-					}
+					title={aditionalInformation.account.length === 0 ? loc.create_no_account : ''}
 					onClick={() => {
 						setShowForm((sf) => {
 							return { ...sf, transfer: true }
 						})
 					}}
 				>
-					<FontAwesomeIcon icon={faArrowAltCircleDown} /> {getText('commons.transfer')}
+					<FontAwesomeIcon icon={faArrowAltCircleDown} /> {locCommons.transfer}
 				</Button>
 			</div>
 			<Table
 				entity={'movement'}
 				header={{
-					dueDate: getText('pages.movement.table.dueDate'),
-					description: getText('pages.movement.table.description'),
-					account: getText('pages.movement.table.account'),
-					value: getText('pages.movement.table.value'),
-					status: getText('pages.movement.table.status'),
-					movementDate: getText('pages.movement.table.movementDate'),
+					dueDate: loc.table.dueDate,
+					description: loc.table.description,
+					account: loc.table.account,
+					value: loc.table.value,
+					status: loc.table.status,
+					movementDate: loc.table.movementDate,
 					commands: '',
 				}}
 				enableOrderBy={{
@@ -174,20 +163,29 @@ export default function Movements() {
 					description: (value, movement) => {
 						return (
 							<>
-								{movement.description}{' '}
+								{movement.description
+									.replaceAll('(IN)', '')
+									.replaceAll('(OUT)', '')
+									.replaceAll('(ALERT)', '')
+									.trim()}{' '}
 								{movement.template && (
 									<div>
-										<div className={'label template'}>Modelo de Lançcamento</div>
+										<div className={'label template'}>{loc.label.template}</div>
 									</div>
 								)}{' '}
 								{movement.description.indexOf('(IN)') !== -1 && (
 									<div>
-										<div className={'label transferDestiny'}>Transferencia de Destino</div>
+										<div className={'label transferDestiny'}>{loc.label.destiny_transfer}</div>
 									</div>
 								)}{' '}
 								{movement.description.indexOf('(OUT)') !== -1 && (
 									<div>
-										<div className={'label transferOrigin'}>Transferencia de Origem</div>
+										<div className={'label transferOrigin'}>{loc.label.origin_transfer}</div>
+									</div>
+								)}{' '}
+								{movement.description.indexOf('(ALERT)') !== -1 && (
+									<div>
+										<div className={'label alertMovement'}>{loc.label.alert}</div>
 									</div>
 								)}
 							</>
@@ -200,7 +198,7 @@ export default function Movements() {
 						return CurrencyUtils.format(movement.value)
 					},
 					status: (value, movement) => {
-						return getText('pages.movement.types.' + movement.status)
+						return loc.types[movement.status]
 					},
 					movementDate: (value, movement) => {
 						return movement.movementDate
@@ -230,7 +228,7 @@ export default function Movements() {
 							{['PENDENT', 'APPROVED'].map((movementType, movementTypeIndex) => {
 								return (
 									<option key={movementTypeIndex} value={movementType}>
-										{getText('pages.movement.types.' + movementType)}
+										{loc.types[movementType]}
 									</option>
 								)
 							})}
@@ -257,8 +255,8 @@ export default function Movements() {
 					movementDate: (movement, field, event, defaultEditor, noEditEvent) => {
 						if (movement.status !== 'APPROVED') {
 							simpleMessage({
-								header: 'Movimentação nao aprovada!',
-								text: 'Esta movimentação nao foi aprovada, portando, não pode conter uma data de movimentação.',
+								header: loc.movement_date_error.header,
+								text: loc.movement_date_error.text,
 							})
 							noEditEvent()
 							return <></>
@@ -285,8 +283,8 @@ export default function Movements() {
 					movementDate: (movement, value) => {
 						if (movement.status !== 'APPROVED' && value !== null) {
 							simpleMessage({
-								header: 'Movimentação nao aprovada!',
-								text: 'Esta movimentação nao foi aprovada, portando, não pode conter uma data de movimentação.',
+								header: loc.movement_date_error.header,
+								text: loc.movement_date_error.text,
 							})
 						} else {
 							updateField('movement', movement, 'movementDate', value)

@@ -128,22 +128,25 @@ export default function Table({
 										return (
 											<div
 												key={field}
-												className={'column column_' + field}
+												className={
+													'column column_' +
+													field +
+													' ' +
+													(parseFloat(row[field]) < 0 ? 'negative' : '')
+												}
 												onDoubleClick={() => enableEditEvent(row, field)}
 											>
-												<>
-													{table.editEvent &&
-													table.editEvent.id === (valueMapper.id ? valueMapper.id(row) : row.id) &&
-													table.editEvent.field === field ? (
-														editField(row, field)
-													) : (
-														<div className={'columnContent'}>
-															{valueModifier[field]
-																? valueModifier[field](row[field], row)
-																: row[field]}
-														</div>
-													)}
-												</>
+												{table.editEvent &&
+												table.editEvent.id === (valueMapper.id ? valueMapper.id(row) : row.id) &&
+												table.editEvent.field === field ? (
+													editField(row, field)
+												) : (
+													<div className={'columnContent'}>
+														{valueModifier[field]
+															? valueModifier[field](row[field], row)
+															: row[field]}
+													</div>
+												)}
 											</div>
 										)
 									})}

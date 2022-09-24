@@ -5,7 +5,7 @@ spring:
     password: thmpv005
     url: jdbc:mysql://localhost:3306/gerfinweb?serverTimezone=UTC
   jpa:
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
       hibernate:

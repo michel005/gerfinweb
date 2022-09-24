@@ -48,6 +48,15 @@ const Button = styled.button`
 			background-color: #3331;
 		}
 	}
+
+	&.secondary {
+		background-color: #333;
+		color: #fff;
+
+		&:hover {
+			background-color: #444;
+		}
+	}
 `
 
 export default Button

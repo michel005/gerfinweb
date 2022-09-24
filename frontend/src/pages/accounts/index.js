@@ -1,41 +1,29 @@
-import {
-	faArrowsRotate,
-	faCheck,
-	faClose,
-	faDollar,
-	faDoorOpen,
-	faPlus,
-	faSave,
-	faTrash,
-} from '@fortawesome/free-solid-svg-icons'
+import { faArrowsRotate, faDollar, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import Button from '../../components/Button'
-import Field from '../../components/Field'
 import Table from '../../components/Table'
-import API from '../../config/API'
 import { MessageContext } from '../../hook/Message.context'
 import { TableContext } from '../../hook/Table.context'
 import useLocalization from '../../hook/useLocalization'
 import CurrencyUtils from '../../utils/CurrencyUtils'
-import DateUtils from '../../utils/DateUtils'
 import AccountsStyle from './index.style'
-import AccountForm from './form'
 import { ConfigContext } from '../../hook/Config.context'
+import ButtonChooser from '../../components/ButtonChooser'
 
 export default function Accounts() {
-	const { updateField, find, remove, refresh } = useContext(TableContext)
+	const { updateField, find, remove, allExtraValues } = useContext(TableContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
-	const { showForm, setShowForm } = useContext(ConfigContext)
+	const { setAdjustAccountBalance, setShowForm } = useContext(ConfigContext)
 	const { loc } = useLocalization('pages.account')
-	const { loc: locCom } = useLocalization('commons')
+	const { loc: locCommons } = useLocalization('commons')
 
 	function deleteAccount(account) {
 		choiceMessage({
 			header: loc.delete.header,
 			text: loc.delete.text.replaceAll('@#NAME@#', account.name),
 			option1: {
-				text: locCom.yes,
+				text: locCommons.yes,
 				icon: faTrash,
 				event: () => {
 					remove('account', account.id, () => {
@@ -47,44 +35,12 @@ export default function Accounts() {
 	}
 
 	function adjustAccountBalance(account) {
-		choiceMessage({
-			header: 'Informe o novo saldo atual da conta',
-			text: (
-				<div>
-					<Field id={'newAccountBalance'} label={'Novo Saldo da Conta'} defaultValue={'0,00'} />
-					<Field id={'descriptionBalance'} label={'Descrição'} defaultValue={'Ajuste de Saldo'} />
-				</div>
-			),
-			option1: {
-				text: 'Confirmar',
-				icon: faCheck,
-				event: () => {
-					API.post(
-						'/movement/adjustAccountBalance',
-						{
-							date: DateUtils.stringJustDate(new Date()),
-							description: document.getElementById('descriptionBalance').value,
-							value: parseFloat(
-								document.getElementById('newAccountBalance').value.replaceAll(',', '.')
-							),
-							account: account,
-						},
-						{
-							headers: {
-								Authorization: localStorage.getItem('authHeader'),
-							},
-						}
-					).then(() => {
-						refresh({ entity: 'account' })
-						setMessage(undefined)
-					})
-				},
-			},
-			option2: {
-				text: 'Cancelar',
-				icon: faClose,
-				event: () => setMessage(undefined),
-			},
+		console.log(account)
+		setAdjustAccountBalance((x) => {
+			return { ...account }
+		})
+		setShowForm((sf) => {
+			return { ...sf, adjustBalance: true }
 		})
 	}
 
@@ -98,18 +54,30 @@ export default function Accounts() {
 						})
 					}}
 				>
-					<FontAwesomeIcon icon={faPlus} /> {locCom.create}
+					<FontAwesomeIcon icon={faPlus} /> {locCommons.create}
 				</Button>
-				<Button className={'noText'} onClick={() => find({ entity: 'account' })}>
-					<FontAwesomeIcon icon={faArrowsRotate} />
+				<Button onClick={() => find({ entity: 'account' })}>
+					<FontAwesomeIcon icon={faArrowsRotate} /> {locCommons.refresh}
 				</Button>
+				<ButtonChooser
+					label={loc.filter_label_account_types}
+					list={loc.types}
+					defaultValue={allExtraValues.account?.type}
+					nullable={true}
+					nullableText={loc.filter_all_types}
+					onChange={(value) => {
+						find({
+							entity: 'account',
+							extraValues: {
+								type: value,
+							},
+						})
+					}}
+				/>
 			</div>
 			<Table
 				entity={'account'}
 				enableOrderBy={{
-					name: true,
-					bank: true,
-					type: true,
 					balance: false,
 					currentBalance: false,
 					futureBalance: false,

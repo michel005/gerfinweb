@@ -22,7 +22,7 @@
 		"table": {
 			"row_counter": "Mostrando @#PAGE@# de @#TOTAL@# linha(s)",
 			"page_counter": "@#CURRENT@# de @#TOTAL@# página(s)",
-			"empty": "Nenhum dado encontrado",
+			"empty": "Nenhum registro encontrado",
 			"update_field": {
 				"header": "Erro ao atualizar campo"
 			}
@@ -84,12 +84,20 @@
 			},
 			"new_account": {
 				"name": "Nova conta",
-				"bank": "Nova conta"
+				"bank": "Novo banco"
+			},
+			"adjust_balance": {
+				"header": "Ajuste de Saldo",
+				"description_label": "Descrição",
+				"description_value": "Novo Ajuste de Saldo",
+				"new_balance_label": "Novo Saldo"
 			},
 			"delete": {
 				"header": "Você realmente deseja excluir esta conta?",
 				"text": "Nome da conta: @#NAME@#"
-			}
+			},
+			"filter_all_types": "Todos os Tipos",
+			"filter_label_account_types": "Tipos de Conta"
 		},
 		"movement": {
 			"header": {
@@ -117,6 +125,16 @@
 			"delete": {
 				"header": "Você realmente deseja excluir este lançamento?",
 				"text": "Esta operação não pode ser revertido!"
+			},
+			"label": {
+				"template": "Modelo",
+				"origin_transfer": "Transferencia (Origem)",
+				"destiny_transfer": "Transferencia (Destino)",
+				"alert": "Atenção"
+			},
+			"movement_date_error": {
+				"header": "Movimentação nao aprovada!",
+				"text": "Esta movimentação nao foi aprovada, portando, não pode conter uma data de movimentação."
 			}
 		},
 		"template": {

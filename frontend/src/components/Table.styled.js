@@ -179,6 +179,10 @@ const TableStyle = styled.div`
 							width: 100%;
 						}
 
+						&.negative {
+							color: red;
+						}
+
 						&.right {
 							justify-content: flex-end;
 							text-align: right;

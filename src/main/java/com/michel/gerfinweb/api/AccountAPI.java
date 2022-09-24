@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.michel.gerfinweb.entity.Account;
 import com.michel.gerfinweb.entity.User;
 import com.michel.gerfinweb.model.AccountBalanceModel;
-import com.michel.gerfinweb.model.PaginationModel;
+import com.michel.gerfinweb.model.AccountFindAllPaginationModel;
 import com.michel.gerfinweb.model.SimpleAccountModel;
 import com.michel.gerfinweb.repository.AccountRepository;
 import com.michel.gerfinweb.repository.UserRepository;
@@ -112,13 +112,13 @@ public class AccountAPI {
     }
 
     @PostMapping("/findAll")
-    private ResponseEntity<?> findAll(Authentication authentication, @RequestParam String dataBase, @RequestBody PaginationModel paginationModel) {
+    private ResponseEntity<?> findAll(Authentication authentication, @RequestParam String dataBase, @RequestBody AccountFindAllPaginationModel paginationModel) {
         Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
         if (userFinded.isEmpty()) {
             return ResponseEntity.internalServerError().build();
         }
         PageRequest pageable = PageRequest.of(paginationModel.getPage(), paginationModel.getSize(), Sort.by(Sort.Direction.valueOf(paginationModel.getSortDirection()), paginationModel.getSortField()));
-        Page<AccountBalanceModel> accounts = accountRepository.findByUser(pageable, DateUtils.firstDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), DateUtils.lastDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), userFinded.get().getId());
+        Page<AccountBalanceModel> accounts = accountRepository.findByUser(pageable, DateUtils.firstDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), DateUtils.lastDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), userFinded.get().getId(), paginationModel.getType());
         return ResponseEntity.ok(accounts);
     }
 

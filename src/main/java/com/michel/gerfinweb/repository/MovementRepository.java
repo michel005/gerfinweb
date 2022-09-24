@@ -21,7 +21,10 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
     @Query("select m from Movement m where user = :user and coalesce(movementDate, dueDate) between :startDate and :finishDate")
     Page<Movement> findByUser(Pageable pageable, LocalDate startDate, LocalDate finishDate, User user);
 
-    @Query("select m from Movement m where user = :user and coalesce(movementDate, dueDate) between :startDate and :finishDate and status = 'PENDENT'")
+    @Query("select m from Movement m where user = :user and coalesce(movementDate, dueDate) between :startDate and :finishDate order by coalesce(movementDate, dueDate)")
+    List<Movement> findByUser(LocalDate startDate, LocalDate finishDate, User user);
+
+    @Query("select m from Movement m where user = :user and coalesce(movementDate, dueDate) between :startDate and :finishDate and status = 'PENDENT' order by dueDate")
     Page<Movement> findPendentByUser(Pageable pageable, LocalDate startDate, LocalDate finishDate, User user);
 
     @Query("select coalesce(sum(m.value), 0) from Movement m where user = :user and coalesce(movementDate, dueDate) <= :finalDate")

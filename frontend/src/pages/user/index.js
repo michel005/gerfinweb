@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react'
-import ProfileImage from '../../assets/profile.jpg'
 import Button from '../../components/Button'
 import Field from '../../components/Field'
 import Group from '../../components/Group'

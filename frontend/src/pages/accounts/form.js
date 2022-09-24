@@ -7,7 +7,7 @@ import { TableContext } from '../../hook/Table.context'
 import { ConfigContext } from '../../hook/Config.context'
 import Form from '../../components/Form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExplosion, faInfo, faSave } from '@fortawesome/free-solid-svg-icons'
+import { faInfo, faSave } from '@fortawesome/free-solid-svg-icons'
 import Alert from '../../components/Alert'
 import { MessageContext } from '../../hook/Message.context'
 
@@ -25,7 +25,7 @@ export default function AccountForm({ account }) {
 
 	useEffect(() => {
 		setDescription(loc.types_description[document.getElementById('accountType').value])
-	})
+	}, [])
 
 	return (
 		<Form

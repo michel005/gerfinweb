@@ -13,6 +13,7 @@ import { LocalizationContext } from './hook/Localization.context'
 import TransferForm from './pages/movements/transferForm'
 import TargetForm from './pages/target/form'
 import TemplateForm from './pages/templates/form'
+import AdjustBalanceForm from './pages/accounts/adjustBalanceForm'
 
 function App() {
 	const { message } = useContext(MessageContext)
@@ -63,6 +64,7 @@ function App() {
 					}}
 				/>
 			)}
+			{user && showForm.adjustBalance && <AdjustBalanceForm />}
 			{message && <Message message={message} />}
 		</>
 	)

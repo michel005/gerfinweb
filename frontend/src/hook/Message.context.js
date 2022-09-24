@@ -1,12 +1,12 @@
-import { createContext, useContext, useState } from 'react'
-import { LocalizationContext } from './Localization.context'
+import { createContext, useState } from 'react'
 import { faCheck, faClose } from '@fortawesome/free-solid-svg-icons'
+import useLocalization from './useLocalization'
 
 const MessageContext = createContext({})
 
 export default function MessageProvider({ children }) {
 	const [message, setMessage] = useState(undefined)
-	const { getText } = useContext(LocalizationContext)
+	const { loc } = useLocalization('commons')
 
 	function simpleMessage({ header, text }) {
 		setMessage({
@@ -18,8 +18,8 @@ export default function MessageProvider({ children }) {
 	function choiceMessage({
 		header,
 		text,
-		option1 = { text: getText('commons.yes'), icon: faCheck, event: () => setMessage(undefined) },
-		option2 = { text: getText('commons.no'), icon: faClose, event: () => setMessage(undefined) },
+		option1 = { text: loc.yes, icon: faCheck, event: () => setMessage(undefined) },
+		option2 = { text: loc.no, icon: faClose, event: () => setMessage(undefined) },
 	}) {
 		setMessage({
 			header,

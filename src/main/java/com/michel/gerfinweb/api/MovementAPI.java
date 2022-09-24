@@ -75,7 +75,7 @@ public class MovementAPI {
         if (ajustAccountBalanceModel.getDate() == null) {
             errors.add("Date was not informed!");
         }
-        if (ajustAccountBalanceModel.getValue() == null || ajustAccountBalanceModel.getValue().equals(BigDecimal.ZERO)) {
+        if (ajustAccountBalanceModel.getValue() == null) {
             errors.add("Value was not informed!");
         }
         if (ajustAccountBalanceModel.getDescription() == null || ajustAccountBalanceModel.getDescription().trim().isEmpty()) {
@@ -325,41 +325,6 @@ public class MovementAPI {
         PageRequest pageable = PageRequest.of(paginationModel.getPage(), paginationModel.getSize(), Sort.by(Sort.Direction.valueOf(paginationModel.getSortDirection()), paginationModel.getSortField()));
         Page<Movement> movements = movementRepository.findByUser(pageable, DateUtils.firstDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), DateUtils.lastDay(DateUtils.toLocalDate(dataBase, "ddMMyyyy")), userFinded.get());
         return ResponseEntity.ok(movements);
-    }
-
-    @PostMapping("/balanceByDay")
-    private ResponseEntity<?> balanceByDay(Authentication authentication, @RequestParam String dataBase) {
-        Optional<User> userFinded = userRepository.findByEmail(authentication.getPrincipal().toString());
-        if (userFinded.isEmpty()) {
-            return ResponseEntity.internalServerError().build();
-        }
-        LocalDate finalDataBase = DateUtils.toLocalDate(dataBase, "ddMMyyyy");
-        Map<Integer, BigDecimal> balanceByDay = new HashMap<>();
-        int currentDay = 1;
-        BigDecimal minValue = BigDecimal.ZERO;
-        BigDecimal maxValue = BigDecimal.ZERO;
-        while (currentDay <= finalDataBase.getMonth().length(finalDataBase.isLeapYear())) {
-        	BigDecimal balance = BigDecimal.ZERO;
-        	LocalDate currentDate = LocalDate.of(finalDataBase.getYear(), finalDataBase.getMonth(), currentDay);
-        	if (LocalDate.now().compareTo(currentDate) >= 0) {
-        		balance = movementRepository.currentBalance(currentDate, userFinded.get());
-        	} else {
-        		balance = movementRepository.futureBalance(currentDate, userFinded.get());
-        	}
-        	balanceByDay.put(currentDay, balance);
-        	if (balance.compareTo(minValue) < 0) {
-        		minValue = balance;
-        	}
-        	if (balance.compareTo(maxValue) > 0) {
-        		maxValue = balance;
-        	}
-        	currentDay++;
-        }
-        BalanceByDayModel bbd = new BalanceByDayModel();
-        bbd.setBalances(balanceByDay);
-        bbd.setMaxValue(maxValue);
-        bbd.setMinValue(minValue);
-        return ResponseEntity.ok(bbd);
     }
 
     @PostMapping("/findPendent")

@@ -10,9 +10,11 @@ const DataBasePickerStyle = styled.div`
 	flex-direction: row;
 	margin: 0 14px;
 	bottom: ${(props) => (props.reduced ? '199px' : 'auto')};
-	transform: ${(props) => (props.reduced ? 'translateX(-170px)' : 'none')};
+	transform: ${(props) => (props.reduced ? 'translateX(-166px)' : 'none')};
 	width: 202px;
 	transition: all 0.25s;
+	min-height: 44px;
+	overflow: hidden;
 
 	&:hover {
 		transform: ${(props) => (props.reduced ? 'translateX(0)' : 'none')};
@@ -32,17 +34,17 @@ const DataBasePickerStyle = styled.div`
 		height: 100%;
 		flex-direction: column;
 		justify-content: center;
-		border-radius: 4px 0 0 4px;
+		border-radius: 0 !important;
 		padding: 14px;
 		transition: all 0.3s;
 
-		&:last-child {
-			border-radius: 0 4px 4px 0;
+		&:hover {
+			background-color: #fff3 !important;
 		}
 
 		svg {
 			color: #fff;
-			margin-right: 0px;
+			margin-right: 0;
 		}
 	}
 `

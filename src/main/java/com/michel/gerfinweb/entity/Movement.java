@@ -58,4 +58,8 @@ public class Movement extends UserAbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private MovementStatus status;
+
+    public LocalDate getDate() {
+        return movementDate == null ? dueDate : movementDate;
+    }
 }

@@ -20,6 +20,7 @@ export default function ConfigProvider({ children }) {
 		reduced: false,
 	})
 	const [balance, setBalance] = useState()
+	const [adjustAccountBalance, setAdjustAccountBalance] = useState(null)
 	const { user } = useContext(UserContext)
 
 	function formatedDataBase() {
@@ -80,6 +81,8 @@ export default function ConfigProvider({ children }) {
 				setUx,
 				showForm,
 				setShowForm,
+				adjustAccountBalance,
+				setAdjustAccountBalance,
 			}}
 		>
 			{children}

@@ -9,11 +9,11 @@ const MovementStyle = styled.div`
 		border-radius: 4px;
 		color: #fff;
 		font-size: 10px;
-		margin: -2px 14px;
+		margin: -2px 0 -2px 10px;
 		padding: 4px 7px;
 
 		&.template {
-			background-color: #0c9;
+			background-color: #ccc;
 		}
 
 		&.transferDestiny {
@@ -22,6 +22,10 @@ const MovementStyle = styled.div`
 
 		&.transferOrigin {
 			background-color: #09c;
+		}
+
+		&.alertMovement {
+			background-color: #0c9;
 		}
 	}
 

@@ -79,10 +79,17 @@ function TableProvider({ children }) {
 			},
 		},
 	}
+	const initialAllExtraValues = {
+		account: {},
+		movement: {},
+		template: {},
+		target: {},
+	}
 	const [orderBy, setOrderBy] = useState({ ...initialOrderBy })
 	const [content, setContent] = useState(initialContent)
 	const [pageController, setPageController] = useState(initialPageController)
 	const [aditionalInformation, setAditionalInformation] = useState(initialAditionalInformation)
+	const [allExtraValues, setAllExtraValues] = useState(initialAllExtraValues)
 
 	function updateContent({ entity, newContent }) {
 		let tempResults = { ...content }
@@ -197,10 +204,11 @@ function TableProvider({ children }) {
 		})
 	}
 
-	function find({ entity, page = 0, size = PAGE_SIZE }) {
+	function find({ entity, page = 0, size = PAGE_SIZE, extraValues = allExtraValues[entity] }) {
 		API.post(
 			url[entity].find.replaceAll('@#DATA_BASE@#', formatedDataBaseForURL()),
 			{
+				...extraValues,
 				page: page,
 				size: size,
 				sortField: orderBy[entity].field,
@@ -223,6 +231,10 @@ function TableProvider({ children }) {
 			updateContent({
 				entity: entity,
 				newContent: response.data.content,
+			})
+			setAllExtraValues((x) => {
+				x[entity] = extraValues
+				return x
 			})
 		})
 	}
@@ -354,6 +366,7 @@ function TableProvider({ children }) {
 				refresh,
 				pageController,
 				aditionalInformation,
+				allExtraValues,
 			}}
 		>
 			{children}

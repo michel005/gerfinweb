@@ -34,12 +34,15 @@ const MainStyle = styled.div`
 			flex-direction: row;
 			justify-content: center;
 			padding: ${(props) => (props.reduced ? '14px 0 0 0' : '20px 0')};
+			margin-top: ${(props) => (props.reduced ? '38px' : '0')};
+			transition: all 0.25s;
 
 			.userImg {
 				border-radius: ${(props) => (props.reduced ? '20px' : '100px')};
 				height: ${(props) => (props.reduced ? `calc(${MENU_REDUCED_WIDTH} - 18px)` : '150px')};
 				width: ${(props) => (props.reduced ? `calc(${MENU_REDUCED_WIDTH} - 18px)` : '150px')};
 				transition: all 0.25s;
+				box-shadow: #333 0 0 4px;
 			}
 		}
 
@@ -104,15 +107,16 @@ const MainStyle = styled.div`
 			button {
 				background-color: ${(props) => (props.reduced ? 'transparent' : '#222')};
 				border: none;
-				border-bottom-right-radius: 4px;
+				border-radius: 4px;
 				color: ${(props) => (props.reduced ? '#222' : '#fff')};
 				cursor: pointer;
 				margin: 0;
 				padding: 7px 10px;
 				transition: all 0.25s;
+				transform: translateX(-44px) translateY(10px);
 
 				&:hover {
-					background-color: ${(props) => (props.reduced ? 'transparent' : '#2229')};
+					background-color: ${(props) => (props.reduced ? '#3333' : '#fff3')};
 				}
 			}
 		}
@@ -184,7 +188,7 @@ const MainStyle = styled.div`
 				color: #fff;
 				margin: 14px;
 				padding: 14px;
-				transform: ${(props) => (props.reduced ? 'translateX(-170px)' : 'none')};
+				transform: ${(props) => (props.reduced ? 'translateX(-166px)' : 'none')};
 				width: 202px;
 				transition: all 0.25s;
 
