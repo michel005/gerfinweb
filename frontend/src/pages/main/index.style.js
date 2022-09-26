@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const MENU_WIDTH = '230px'
+const MENU_WIDTH = '260px'
 const MENU_REDUCED_WIDTH = '58px'
 const HEADER_HEIGHT = '84px'
 const MONTH_HEIGHT = '30px'
@@ -14,20 +14,31 @@ const MainStyle = styled.div`
 	top: 0;
 	width: 100%;
 	z-index: 10;
+	backdrop-filter: blur(15px);
 
 	.menu {
-		background-color: ${(props) => (props.reduced ? 'transparent' : '#222')};
-		box-shadow: ${(props) => (props.reduced ? 'none' : '#3339 0 0 14px')};
+		background: ${(props) =>
+			props.reduced
+				? 'linear-gradient(to bottom, #fffc, #fff9)'
+				: 'linear-gradient(to bottom, #fffc, #fff9)'};
+		box-shadow: ${(props) => (props.reduced ? '#3333 0 0 14px' : '#3333 0 0 14px')};
+		backdrop-filter: blur(10px);
+		border-radius: ${(props) => (props.reduced ? '0px' : '7px')};
 		display: flex;
 		flex-direction: column;
-		height: 100vh;
+		height: ${(props) => (props.reduced ? '100vh' : 'calc(100vh - 42px)')};
 		left: 0;
+		margin: ${(props) => (props.reduced ? '0' : '21px 7px 21px 21px')};
 		position: fixed;
-		padding-bottom: 21px;
+		padding-bottom: 14px;
 		top: 0;
-		width: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
+		width: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : 'calc(' + MENU_WIDTH + ' - 28px)')};
 		transition: all 0.25s;
 		z-index: 30;
+
+		&:hover {
+			box-shadow: ${(props) => (props.reduced ? '#3336 0 0 14px' : '#3336 0 0 14px')};
+		}
 
 		.userImageContainer {
 			display: flex;
@@ -47,14 +58,12 @@ const MainStyle = styled.div`
 		}
 
 		.userInfo {
-			width: 100%;
-			transition: all 0.25s;
 			margin-bottom: 7px;
+			transition: all 0.25s;
+			width: 100%;
 
 			.userDescription {
-				background-color: #3336;
-				backdrop-filter: blur(10px);
-				color: #fff;
+				color: #333;
 				display: ${(props) => (props.reduced ? 'none' : 'flex')};
 				flex-direction: column;
 				padding: 10px;
@@ -84,7 +93,7 @@ const MainStyle = styled.div`
 					button {
 						background-color: transparent;
 						border: none;
-						color: #fff;
+						color: #333;
 						cursor: pointer;
 						font-weight: bold;
 						margin-right: 8px;
@@ -100,15 +109,15 @@ const MainStyle = styled.div`
 		}
 
 		.reduceButton {
-			left: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
+			left: ${MENU_REDUCED_WIDTH};
 			position: fixed;
 			transition: all 0.25s;
 
 			button {
-				background-color: ${(props) => (props.reduced ? 'transparent' : '#222')};
+				background-color: ${(props) => (props.reduced ? 'transparent' : '#fff3')};
 				border: none;
 				border-radius: 4px;
-				color: ${(props) => (props.reduced ? '#222' : '#fff')};
+				color: ${(props) => (props.reduced ? '#222' : '#222')};
 				cursor: pointer;
 				margin: 0;
 				padding: 7px 10px;
@@ -116,7 +125,8 @@ const MainStyle = styled.div`
 				transform: translateX(-44px) translateY(10px);
 
 				&:hover {
-					background-color: ${(props) => (props.reduced ? '#3333' : '#fff3')};
+					background-color: ${(props) => (props.reduced ? '#3333' : '#3333')};
+					color: ${(props) => (props.reduced ? '#222' : '#fff')};
 				}
 			}
 		}
@@ -138,7 +148,7 @@ const MainStyle = styled.div`
 			.optionContainer {
 				display: flex;
 				flex-direction: column;
-				padding: 7px 7px 0 7px;
+				padding: ${(props) => (props.reduced ? '7px 7px 0 7px' : '7px 14px 0 14px')};
 				justify-content: center;
 				text-align: center;
 
@@ -150,43 +160,52 @@ const MainStyle = styled.div`
 					background-color: transparent;
 					border: none;
 					border-radius: 4px;
-					color: ${(props) => (props.reduced ? 'transparent' : '#fff')};
+					color: ${(props) => (props.reduced ? 'transparent' : '#111')};
 					cursor: pointer;
 					font-size: 14px;
 					height: 100%;
 					text-overflow: ellipsis;
 					min-width: calc(
-						${(props) => (props.reduced ? MENU_REDUCED_WIDTH + ' - 14px' : MENU_WIDTH + ' - 14px')}
+						${(props) => (props.reduced ? MENU_REDUCED_WIDTH + ' - 21px' : MENU_WIDTH + ' - 70px')}
 					);
 					padding: 10px 14px;
 					text-align: left;
-					text-overflow: ellipsis;
 					white-space: nowrap;
 					overflow: hidden;
 					transition: all 0.25s;
 
 					&:hover {
-						background-color: ${(props) => (props.reduced ? '#3331' : '#fff6')};
+						background-color: ${(props) => (props.reduced ? '#3331' : '#3331')};
+					}
+
+					&:active {
+						transform: scale(0.95);
 					}
 
 					&.active {
-						background-color: ${(props) => (props.reduced ? '#3333' : '#fff3')};
+						background-color: ${(props) => (props.reduced ? '#3333' : '#39f')};
+						box-shadow: ${(props) => (props.reduced ? 'none' : '#39fa 0 0 7px')};
+						color: ${(props) => (props.reduced ? 'transparent' : '#fff')};
+
+						svg {
+							color: ${(props) => (props.reduced ? '#333' : '#fff')};
+						}
 					}
 
 					svg {
-						color: ${(props) => (props.reduced ? '#333' : '#fff')};
+						color: ${(props) => (props.reduced ? '#333' : '#000')};
 						margin-right: 14px;
 					}
 				}
 			}
 
 			.balances {
-				background-color: ${(props) => (props.reduced ? '#3336' : '#fff3')};
+				background-color: ${(props) => (props.reduced ? '#3336' : 'transparent')};
 				backdrop-filter: ${(props) => (props.reduced ? 'blur(15px)' : 'none')};
 				box-shadow: ${(props) => (props.reduced ? '#aaa9 0 0 7px' : 'none')};
 				border-radius: 4px;
-				color: #fff;
-				margin: 14px;
+				color: ${(props) => (props.reduced ? '#fff' : '#333')};
+				margin: ${(props) => (props.reduced ? '14px' : '14px 14px 0 14px')};
 				padding: 14px;
 				transform: ${(props) => (props.reduced ? 'translateX(-166px)' : 'none')};
 				width: 202px;
@@ -203,11 +222,12 @@ const MainStyle = styled.div`
 					transition: all 0.25s;
 
 					&:last-child {
-						margin-bottom: 0px;
+						margin-bottom: 0;
 					}
 
 					.title {
-						font-weight: bold;
+						color: ${(props) => (props.reduced ? '#fff' : '#39f')};
+						font-size: 14px;
 					}
 
 					.value {
@@ -215,14 +235,22 @@ const MainStyle = styled.div`
 						flex-direction: row;
 
 						.currency {
-							font-size: 14px;
+							font-size: 12px;
 							margin-top: 5px;
 						}
 
 						.val {
-							font-size: 30px;
+							font-size: 28px;
 							text-align: right;
 							width: 100%;
+
+							&.zero {
+								color: ${(props) => (props.reduced ? '#fff' : '#ccc')};
+							}
+
+							&.negative {
+								color: ${(props) => (props.reduced ? '#fff' : '#f32727')};
+							}
 						}
 					}
 				}
@@ -251,7 +279,7 @@ const MainStyle = styled.div`
 			margin-top: calc(${MONTH_HEIGHT} + ${HEADER_HEIGHT});
 			padding: 7px 21px 21px;
 			overflow-y: auto;
-			overflow-x: none;
+			overflow-x: hidden;
 			transition: all 0.25s;
 			width: 100%;
 

@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
 const DataBasePickerStyle = styled.div`
-	background-color: ${(props) => (props.reduced ? '#3336' : '#fff3')};
+	background-color: ${(props) => (props.reduced ? '#3336' : 'transparent')};
 	backdrop-filter: ${(props) => (props.reduced ? 'blur(15px)' : 'none')};
 	box-shadow: ${(props) => (props.reduced ? '#aaa9 0 0 7px' : 'none')};
 	border-radius: 4px;
-	color: #fff;
+	color: ${(props) => (props.reduced ? '#fff' : '#333')};
 	display: flex;
 	flex-direction: row;
 	margin: 0 14px;
@@ -31,6 +31,7 @@ const DataBasePickerStyle = styled.div`
 	}
 
 	button {
+		color: ${(props) => (props.reduced ? '#fff' : '#333')};
 		height: 100%;
 		flex-direction: column;
 		justify-content: center;
@@ -40,10 +41,11 @@ const DataBasePickerStyle = styled.div`
 
 		&:hover {
 			background-color: #fff3 !important;
+			color: ${(props) => (props.reduced ? '#fff' : '#39f')};
 		}
 
 		svg {
-			color: #fff;
+			color: ${(props) => (props.reduced ? '#fff' : '#333')};
 			margin-right: 0;
 		}
 	}

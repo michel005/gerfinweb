@@ -28,10 +28,7 @@ export default function Main() {
 	const { loc: locCommons } = useLocalization('commons')
 
 	return (
-		<MainStyle
-			reduced={reduced}
-			userProfileImage={'data:image/png;base64,' + user.currentUser.profileImage}
-		>
+		<MainStyle reduced={reduced}>
 			<div className="menu">
 				<div className="reduceButton">
 					<button onClick={() => setReduced(!reduced)}>
@@ -99,10 +96,20 @@ export default function Main() {
 						{new Date(new Date().getFullYear(), new Date().getMonth(), 1) >=
 							new Date(dataBase.getFullYear(), dataBase.getMonth(), 1) && (
 							<div className="balance">
-								<div className="title">{locCommons.current_balance}</div>
+								<div className="title">
+									{new Date(new Date().getFullYear(), new Date().getMonth(), 1) >
+									new Date(dataBase.getFullYear(), dataBase.getMonth(), 1)
+										? locCommons.last_balance
+										: locCommons.current_balance}
+								</div>
 								<div className="value">
 									<div className="currency">R$</div>
-									<div className="val">
+									<div
+										className={
+											'val ' +
+											(balance?.current < 0 ? 'negative' : balance?.current === 0 ? 'zero' : '')
+										}
+									>
 										{(balance?.current < 0 ? '-' : '') +
 											CurrencyUtils.format(balance?.current).substring(3)}
 									</div>
@@ -115,7 +122,12 @@ export default function Main() {
 								<div className="title">{locCommons.future_balance}</div>
 								<div className="value">
 									<div className="currency">R$</div>
-									<div className="val">
+									<div
+										className={
+											'val ' +
+											(balance?.future < 0 ? 'negative' : balance?.future === 0 ? 'zero' : '')
+										}
+									>
 										{(balance?.future < 0 ? '-' : '') +
 											CurrencyUtils.format(balance?.future).substring(3)}
 									</div>

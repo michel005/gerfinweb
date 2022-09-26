@@ -1,4 +1,4 @@
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useEffect } from 'react'
 import { ConfigContext } from '../hook/Config.context'
@@ -26,13 +26,13 @@ export default function DataBasePicker({ reduced }) {
 		<DataBasePickerStyle reduced={reduced}>
 			<div>
 				<Button onClick={previewMonth} className="transparent" title={'CTRL + Esquerda'}>
-					<FontAwesomeIcon icon={faArrowLeft} />
+					<FontAwesomeIcon icon={faChevronLeft} title={'CTRL + Esquerda'} />
 				</Button>
 			</div>
 			<div className="label">{formatedForUX()}</div>
 			<div>
 				<Button onClick={nextMonth} className="transparent" title={'CTRL + Direita'}>
-					<FontAwesomeIcon icon={faArrowRight} />
+					<FontAwesomeIcon icon={faChevronRight} title={'CTRL + Direita'} />
 				</Button>
 			</div>
 		</DataBasePickerStyle>

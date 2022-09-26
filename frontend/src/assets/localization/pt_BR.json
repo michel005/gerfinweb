@@ -8,6 +8,7 @@
 		"changePassword": "Mudar Senha",
 		"delete": "Excluir",
 		"not_found": "Não encontrado",
+		"last_balance": "Saldo Anterior",
 		"current_balance": "Saldo Atual",
 		"future_balance": "Saldo Previsto",
 		"commands": "Comandos",
