@@ -1,4 +1,11 @@
-import { faBank, faHome, faIdCard, faList, faTarp, faUser } from '@fortawesome/free-solid-svg-icons'
+import {
+	faBank,
+	faHome,
+	faIdCard,
+	faMoneyBillTrendUp,
+	faTarp,
+	faUser,
+} from '@fortawesome/free-solid-svg-icons'
 
 const PageSettings = {
 	dashboard: {
@@ -14,7 +21,7 @@ const PageSettings = {
 	movement: {
 		name: 'movement',
 		path: '/movement',
-		icon: faList,
+		icon: faMoneyBillTrendUp,
 	},
 	template: {
 		name: 'template',

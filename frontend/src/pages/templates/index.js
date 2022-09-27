@@ -18,6 +18,7 @@ export default function Templates() {
 
 	function deleteTemplate(movement) {
 		choiceMessage({
+			icon: <FontAwesomeIcon icon={faTrash} />,
 			header: getText('pages.template.delete.header'),
 			text: getText('pages.template.delete.text'),
 			option1: {

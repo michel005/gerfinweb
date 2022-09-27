@@ -91,12 +91,15 @@
 				"header": "Ajuste de Saldo",
 				"description_label": "Descrição",
 				"description_value": "Novo Ajuste de Saldo",
-				"new_balance_label": "Novo Saldo"
+				"new_balance_label": "Novo Saldo",
+				"save_error": "Erro ao salvar ajuste de saldo"
 			},
 			"delete": {
 				"header": "Você realmente deseja excluir esta conta?",
 				"text": "Nome da conta: @#NAME@#"
 			},
+			"form_header": "Formulário de Conta",
+			"save_error": "Erro ao salvar conta",
 			"filter_all_types": "Todos os Tipos",
 			"filter_label_account_types": "Tipos de Conta"
 		},
@@ -136,7 +139,9 @@
 			"movement_date_error": {
 				"header": "Movimentação nao aprovada!",
 				"text": "Esta movimentação nao foi aprovada, portando, não pode conter uma data de movimentação."
-			}
+			},
+			"form_header": "Formulário de Lançamento",
+			"save_error": "Erro ao salvar lançamento"
 		},
 		"template": {
 			"header": {

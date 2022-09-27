@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react'
-import { faCheck, faClose } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faClose, faExclamation } from '@fortawesome/free-solid-svg-icons'
 import useLocalization from './useLocalization'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const MessageContext = createContext({})
 
@@ -20,6 +21,7 @@ export default function MessageProvider({ children }) {
 	}
 
 	function choiceMessage({
+		icon,
 		header,
 		text,
 		option1 = { text: loc.yes, icon: faCheck, event: () => setMessage(undefined) },
@@ -27,10 +29,22 @@ export default function MessageProvider({ children }) {
 		config = defaultConfig,
 	}) {
 		setMessage({
+			icon,
 			header,
 			text,
 			commands: [option1, option2],
 			config,
+		})
+	}
+
+	function errorMessage({ header, text }) {
+		setMessage({
+			icon: <FontAwesomeIcon icon={faExclamation} />,
+			header,
+			text,
+			config: {
+				style: 'red',
+			},
 		})
 	}
 
@@ -41,6 +55,7 @@ export default function MessageProvider({ children }) {
 				setMessage,
 				simpleMessage,
 				choiceMessage,
+				errorMessage,
 			}}
 		>
 			{children}

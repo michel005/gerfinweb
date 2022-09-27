@@ -1,10 +1,8 @@
 import Field from '../../components/Field'
 import useLocalization from '../../hook/useLocalization'
 import DisplayRowStyle from '../../components/DisplayRow.style'
-import FieldStyle from '../../components/Field.style'
 import { useContext, useState } from 'react'
 import { TableContext } from '../../hook/Table.context'
-import DisplayColumnStyle from '../../components/DisplayColumn.style'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import styled from 'styled-components'
 import DateUtils from '../../utils/DateUtils'
@@ -17,6 +15,7 @@ import API from '../../config/API'
 import { LocalizationContext } from '../../hook/Localization.context'
 import { MessageContext } from '../../hook/Message.context'
 import Alert from '../../components/Alert'
+import { faArrowAltCircleDown } from '@fortawesome/free-regular-svg-icons'
 
 const FormStyle = styled.div`
 	display: flex;
@@ -81,6 +80,7 @@ export default function TransferForm() {
 
 	return (
 		<Form
+			icon={<FontAwesomeIcon icon={faArrowAltCircleDown} />}
 			header={'Formulário de Transferência'}
 			commands={
 				<Button

@@ -1,4 +1,10 @@
-import { faArrowsRotate, faDollar, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {
+	faArrowsRotate,
+	faCheck,
+	faDollar,
+	faPlus,
+	faTrash,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import Button from '../../components/Button'
@@ -10,6 +16,7 @@ import CurrencyUtils from '../../utils/CurrencyUtils'
 import AccountsStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
 import ButtonChooser from '../../components/ButtonChooser'
+import Alert from '../../components/Alert'
 
 export default function Accounts() {
 	const { updateField, find, remove, allExtraValues } = useContext(TableContext)
@@ -20,11 +27,12 @@ export default function Accounts() {
 
 	function deleteAccount(account) {
 		choiceMessage({
+			icon: <FontAwesomeIcon icon={faTrash} />,
 			header: loc.delete.header,
 			text: loc.delete.text.replaceAll('@#NAME@#', account.name),
 			option1: {
 				text: locCommons.yes,
-				icon: faTrash,
+				icon: faCheck,
 				event: () => {
 					remove('account', account.id, () => {
 						setMessage(undefined)

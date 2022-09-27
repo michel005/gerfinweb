@@ -9,6 +9,8 @@ import Form from '../../components/Form'
 import Button from '../../components/Button'
 import { ConfigContext } from '../../hook/Config.context'
 import Alert from '../../components/Alert'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import PageSettings from '../../assets/page.settings'
 
 const FormStyle = styled.div`
 	display: flex;
@@ -40,6 +42,7 @@ export default function TargetForm({ target }) {
 
 	return (
 		<Form
+			icon={<FontAwesomeIcon icon={PageSettings.target.icon} />}
 			header={'Formulário de Metas'}
 			commands={
 				<Button

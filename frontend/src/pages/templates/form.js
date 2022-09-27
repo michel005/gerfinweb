@@ -10,6 +10,8 @@ import Button from '../../components/Button'
 import { ConfigContext } from '../../hook/Config.context'
 import { MessageContext } from '../../hook/Message.context'
 import Alert from '../../components/Alert'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import PageSettings from '../../assets/page.settings'
 
 const FormStyle = styled.div`
 	display: flex;
@@ -39,7 +41,6 @@ export default function TemplateForm({ template }) {
 	const { setShowForm } = useContext(ConfigContext)
 	const { simpleMessage } = useContext(MessageContext)
 	const [recurrency, setRecurrency] = useState()
-	const [help, setHelp] = useState(false)
 
 	useEffect(() => {
 		setRecurrency(loc.recurrency_description[document.getElementById('templateRecurrency').value])
@@ -47,6 +48,7 @@ export default function TemplateForm({ template }) {
 
 	return (
 		<Form
+			icon={<FontAwesomeIcon icon={PageSettings.template.icon} />}
 			header={'Formulário de Modelos'}
 			commands={
 				<>
@@ -86,9 +88,6 @@ export default function TemplateForm({ template }) {
 					>
 						{locCommons.save}
 					</Button>
-					<Button className={'transparent'} onClick={() => setHelp(!help)}>
-						{locCommons.help}
-					</Button>
 				</>
 			}
 			onClose={() => {
@@ -106,7 +105,6 @@ export default function TemplateForm({ template }) {
 						defaultValue={template.description}
 					/>
 				</DisplayRowStyle>
-				{help && <Alert convertHtml={true} alert={loc.dueDay_description} />}
 				<DisplayRowStyle>
 					<Field
 						id={'templateRecurrency'}
@@ -133,7 +131,6 @@ export default function TemplateForm({ template }) {
 						}}
 					/>
 				</DisplayRowStyle>
-				{recurrency && help && <Alert convertHtml={true} alert={recurrency} />}
 				<DisplayRowStyle className={'templateContainer'}>
 					<Field
 						id={'templateValue'}
@@ -141,11 +138,15 @@ export default function TemplateForm({ template }) {
 						defaultValue={CurrencyUtils.format(template.value).replace('R$', '').trim()}
 					/>
 				</DisplayRowStyle>
-				{help && (
-					<Alert
-						alert={'Quanto mais campos você preencher, mais rápido fica para criar um lançamento.'}
-					/>
-				)}
+				<Alert
+					convertHtml={true}
+					alert={
+						loc.dueDay_description +
+						'<br/><br/>Recorrência ' +
+						recurrency +
+						'<br/><br/>Quanto mais campos você preencher no modelo, mais rápido fica para criar um lançamento.'
+					}
+				/>
 			</FormStyle>
 		</Form>
 	)

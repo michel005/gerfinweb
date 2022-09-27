@@ -13,7 +13,7 @@ const MessageStyle = styled.div`
 	.content {
 		background-color: #fff;
 		border-radius: 4px;
-		box-shadow: #3333 0 0 7px;
+		box-shadow: #3337 0 0 7px;
 		left: 50%;
 		position: fixed;
 		top: 50%;
@@ -23,11 +23,18 @@ const MessageStyle = styled.div`
 
 		.header {
 			border: 0 solid #39f;
-			border-bottom-width: 1px;
+			border-bottom-width: 2px;
 			color: #333;
 			display: flex;
 			flex-direction: row;
 			font-size: 18px;
+
+			svg {
+				color: #39f;
+				font-size: 18px;
+				transition: all 0.25s;
+				padding: 18px 0px 14px 14px;
+			}
 
 			.headerText {
 				display: flex;
@@ -36,7 +43,7 @@ const MessageStyle = styled.div`
 				width: 100%;
 			}
 
-			svg {
+			.fa-xmark {
 				color: #aaa;
 				cursor: pointer;
 				font-size: 18px;
@@ -87,6 +94,14 @@ const MessageStyle = styled.div`
 	.content.red {
 		.header {
 			border-color: red;
+
+			svg {
+				color: red;
+			}
+
+			.fa-xmark {
+				color: #aaa;
+			}
 		}
 
 		button.primary {

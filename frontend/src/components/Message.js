@@ -12,6 +12,7 @@ export default function Message() {
 		<MessageStyle>
 			<div className={'content ' + message.config?.style}>
 				<div className={'header'}>
+					{message.icon}
 					<div className={'headerText'}>{message.header}</div>{' '}
 					<FontAwesomeIcon icon={faClose} onClick={() => setMessage(undefined)} />
 				</div>

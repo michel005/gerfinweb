@@ -1,17 +1,16 @@
 import Field from '../../components/Field'
 import useLocalization from '../../hook/useLocalization'
 import DisplayRowStyle from '../../components/DisplayRow.style'
-import FieldStyle from '../../components/Field.style'
 import { useContext } from 'react'
 import { TableContext } from '../../hook/Table.context'
-import DisplayColumnStyle from '../../components/DisplayColumn.style'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import styled from 'styled-components'
 import Form from '../../components/Form'
 import Button from '../../components/Button'
 import { ConfigContext } from '../../hook/Config.context'
-import { LocalizationContext } from '../../hook/Localization.context'
 import { MessageContext } from '../../hook/Message.context'
+import PageSettings from '../../assets/page.settings'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const FormStyle = styled.div`
 	display: flex;
@@ -35,12 +34,12 @@ export default function MovementForm({ movement }) {
 	const { loc } = useLocalization('pages.movement')
 	const { aditionalInformation, create } = useContext(TableContext)
 	const { setShowForm } = useContext(ConfigContext)
-	const { getText } = useContext(LocalizationContext)
-	const { simpleMessage } = useContext(MessageContext)
+	const { errorMessage } = useContext(MessageContext)
 
 	return (
 		<Form
-			header={'Formulário de Lançamentos'}
+			icon={<FontAwesomeIcon icon={PageSettings.movement.icon} />}
+			header={loc.form_header}
 			commands={
 				<Button
 					onClick={() => {
@@ -64,8 +63,8 @@ export default function MovementForm({ movement }) {
 								})
 							},
 							(error) => {
-								simpleMessage({
-									header: 'Erro ao salvar conta',
+								errorMessage({
+									header: loc.save_error,
 									text: error.response.data[0]
 										? error.response.data[0]
 										: error.response.data.message,
@@ -88,7 +87,7 @@ export default function MovementForm({ movement }) {
 					<Field id={'movementDueDate'} label={loc.table.dueDate} defaultValue={movement.dueDate} />
 					<Field
 						id={'movementDescription'}
-						label={'Descrição'}
+						label={loc.table.description}
 						defaultValue={movement.description}
 					/>
 				</DisplayRowStyle>

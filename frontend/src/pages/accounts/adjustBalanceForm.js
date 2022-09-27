@@ -9,6 +9,11 @@ import Form from '../../components/Form'
 import API from '../../config/API'
 import DateUtils from '../../utils/DateUtils'
 import DisplayRowStyle from '../../components/DisplayRow.style'
+import url from '../../assets/url_settings.json'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import PageSettings from '../../assets/page.settings'
+import { faDollar } from '@fortawesome/free-solid-svg-icons'
+import { MessageContext } from '../../hook/Message.context'
 
 const FormStyle = styled.div`
 	display: flex;
@@ -31,16 +36,18 @@ export default function AdjustBalanceForm() {
 	const { loc: locCommons } = useLocalization('commons')
 	const { loc } = useLocalization('pages.account.adjust_balance')
 	const { refresh } = useContext(TableContext)
+	const { errorMessage } = useContext(MessageContext)
 	const { setShowForm, adjustAccountBalance, setAdjustAccountBalance } = useContext(ConfigContext)
 
 	return (
 		<Form
+			icon={<FontAwesomeIcon icon={faDollar} />}
 			header={loc.header}
 			commands={
 				<Button
 					onClick={() => {
 						API.post(
-							'/movement/adjustAccountBalance',
+							url.movement.ajustBalance,
 							{
 								date: DateUtils.stringJustDate(new Date()),
 								description: document.getElementById('descriptionBalance').value,
@@ -54,13 +61,22 @@ export default function AdjustBalanceForm() {
 									Authorization: localStorage.getItem('authHeader'),
 								},
 							}
-						).then(() => {
-							refresh({ entity: 'account' })
-							setAdjustAccountBalance(undefined)
-							setShowForm((sf) => {
-								return { ...sf, adjustBalance: false }
+						)
+							.then(() => {
+								refresh({ entity: 'account' })
+								setAdjustAccountBalance(undefined)
+								setShowForm((sf) => {
+									return { ...sf, adjustBalance: false }
+								})
 							})
-						})
+							.catch((error) => {
+								errorMessage({
+									header: loc.save_error,
+									text: error.response.data[0]
+										? error.response.data[0]
+										: error.response.data.message.substr(0, 100),
+								})
+							})
 					}}
 				>
 					{locCommons.save}

@@ -46,14 +46,7 @@ export default function Dashboard() {
 										<Group key={index} header={target.description}>
 											<ProgressIndicator
 												key={target.id}
-												label={
-													(target.account ? target.account.name : loc.all_accounts) +
-													' (' +
-													(lastDayOfCurrentDate >= lastDayDataBase
-														? loc.current_balance
-														: loc.future_balance) +
-													')'
-												}
+												label={target.account ? target.account.name : loc.all_accounts}
 												value={
 													target.account === null
 														? balance.current

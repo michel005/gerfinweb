@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import url from '../assets/url.settions.json'
+import url from '../assets/url_settings.json'
 import API from '../config/API'
 import { ConfigContext } from './Config.context'
 import { LocalizationContext } from './Localization.context'

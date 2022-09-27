@@ -10,13 +10,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfo, faSave } from '@fortawesome/free-solid-svg-icons'
 import Alert from '../../components/Alert'
 import { MessageContext } from '../../hook/Message.context'
+import PageSettings from '../../assets/page.settings'
 
 export default function AccountForm({ account }) {
 	const { loc: locCommons } = useLocalization('commons')
 	const { loc } = useLocalization('pages.account')
 	const { create } = useContext(TableContext)
 	const { setShowForm } = useContext(ConfigContext)
-	const { simpleMessage } = useContext(MessageContext)
+	const { errorMessage } = useContext(MessageContext)
 	const [description, setDescription] = useState()
 
 	function changeDescription(event) {
@@ -29,7 +30,8 @@ export default function AccountForm({ account }) {
 
 	return (
 		<Form
-			header={'Formulário de Conta'}
+			icon={<FontAwesomeIcon icon={PageSettings.account.icon} />}
+			header={loc.form_header}
 			commands={
 				<DisplayRowStyle>
 					<Button
@@ -47,11 +49,11 @@ export default function AccountForm({ account }) {
 									})
 								},
 								(error) => {
-									simpleMessage({
-										header: 'Erro ao salvar conta',
+									errorMessage({
+										header: loc.save_error,
 										text: error.response.data[0]
 											? error.response.data[0]
-											: error.response.data.message,
+											: error.response.data.message.substr(0, 100),
 									})
 								}
 							)
@@ -69,12 +71,12 @@ export default function AccountForm({ account }) {
 		>
 			<div style={{ maxWidth: '472px' }}>
 				<DisplayRowStyle>
-					<Field id={'accountName'} label={'Nome'} defaultValue={account.name} />
-					<Field id={'accountBank'} label={'Banco'} defaultValue={account.bank} />
+					<Field id={'accountName'} label={loc.table.name} defaultValue={account.name} />
+					<Field id={'accountBank'} label={loc.table.bank} defaultValue={account.bank} />
 				</DisplayRowStyle>
 				<Field
 					id={'accountType'}
-					label={'Tipo'}
+					label={loc.table.type}
 					type={'select'}
 					list={loc.types}
 					nullable={false}
