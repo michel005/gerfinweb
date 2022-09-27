@@ -1,5 +1,5 @@
 import { faArrowAltCircleDown } from '@fortawesome/free-regular-svg-icons'
-import { faArrowsRotate, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faArrowsRotate, faCheck, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useState } from 'react'
 import PageSettings from '../../assets/page.settings'
@@ -12,6 +12,10 @@ import { TableContext } from '../../hook/Table.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import MovementStyle from './index.style'
 import useLocalization from '../../hook/useLocalization'
+import DisplayRowStyle from '../../components/DisplayRow.style'
+import DateUtils from '../../utils/DateUtils'
+import MovementForm from './form'
+import Form from '../../components/Form'
 
 export default function Movements() {
 	const { updateField, find, remove, aditionalInformation } = useContext(TableContext)
@@ -24,11 +28,12 @@ export default function Movements() {
 
 	function deleteMovement(movement) {
 		choiceMessage({
+			icon: <FontAwesomeIcon icon={faTrash} />,
 			header: loc.delete.header,
 			text: loc.delete.text,
 			option1: {
 				text: locCommons.yes,
-				icon: faTrash,
+				icon: faCheck,
 				event: () => {
 					remove('movement', movement.id, () => {
 						setMessage(undefined)
@@ -37,6 +42,7 @@ export default function Movements() {
 			},
 			config: {
 				style: 'red',
+				withoutClose: true,
 			},
 		})
 	}
@@ -58,21 +64,19 @@ export default function Movements() {
 	}
 
 	return (
-		<MovementStyle>
+		<MovementStyle showTemplates={showTemplates}>
 			<div className={'commands'}>
 				<Button
 					disabled={aditionalInformation.account.length === 0}
 					title={aditionalInformation.account.length === 0 ? loc.create_no_account : ''}
 					onClick={() => {
+						setShowTemplates(false)
 						setShowForm((sf) => {
 							return { ...sf, movement: true }
 						})
 					}}
 				>
 					<FontAwesomeIcon icon={faPlus} /> {locCommons.create}
-				</Button>
-				<Button onClick={() => find({ entity: 'movement' })}>
-					<FontAwesomeIcon icon={faArrowsRotate} /> {locCommons.refresh}
 				</Button>
 				<Button
 					onClick={() => {
@@ -91,32 +95,34 @@ export default function Movements() {
 				>
 					<FontAwesomeIcon icon={PageSettings.template.icon} /> {locTemplate.header.text}
 				</Button>
-				{showTemplates && (
-					<div className={'templateList'}>
-						{aditionalInformation.template.map((template) => {
-							return (
-								<div
-									key={template.id}
-									className={'templateItem'}
-									onClick={() => addMovementBasedOnTemplate(template)}
-								>
-									<div className={'dueDay'}>{template.dueDay}</div>
-									<div className={'description'}>{template.description}</div>
-								</div>
-							)
-						})}
-					</div>
-				)}
+				<div className={'templateList'}>
+					{aditionalInformation.template.map((template) => {
+						return (
+							<div
+								key={template.id}
+								className={'templateItem'}
+								onClick={() => addMovementBasedOnTemplate(template)}
+							>
+								<div className={'description'}>{template.description}</div>
+							</div>
+						)
+					})}
+				</div>
 				<Button
 					disabled={aditionalInformation.account.length === 0}
 					title={aditionalInformation.account.length === 0 ? loc.create_no_account : ''}
 					onClick={() => {
+						setShowTemplates(false)
 						setShowForm((sf) => {
 							return { ...sf, transfer: true }
 						})
 					}}
 				>
 					<FontAwesomeIcon icon={faArrowAltCircleDown} /> {locCommons.transfer}
+				</Button>
+				<DisplayRowStyle className={'expand'}></DisplayRowStyle>
+				<Button onClick={() => find({ entity: 'movement' })} className={'noText transparent'}>
+					<FontAwesomeIcon icon={faArrowsRotate} />
 				</Button>
 			</div>
 			<Table

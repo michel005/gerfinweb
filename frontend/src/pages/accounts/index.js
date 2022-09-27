@@ -17,6 +17,7 @@ import AccountsStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
 import ButtonChooser from '../../components/ButtonChooser'
 import Alert from '../../components/Alert'
+import DisplayRowStyle from '../../components/DisplayRow.style'
 
 export default function Accounts() {
 	const { updateField, find, remove, allExtraValues } = useContext(TableContext)
@@ -41,6 +42,7 @@ export default function Accounts() {
 			},
 			config: {
 				style: 'red',
+				withoutClose: true,
 			},
 		})
 	}
@@ -66,9 +68,6 @@ export default function Accounts() {
 				>
 					<FontAwesomeIcon icon={faPlus} /> {locCommons.create}
 				</Button>
-				<Button onClick={() => find({ entity: 'account' })}>
-					<FontAwesomeIcon icon={faArrowsRotate} /> {locCommons.refresh}
-				</Button>
 				<ButtonChooser
 					label={loc.filter_label_account_types}
 					list={loc.types}
@@ -84,6 +83,10 @@ export default function Accounts() {
 						})
 					}}
 				/>
+				<DisplayRowStyle className={'expand'}></DisplayRowStyle>
+				<Button onClick={() => find({ entity: 'account' })} className={'noText transparent'}>
+					<FontAwesomeIcon icon={faArrowsRotate} />
+				</Button>
 			</div>
 			<Table
 				entity={'account'}

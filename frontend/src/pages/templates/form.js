@@ -12,6 +12,7 @@ import { MessageContext } from '../../hook/Message.context'
 import Alert from '../../components/Alert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PageSettings from '../../assets/page.settings'
+import { faSave } from '@fortawesome/free-solid-svg-icons'
 
 const FormStyle = styled.div`
 	display: flex;
@@ -86,7 +87,7 @@ export default function TemplateForm({ template }) {
 							)
 						}}
 					>
-						{locCommons.save}
+						<FontAwesomeIcon icon={faSave} /> {locCommons.save}
 					</Button>
 				</>
 			}

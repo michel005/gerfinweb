@@ -226,7 +226,7 @@ const MainStyle = styled.div`
 					}
 
 					.title {
-						color: ${(props) => (props.reduced ? '#fff' : '#39f')};
+						color: ${(props) => (props.reduced ? '#fff' : '#000')};
 						font-size: 14px;
 					}
 

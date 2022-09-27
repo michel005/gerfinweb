@@ -36,14 +36,19 @@ const MovementStyle = styled.div`
 
 	.templateList {
 		background-color: #fffc;
-		backdrop-filter: blur(10px);
+		backdrop-filter: blur(12px);
 		border-radius: 4px;
 		box-shadow: #ccc 0 0 7px;
 		padding: 7px;
 		position: absolute;
-		transform: translateY(44px) translateX(20px);
 		width: 300px;
 		transition: all 0.25s;
+		opacity: ${(props) => (props.showTemplates ? 1 : 0)};
+		pointer-events: ${(props) => (props.showTemplates ? 'auto' : 'none')};
+		transform: ${(props) =>
+			props.showTemplates
+				? 'translateY(40px) translateX(83px)'
+				: 'translateY(20px) translateX(83px)'};
 
 		.templateItem {
 			border-radius: 4px;
@@ -56,7 +61,7 @@ const MovementStyle = styled.div`
 			transition: all 0.25s;
 
 			&:hover {
-				background-color: #3331;
+				background-color: #1113;
 			}
 
 			.dueDay {
@@ -68,68 +73,9 @@ const MovementStyle = styled.div`
 		}
 	}
 
-	.transferModal {
-		background-color: #fffc;
-		backdrop-filter: blur(10px);
-		border-radius: 4px;
-		box-shadow: #ccc 0 0 7px;
-		padding: 7px;
-		position: absolute;
-		transform: translateY(44px) translateX(80px);
-		width: 300px;
-		transition: all 0.25s;
-
-		.group {
-			display: flex;
-			flex-direction: row;
-
-			& > * {
-				width: 100%;
-				margin-right: 7px;
-
-				&:last-child {
-					margin-right: 0px;
-				}
-			}
-		}
-
-		.field {
-			margin-top: 7px;
-		}
-
-		.selectGroup {
-			display: flex;
-			flex-direction: column;
-
-			label {
-				color: #666;
-				font-size: 14px;
-				font-weight: bold;
-				margin-bottom: 7px;
-			}
-
-			select {
-				border: 1px solid #ccc;
-				border-radius: 4px;
-				font-size: 14px;
-				padding: 7px;
-				transition: all 0.25s;
-				width: 100%;
-
-				&:focus {
-					border-color: #999;
-				}
-
-				&:disabled {
-					cursor: not-allowed;
-				}
-			}
-		}
-	}
-
 	.column_dueDate,
 	.column_movementDate {
-		max-width: 150px;
+		max-width: 170px;
 	}
 
 	.column_account {
@@ -137,7 +83,7 @@ const MovementStyle = styled.div`
 	}
 
 	.column_value {
-		max-width: 250px;
+		max-width: 200px;
 		text-align: right;
 		justify-content: flex-end;
 	}
@@ -147,7 +93,8 @@ const MovementStyle = styled.div`
 	}
 
 	.column_commands {
-		justify-content: flex-end;
+		text-align: center;
+		justify-content: center;
 		max-width: 60px;
 
 		button {

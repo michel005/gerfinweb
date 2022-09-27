@@ -1,4 +1,4 @@
-import { faArrowsRotate, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faArrowsRotate, faCheck, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import Button from '../../components/Button'
@@ -9,6 +9,7 @@ import { TableContext } from '../../hook/Table.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import TemplateStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
+import DisplayRowStyle from '../../components/DisplayRow.style'
 
 export default function Templates() {
 	const { getText } = useContext(LocalizationContext)
@@ -23,7 +24,7 @@ export default function Templates() {
 			text: getText('pages.template.delete.text'),
 			option1: {
 				text: getText('commons.yes'),
-				icon: faTrash,
+				icon: faCheck,
 				event: () => {
 					remove('template', movement.id, () => {
 						setMessage(undefined)
@@ -32,6 +33,7 @@ export default function Templates() {
 			},
 			config: {
 				style: 'red',
+				withoutClose: true,
 			},
 		})
 	}
@@ -48,7 +50,8 @@ export default function Templates() {
 				>
 					<FontAwesomeIcon icon={faPlus} /> {getText('commons.create')}
 				</Button>
-				<Button className={'noText'} onClick={() => find({ entity: 'movement' })}>
+				<DisplayRowStyle className={'expand'}></DisplayRowStyle>
+				<Button onClick={() => find({ entity: 'template' })} className={'noText transparent'}>
 					<FontAwesomeIcon icon={faArrowsRotate} />
 				</Button>
 			</div>

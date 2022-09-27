@@ -10,8 +10,8 @@ const TargetStyle = styled.div`
 	}
 
 	.column_targetValue {
-		max-width: 250px;
-        text-align: right;
+		max-width: 200px;
+		text-align: right;
 		justify-content: flex-end;
 	}
 
@@ -20,8 +20,8 @@ const TargetStyle = styled.div`
 	}
 
 	.column_commands {
-        text-align: right;
-		justify-content: flex-end;
+		text-align: center;
+		justify-content: center;
 		max-width: 60px;
 
 		button {

@@ -12,7 +12,7 @@ import DisplayRowStyle from '../../components/DisplayRow.style'
 import url from '../../assets/url_settings.json'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PageSettings from '../../assets/page.settings'
-import { faDollar } from '@fortawesome/free-solid-svg-icons'
+import { faDollar, faSave } from '@fortawesome/free-solid-svg-icons'
 import { MessageContext } from '../../hook/Message.context'
 
 const FormStyle = styled.div`
@@ -79,7 +79,7 @@ export default function AdjustBalanceForm() {
 							})
 					}}
 				>
-					{locCommons.save}
+					<FontAwesomeIcon icon={faSave} /> {locCommons.save}
 				</Button>
 			}
 			onClose={() => {

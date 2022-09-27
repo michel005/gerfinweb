@@ -4,6 +4,10 @@ const DisplayRowStyle = styled.div`
 	display: flex;
 	flex-direction: row;
 
+	&.expand {
+		flex-grow: 1;
+	}
+
 	.field {
 		margin-right: 14px;
 

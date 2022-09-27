@@ -66,6 +66,10 @@ const MessageStyle = styled.div`
 			.field {
 				margin-bottom: 10px;
 			}
+
+			& > div {
+				margin-top: 14px !important;
+			}
 		}
 
 		.commands {

@@ -11,6 +11,7 @@ import { ConfigContext } from '../../hook/Config.context'
 import { MessageContext } from '../../hook/Message.context'
 import PageSettings from '../../assets/page.settings'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSave } from '@fortawesome/free-solid-svg-icons'
 
 const FormStyle = styled.div`
 	display: flex;
@@ -73,7 +74,7 @@ export default function MovementForm({ movement }) {
 						)
 					}}
 				>
-					{locCommons.save}
+					<FontAwesomeIcon icon={faSave} /> {locCommons.save}
 				</Button>
 			}
 			onClose={() => {
@@ -83,7 +84,7 @@ export default function MovementForm({ movement }) {
 			}}
 		>
 			<FormStyle>
-				<DisplayRowStyle style={{}}>
+				<DisplayRowStyle>
 					<Field id={'movementDueDate'} label={loc.table.dueDate} defaultValue={movement.dueDate} />
 					<Field
 						id={'movementDescription'}
