@@ -24,7 +24,7 @@ export default function Main() {
 	const { user, clearCurrentUser } = useContext(UserContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
 	const { balance, dataBase, loadingDataBase } = useContext(ConfigContext)
-	const { loadingMenuOptions, setLoadingMenuOptions } = useContext(TableContext)
+	const { loadingMenuOptions } = useContext(TableContext)
 	const [reduced, setReduced] = useState(false)
 	const { loc } = useLocalization('logout')
 	const { loc: locPages } = useLocalization('pages')
@@ -92,11 +92,21 @@ export default function Main() {
 									className={PageSettings[page].path === window.location.pathname ? 'active' : ''}
 									onClick={() => defineCurrentPage(PageSettings[page])}
 								>
-									<FontAwesomeIcon icon={PageSettings[page].icon} />{' '}
-									{loadingMenuOptions[page] ? (
-										<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
+									{reduced ? (
+										loadingMenuOptions[page] ? (
+											<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
+										) : (
+											<FontAwesomeIcon icon={PageSettings[page].icon} />
+										)
 									) : (
-										!reduced && locPages[PageSettings[page].name].header.text
+										<>
+											<FontAwesomeIcon icon={PageSettings[page].icon} />{' '}
+											{loadingMenuOptions[page] ? (
+												<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
+											) : (
+												locPages[PageSettings[page].name].header.text
+											)}
+										</>
 									)}
 								</button>
 							</div>
