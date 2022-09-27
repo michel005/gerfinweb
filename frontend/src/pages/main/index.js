@@ -1,4 +1,4 @@
-import { faBars, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faCheck, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useState } from 'react'
 import PageSettings from '../../assets/page.settings'
@@ -22,7 +22,7 @@ export default function Main() {
 	const { currentPage, defineCurrentPage } = useContext(PageContext)
 	const { user, clearCurrentUser } = useContext(UserContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
-	const { balance, dataBase } = useContext(ConfigContext)
+	const { balance, dataBase, loadingDataBase } = useContext(ConfigContext)
 	const [reduced, setReduced] = useState(false)
 	const { loc } = useLocalization('logout')
 	const { loc: locPages } = useLocalization('pages')
@@ -115,8 +115,14 @@ export default function Main() {
 											(balance?.current < 0 ? 'negative' : balance?.current === 0 ? 'zero' : '')
 										}
 									>
-										{(balance?.current < 0 ? '-' : '') +
-											CurrencyUtils.format(balance?.current).substring(3)}
+										{loadingDataBase ? (
+											<div className={'loadingBalances'}>
+												<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
+											</div>
+										) : (
+											(balance?.current < 0 ? '-' : '') +
+											CurrencyUtils.format(balance?.current).substring(3)
+										)}
 									</div>
 								</div>
 							</div>
@@ -133,8 +139,14 @@ export default function Main() {
 											(balance?.future < 0 ? 'negative' : balance?.future === 0 ? 'zero' : '')
 										}
 									>
-										{(balance?.future < 0 ? '-' : '') +
-											CurrencyUtils.format(balance?.future).substring(3)}
+										{loadingDataBase ? (
+											<div className={'loadingBalances'}>
+												<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
+											</div>
+										) : (
+											(balance?.future < 0 ? '-' : '') +
+											CurrencyUtils.format(balance?.future).substring(3)
+										)}
 									</div>
 								</div>
 							</div>

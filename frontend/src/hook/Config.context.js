@@ -14,6 +14,7 @@ const initialShowForm = {
 
 export default function ConfigProvider({ children }) {
 	const [dataBase, setDataBase] = useState(new Date())
+	const [loadingDataBase, setLoadingDataBase] = useState(false)
 	const [showForm, setShowForm] = useState(initialShowForm)
 	const [ux, setUx] = useState({
 		reduced: false,
@@ -52,6 +53,11 @@ export default function ConfigProvider({ children }) {
 
 	useEffect(() => {
 		if (user) {
+			setLoadingDataBase(true)
+			setBalance({
+				current: null,
+				future: null,
+			})
 			API.get(
 				'/movement/balance?dataBase=' + dataBase.toLocaleDateString('pt-BR').replaceAll('/', ''),
 				{
@@ -61,6 +67,7 @@ export default function ConfigProvider({ children }) {
 				}
 			).then((response) => {
 				setBalance(response.data)
+				setLoadingDataBase(false)
 			})
 		}
 	}, [dataBase, user])
@@ -82,6 +89,7 @@ export default function ConfigProvider({ children }) {
 				setShowForm,
 				adjustAccountBalance,
 				setAdjustAccountBalance,
+				loadingDataBase,
 			}}
 		>
 			{children}
