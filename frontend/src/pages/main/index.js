@@ -17,12 +17,14 @@ import User from '../user'
 import MainStyle from './index.style'
 import useLocalization from '../../hook/useLocalization'
 import UserFallbackImage from '../../assets/user_fallback_image.png'
+import { TableContext } from '../../hook/Table.context'
 
 export default function Main() {
 	const { currentPage, defineCurrentPage } = useContext(PageContext)
 	const { user, clearCurrentUser } = useContext(UserContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
 	const { balance, dataBase, loadingDataBase } = useContext(ConfigContext)
+	const { loadingMenuOptions, setLoadingMenuOptions } = useContext(TableContext)
 	const [reduced, setReduced] = useState(false)
 	const { loc } = useLocalization('logout')
 	const { loc: locPages } = useLocalization('pages')
@@ -91,7 +93,11 @@ export default function Main() {
 									onClick={() => defineCurrentPage(PageSettings[page])}
 								>
 									<FontAwesomeIcon icon={PageSettings[page].icon} />{' '}
-									{!reduced && locPages[PageSettings[page].name].header.text}
+									{loadingMenuOptions[page] ? (
+										<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
+									) : (
+										!reduced && locPages[PageSettings[page].name].header.text
+									)}
 								</button>
 							</div>
 						)

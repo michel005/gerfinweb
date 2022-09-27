@@ -90,6 +90,7 @@ function TableProvider({ children }) {
 	const [pageController, setPageController] = useState(initialPageController)
 	const [aditionalInformation, setAditionalInformation] = useState(initialAditionalInformation)
 	const [allExtraValues, setAllExtraValues] = useState(initialAllExtraValues)
+	const [loadingMenuOptions, setLoadingMenuOptions] = useState({})
 
 	function updateContent({ entity, newContent }) {
 		let tempResults = { ...content }
@@ -289,6 +290,12 @@ function TableProvider({ children }) {
 	useEffect(() => {
 		if (user && currentPage) {
 			if (currentPage.path === '/') {
+				setLoadingMenuOptions((l) => {
+					return {
+						...l,
+						dashboard: true,
+					}
+				})
 				API.get('/dashboard?dataBase=' + formatedDataBaseForURL(), {
 					headers: {
 						Authorization: localStorage.getItem('authHeader'),
@@ -300,13 +307,53 @@ function TableProvider({ children }) {
 							dashboard: targetResponse.data,
 						}
 					})
+					setLoadingMenuOptions((l) => {
+						return {
+							...l,
+							dashboard: false,
+						}
+					})
 				})
 			}
 			if (currentPage.path === '/account') {
-				find({ entity: 'account', page: 0 })
+				setLoadingMenuOptions((l) => {
+					return {
+						...l,
+						account: true,
+					}
+				})
+				find({
+					entity: 'account',
+					page: 0,
+					after: () => {
+						setLoadingMenuOptions((l) => {
+							return {
+								...l,
+								account: false,
+							}
+						})
+					},
+				})
 			}
 			if (currentPage.path === '/movement') {
-				find({ entity: 'movement', page: 0 })
+				setLoadingMenuOptions((l) => {
+					return {
+						...l,
+						movement: true,
+					}
+				})
+				find({
+					entity: 'movement',
+					page: 0,
+					after: () => {
+						setLoadingMenuOptions((l) => {
+							return {
+								...l,
+								movement: false,
+							}
+						})
+					},
+				})
 				API.get('/account/findAllSimple', {
 					headers: {
 						Authorization: localStorage.getItem('authHeader'),
@@ -327,7 +374,24 @@ function TableProvider({ children }) {
 				})
 			}
 			if (currentPage.path === '/template') {
-				find({ entity: 'template', page: 0 })
+				setLoadingMenuOptions((l) => {
+					return {
+						...l,
+						template: false,
+					}
+				})
+				find({
+					entity: 'template',
+					page: 0,
+					after: () => {
+						setLoadingMenuOptions((l) => {
+							return {
+								...l,
+								template: false,
+							}
+						})
+					},
+				})
 				API.get('/account/findAllSimple', {
 					headers: {
 						Authorization: localStorage.getItem('authHeader'),
@@ -342,7 +406,24 @@ function TableProvider({ children }) {
 				})
 			}
 			if (currentPage.path === '/target') {
-				find({ entity: 'target', page: 0 })
+				setLoadingMenuOptions((l) => {
+					return {
+						...l,
+						target: true,
+					}
+				})
+				find({
+					entity: 'target',
+					page: 0,
+					after: () => {
+						setLoadingMenuOptions((l) => {
+							return {
+								...l,
+								target: false,
+							}
+						})
+					},
+				})
 				API.get('/account/findAllSimple', {
 					headers: {
 						Authorization: localStorage.getItem('authHeader'),
@@ -376,6 +457,8 @@ function TableProvider({ children }) {
 				pageController,
 				aditionalInformation,
 				allExtraValues,
+				loadingMenuOptions,
+				setLoadingMenuOptions,
 			}}
 		>
 			{children}
