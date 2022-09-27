@@ -377,7 +377,7 @@ function TableProvider({ children }) {
 				setLoadingMenuOptions((l) => {
 					return {
 						...l,
-						template: false,
+						template: true,
 					}
 				})
 				find({
