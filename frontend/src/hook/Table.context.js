@@ -115,8 +115,10 @@ function TableProvider({ children }) {
 			find({
 				entity: entity,
 				page: pageController[entity].currentPage,
+				after: () => {
+					setEditEvent(null)
+				},
 			})
-			setEditEvent(null)
 		})
 	}
 
@@ -204,7 +206,13 @@ function TableProvider({ children }) {
 		})
 	}
 
-	function find({ entity, page = 0, size = PAGE_SIZE, extraValues = allExtraValues[entity] }) {
+	function find({
+		entity,
+		page = 0,
+		size = PAGE_SIZE,
+		extraValues = allExtraValues[entity],
+		after = () => null,
+	}) {
 		API.post(
 			url[entity].find.replaceAll('@#DATA_BASE@#', formatedDataBaseForURL()),
 			{
@@ -236,6 +244,7 @@ function TableProvider({ children }) {
 				x[entity] = extraValues
 				return x
 			})
+			after()
 		})
 	}
 
