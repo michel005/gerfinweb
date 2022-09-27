@@ -12,7 +12,7 @@ import { ConfigContext } from '../../hook/Config.context'
 
 export default function Templates() {
 	const { getText } = useContext(LocalizationContext)
-	const { updateField, find, create, remove, aditionalInformation } = useContext(TableContext)
+	const { updateField, find, remove, aditionalInformation } = useContext(TableContext)
 	const { setShowForm } = useContext(ConfigContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
 
@@ -28,6 +28,9 @@ export default function Templates() {
 						setMessage(undefined)
 					})
 				},
+			},
+			config: {
+				style: 'red',
 			},
 		})
 	}

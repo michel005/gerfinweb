@@ -8,11 +8,13 @@ import Field from '../../components/Field'
 import Button from '../../components/Button'
 import PageSettings from '../../assets/page.settings'
 import LoginStyle from './index.style'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 export default function LoginPage() {
 	const [showCreateAccount, setShowCreateAccount] = useState(false)
 	const { simpleMessage } = useContext(MessageContext)
-	const { defineCurrentUser } = useContext(UserContext)
+	const { user, defineCurrentUser, loading } = useContext(UserContext)
 	const { defineCurrentPage } = useContext(PageContext)
 
 	function onClick_Login() {
@@ -63,8 +65,11 @@ export default function LoginPage() {
 	}
 
 	return (
-		<LoginStyle>
-			{showCreateAccount === true ? (
+		<LoginStyle loading={loading}>
+			<div className={'loadInfo'}>
+				<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
+			</div>
+			{showCreateAccount === true && !user && !loading && (
 				<div className={'createAccountPage'}>
 					<div className={'header'}>CREATE USER ACCOUNT</div>
 
@@ -85,7 +90,8 @@ export default function LoginPage() {
 						</Button>
 					</div>
 				</div>
-			) : (
+			)}
+			{showCreateAccount === false && !user && !loading && (
 				<div className={'loginPage'}>
 					<div className={'header'}>LOGIN</div>
 

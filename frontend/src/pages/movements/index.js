@@ -35,6 +35,9 @@ export default function Movements() {
 					})
 				},
 			},
+			config: {
+				style: 'red',
+			},
 		})
 	}
 
@@ -257,6 +260,9 @@ export default function Movements() {
 							simpleMessage({
 								header: loc.movement_date_error.header,
 								text: loc.movement_date_error.text,
+								config: {
+									style: 'red',
+								},
 							})
 							noEditEvent()
 							return <></>
@@ -285,6 +291,9 @@ export default function Movements() {
 							simpleMessage({
 								header: loc.movement_date_error.header,
 								text: loc.movement_date_error.text,
+								config: {
+									style: 'red',
+								},
 							})
 						} else {
 							updateField('movement', movement, 'movementDate', value)

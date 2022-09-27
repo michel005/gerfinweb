@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import API from '../config/API'
 import { UserContext } from './User.context'
-import DateUtils from '../utils/DateUtils'
 
 const ConfigContext = createContext({})
 

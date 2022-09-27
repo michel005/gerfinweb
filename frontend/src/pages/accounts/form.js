@@ -25,7 +25,7 @@ export default function AccountForm({ account }) {
 
 	useEffect(() => {
 		setDescription(loc.types_description[document.getElementById('accountType').value])
-	}, [])
+	}, [loc.types_description])
 
 	return (
 		<Form

@@ -15,7 +15,6 @@ const MessageStyle = styled.div`
 		border-radius: 4px;
 		box-shadow: #3333 0 0 7px;
 		left: 50%;
-		padding: 14px;
 		position: fixed;
 		top: 50%;
 		transform: translateX(-50%) translateY(-50%);
@@ -23,14 +22,17 @@ const MessageStyle = styled.div`
 		max-width: 550px;
 
 		.header {
+			border: 0 solid #39f;
+			border-bottom-width: 1px;
 			color: #333;
 			display: flex;
 			flex-direction: row;
-			font-size: 24px;
+			font-size: 18px;
 
 			.headerText {
 				display: flex;
 				flex-direction: column;
+				padding: 14px;
 				width: 100%;
 			}
 
@@ -39,9 +41,7 @@ const MessageStyle = styled.div`
 				cursor: pointer;
 				font-size: 18px;
 				transition: all 0.25s;
-				margin-left: 7px;
-				margin-top: 7px;
-				margin-bottom: 7px;
+				padding: 18px 14px 14px;
 
 				&:hover {
 					color: #ccc;
@@ -53,6 +53,8 @@ const MessageStyle = styled.div`
 			color: #999;
 			font-size: 16px;
 			margin-top: 14px;
+			margin-bottom: 14px;
+			padding: 10px 14px;
 
 			.field {
 				margin-bottom: 10px;
@@ -66,6 +68,7 @@ const MessageStyle = styled.div`
 			font-size: 16px;
 			justify-content: flex-end;
 			margin-top: 21px;
+			padding: 0 14px 14px;
 
 			button {
 				margin-right: 10px;
@@ -77,6 +80,20 @@ const MessageStyle = styled.div`
 				&:last-child {
 					margin-right: 0;
 				}
+			}
+		}
+	}
+
+	.content.red {
+		.header {
+			border-color: red;
+		}
+
+		button.primary {
+			background: #ff0000;
+
+			&:hover {
+				background: #ff6c6c;
 			}
 		}
 	}

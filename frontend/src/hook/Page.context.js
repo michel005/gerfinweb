@@ -15,9 +15,9 @@ export default function PageProvider({ children }) {
 
 	useEffect(() => {
 		if (!localStorage.getItem('authHeader') && window.location.pathname !== '/') {
-            window.history.pushState('', '', '/')
+			window.history.pushState('', '', '/')
 		}
-	}, [user, window.location.pathname])
+	}, [user])
 
 	useEffect(() => {
 		if (!currentPage && user) {

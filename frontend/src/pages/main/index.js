@@ -16,6 +16,7 @@ import Templates from '../templates'
 import User from '../user'
 import MainStyle from './index.style'
 import useLocalization from '../../hook/useLocalization'
+import UserFallbackImage from '../../assets/user_fallback_image.png'
 
 export default function Main() {
 	const { currentPage, defineCurrentPage } = useContext(PageContext)
@@ -39,7 +40,11 @@ export default function Main() {
 					<img
 						className={'userImg'}
 						alt={''}
-						src={'data:image/png;base64,' + user.currentUser.profileImage}
+						src={
+							user.currentUser.profileImage
+								? 'data:image/png;base64,' + user.currentUser.profileImage
+								: UserFallbackImage
+						}
 					/>
 				</div>
 				<div className={'userInfo'}>

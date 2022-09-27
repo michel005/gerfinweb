@@ -1,26 +1,12 @@
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { ConfigContext } from '../hook/Config.context'
 import Button from './Button'
 import DataBasePickerStyle from './DataBasePicker.style'
 
 export default function DataBasePicker({ reduced }) {
 	const { formatedForUX, nextMonth, previewMonth } = useContext(ConfigContext)
-
-	useEffect(() => {
-		const close = (e) => {
-			if (e.ctrlKey === true) {
-				if (e.key === 'ArrowLeft') {
-					previewMonth()
-				} else if (e.key === 'ArrowRight') {
-					nextMonth()
-				}
-			}
-		}
-		window.addEventListener('keydown', close)
-		return () => window.removeEventListener('keydown', close)
-	}, [])
 
 	return (
 		<DataBasePickerStyle reduced={reduced}>

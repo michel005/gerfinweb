@@ -36,7 +36,7 @@ const TableStyle = styled.div`
 				display: flex;
 				flex-grow: 1;
 				font-weight: bold;
-				padding: 14px 21px;
+				padding: 14px 18px;
 				transition: all 0.25s;
 				width: 100px;
 
@@ -149,13 +149,27 @@ const TableStyle = styled.div`
 						flex-direction: column;
 						flex-grow: 1;
 						font-size: 14px;
-						padding: 0px 17px;
+						padding: 0 14px;
 						justify-content: center;
 						transition: all 0.25s;
 						width: 100%;
 						text-overflow: ellipsis;
 						white-space: nowrap;
 						overflow: hidden;
+
+						.loading {
+							display: flex;
+							flex-direction: row;
+							justify-content: flex-start;
+							width: 100%;
+							height: 50px;
+
+							svg {
+								font-size: 22px;
+								margin-top: 14px;
+								margin-left: 4px;
+							}
+						}
 
 						.columnContent {
 							border: 1px solid transparent;
@@ -166,6 +180,7 @@ const TableStyle = styled.div`
 						select {
 							background-color: #fffc;
 							border: none;
+							font-size: 14px;
 							color: #333;
 							height: 100%;
 						}

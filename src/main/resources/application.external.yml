@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: michel
+    password: TPtgdzsqXakpS4$dW4K
+    url: jdbc:mysql://ls-2b861abc5b944a77a8b7d0e01eebdb91883dfce7.cq7x6biqasri.us-east-1.rds.amazonaws.com:3306/gerfinweb?serverTimezone=UTC
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        jdbc:
+          time-zone: UTC
+    hibernate:
+      ddl-auto: validate
+app:
+  cors:
+    allowedOrigins: http://localhost:3000,http://localhost:8080
+gerfinweb:
+  user:
+    imageFolder: 'user-image/'

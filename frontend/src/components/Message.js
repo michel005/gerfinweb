@@ -10,26 +10,28 @@ export default function Message() {
 
 	return (
 		<MessageStyle>
-			<div className={'content'}>
+			<div className={'content ' + message.config?.style}>
 				<div className={'header'}>
 					<div className={'headerText'}>{message.header}</div>{' '}
 					<FontAwesomeIcon icon={faClose} onClick={() => setMessage(undefined)} />
 				</div>
 				<div className={'text'}>{message.text}</div>
-				<div className={'commands'}>
-					{message.commands &&
-						message.commands.map((command, index) => {
-							return (
-								<Button
-									key={index}
-									onClick={command.event}
-									className={index > 0 ? 'transparent' : ''}
-								>
-									{command && <FontAwesomeIcon icon={command.icon} />} {command.text}
-								</Button>
-							)
-						})}
-				</div>
+				{message.commands && (
+					<div className={'commands'}>
+						{message.commands &&
+							message.commands.map((command, index) => {
+								return (
+									<Button
+										key={index}
+										onClick={command.event}
+										className={index > 0 ? 'transparent' : ''}
+									>
+										{command && <FontAwesomeIcon icon={command.icon} />} {command.text}
+									</Button>
+								)
+							})}
+					</div>
+				)}
 			</div>
 		</MessageStyle>
 	)

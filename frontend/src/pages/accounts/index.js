@@ -31,11 +31,13 @@ export default function Accounts() {
 					})
 				},
 			},
+			config: {
+				style: 'red',
+			},
 		})
 	}
 
 	function adjustAccountBalance(account) {
-		console.log(account)
 		setAdjustAccountBalance((x) => {
 			return { ...account }
 		})

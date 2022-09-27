@@ -36,7 +36,7 @@ public class UserAPI {
 
     private byte[] getUserImage(User user) {
         try {
-            return Files.readAllBytes(Path.of(userImageFolder + user.getId() + "\\profile_image.png"));
+            return Files.readAllBytes(new File(new File(userImageFolder, user.getId().toString()), "profile_image.png").toPath());
         } catch (IOException e) {
             e.printStackTrace();
             return null;

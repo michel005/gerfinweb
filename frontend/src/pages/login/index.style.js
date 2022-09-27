@@ -1,16 +1,30 @@
 import styled from 'styled-components'
 
 const LoginStyle = styled.div`
+	.loadInfo {
+		left: 50%;
+		font-size: 48px;
+		opacity: ${(props) => (props.loading ? 1 : 0)};
+		pointer-events: none;
+		position: fixed;
+		top: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		transition: all 0.25s;
+		z-index: 100;
+	}
 	.loginPage,
 	.createAccountPage {
 		background-color: #fff;
 		border-radius: 7px;
 		box-shadow: #3333 0 0 7px;
 		left: 50%;
+		opacity: ${(props) => (props.loading ? 0 : 1)};
+		pointer-events: ${(props) => (props.loading ? 'none' : 'auto')};
 		padding-bottom: 21px;
 		position: fixed;
 		top: 50%;
 		transform: translateX(-50%) translateY(-50%);
+		transition: all 0.25s;
 		width: 350px;
 
 		.header {

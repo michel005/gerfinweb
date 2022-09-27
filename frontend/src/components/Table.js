@@ -5,6 +5,7 @@ import {
 	faBackwardFast,
 	faForward,
 	faForwardFast,
+	faSpinner,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
@@ -56,11 +57,10 @@ export default function Table({
 			table.setEditEvent(null)
 		} else if (event.code === 'Enter' && columnAction[field]) {
 			try {
-				columnAction[field]
-					.then(() => {
-						table.setEditEvent(null)
-					})
-					.catch(() => {})
+				table.setEditEvent((e) => {
+					return { ...e, loading: true }
+				})
+				columnAction[field]()
 			} catch {
 				if (columnAction[field](row, event.target.value)) {
 					table.setEditEvent(null)
@@ -74,6 +74,7 @@ export default function Table({
 			table.setEditEvent({
 				id: valueMapper.id ? valueMapper.id(row) : row.id,
 				field: field,
+				loading: false,
 			})
 		}
 	}
@@ -139,7 +140,15 @@ export default function Table({
 												{table.editEvent &&
 												table.editEvent.id === (valueMapper.id ? valueMapper.id(row) : row.id) &&
 												table.editEvent.field === field ? (
-													editField(row, field)
+													<>
+														{table.editEvent?.loading ? (
+															<div className={'loading'}>
+																<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
+															</div>
+														) : (
+															editField(row, field)
+														)}
+													</>
 												) : (
 													<div className={'columnContent'}>
 														{valueModifier[field]

@@ -1,7 +1,7 @@
 import LoginPage from './pages/login/index'
 import styles from './App.module.scss'
 import Message from './components/Message'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { MessageContext } from './hook/Message.context'
 import { UserContext } from './hook/User.context'
 import Main from './pages/main'
@@ -17,7 +17,7 @@ import AdjustBalanceForm from './pages/accounts/adjustBalanceForm'
 
 function App() {
 	const { message } = useContext(MessageContext)
-	const { user, previewMonth, nextMonth } = useContext(UserContext)
+	const { user } = useContext(UserContext)
 	const { showForm } = useContext(ConfigContext)
 	const { getText } = useContext(LocalizationContext)
 

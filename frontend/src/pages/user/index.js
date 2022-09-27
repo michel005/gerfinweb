@@ -8,16 +8,10 @@ import { MessageContext } from '../../hook/Message.context'
 import { UserContext } from '../../hook/User.context'
 import UserStyle from './index.style'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-	faArrowRight,
-	faClose,
-	faImage,
-	faPassport,
-	faSave,
-	faTrash,
-} from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faClose, faPassport, faSave } from '@fortawesome/free-solid-svg-icons'
 import Alert from '../../components/Alert'
 import useLocalization from '../../hook/useLocalization'
+import UserFallbackImage from '../../assets/user_fallback_image.png'
 
 export default function User() {
 	const { user, defineCurrentUser, clearCurrentUser } = useContext(UserContext)
@@ -144,7 +138,12 @@ export default function User() {
 									<img
 										width={'150px'}
 										height={'150px'}
-										src={'data:image/png;base64,' + user.currentUser.profileImage}
+										alt={''}
+										src={
+											user.currentUser.profileImage
+												? 'data:image/png;base64,' + user.currentUser.profileImage
+												: UserFallbackImage
+										}
 									/>
 								</div>
 								<div className={'deleteImageButtonContainer'}>
@@ -166,6 +165,7 @@ export default function User() {
 												width={'150px'}
 												height={'150px'}
 												src={URL.createObjectURL(inputProfilePicture.files[0])}
+												alt={''}
 											/>
 										</div>
 										<div className={'deleteImageButtonContainer'}>

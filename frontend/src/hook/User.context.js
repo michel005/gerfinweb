@@ -5,6 +5,7 @@ const UserContext = createContext({})
 
 export default function UserProvider({ children }) {
 	const [user, setUser] = useState(undefined)
+	const [loading, setLoading] = useState(false)
 
 	function defineCurrentUser({ currentUser, authHeader }) {
 		setUser({ currentUser, authHeader })
@@ -19,20 +20,22 @@ export default function UserProvider({ children }) {
 
 	useEffect(() => {
 		if (localStorage.getItem('authHeader') && !user) {
+			setLoading(true)
 			API.get('/user/me', {
 				headers: {
 					Authorization: localStorage.getItem('authHeader'),
 				},
 			})
 				.then((response) => {
-					setUser({
+					defineCurrentUser({
 						currentUser: response.data,
 						authHeader: localStorage.getItem('authHeader'),
 					})
+					setLoading(false)
 				})
 				.catch(() => {
-					setUser(undefined)
-					localStorage.clear()
+					clearCurrentUser()
+					setLoading(false)
 				})
 		}
 	}, [user])
@@ -43,6 +46,8 @@ export default function UserProvider({ children }) {
 				user,
 				defineCurrentUser,
 				clearCurrentUser,
+				loading,
+				setLoading,
 			}}
 		>
 			{children}

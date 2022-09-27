@@ -1,12 +1,4 @@
-import {
-	faBank,
-	faCog,
-	faHome,
-	faIdCard,
-	faList,
-	faTarp,
-	faUser,
-} from '@fortawesome/free-solid-svg-icons'
+import { faBank, faHome, faIdCard, faList, faTarp, faUser } from '@fortawesome/free-solid-svg-icons'
 
 const PageSettings = {
 	dashboard: {

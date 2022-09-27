@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const Button = styled.button`
+const ButtonStyle = styled.button`
 	background-color: #39f;
 	border: 0px solid transparent;
 	border-radius: 7px;
@@ -35,6 +35,7 @@ const Button = styled.button`
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+
 		svg {
 			margin: 0;
 		}
@@ -59,4 +60,8 @@ const Button = styled.button`
 	}
 `
 
-export default Button
+export default function Button(props) {
+	return (
+		<ButtonStyle {...props} className={props.className ? props.className : 'primary'}></ButtonStyle>
+	)
+}

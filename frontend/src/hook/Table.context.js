@@ -116,8 +116,8 @@ function TableProvider({ children }) {
 				entity: entity,
 				page: pageController[entity].currentPage,
 			})
+			setEditEvent(null)
 		})
-		setEditEvent(null)
 	}
 
 	function create(entity, value, onSuccess = () => {}, onError = () => {}) {
