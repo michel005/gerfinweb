@@ -109,7 +109,7 @@
 				"lead": "Registre todos os seus lançamentos"
 			},
 			"table": {
-				"dueDate": "Vencimento",
+				"dueDate": "Dia",
 				"description": "Descrição",
 				"account": "Conta",
 				"value": "Valor",

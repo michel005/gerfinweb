@@ -24,7 +24,7 @@ const GroupStyled = styled.div`
 
 	@media only screen and (max-width: 1000px) {
 		.groupContent {
-			overflow-x: scroll;
+			overflow-x: auto;
 		}
 	}
 `

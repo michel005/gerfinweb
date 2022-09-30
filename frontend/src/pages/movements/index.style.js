@@ -51,7 +51,7 @@ const MovementStyle = styled.div`
 
 	.column_dueDate,
 	.column_movementDate {
-		max-width: 170px;
+		max-width: 110px;
 	}
 
 	.column_account {
@@ -65,7 +65,7 @@ const MovementStyle = styled.div`
 	}
 
 	.column_status {
-		max-width: 150px;
+		max-width: 100px;
 	}
 
 	.column_commands {
@@ -95,6 +95,15 @@ const MovementStyle = styled.div`
 
 		& > * {
 			margin-right: 7px;
+		}
+	}
+
+	@media only screen and (max-width: 700px) {
+		.templateList {
+			transform: ${(props) =>
+				props.showTemplates
+					? 'translateY(40px) translateX(0px)'
+					: 'translateY(20px) translateX(0px)'};
 		}
 	}
 `

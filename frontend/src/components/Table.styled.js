@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+const LINE_SIZE = '40px'
+
 const TableStyle = styled.div`
 	background-color: #fff;
 	border-radius: 7px;
@@ -17,6 +19,8 @@ const TableStyle = styled.div`
 		display: flex;
 		flex-direction: column;
 		height: 100%;
+		max-width: 100%;
+		overflow: hidden;
 
 		.header {
 			background-color: #39f;
@@ -26,8 +30,8 @@ const TableStyle = styled.div`
 			border-top-right-radius: 7px;
 			display: flex;
 			flex-direction: row;
-			height: 50px;
-			min-height: 50px;
+			height: calc(${LINE_SIZE} + 6px);
+			min-height: calc(${LINE_SIZE} + 6px);
 			width: 100%;
 			padding-right: 15px;
 
@@ -36,7 +40,8 @@ const TableStyle = styled.div`
 				display: flex;
 				flex-grow: 1;
 				font-weight: bold;
-				padding: 14px 18px;
+				font-size: 14px;
+				padding: 13px 14px;
 				transition: all 0.25s;
 				width: 100px;
 
@@ -100,8 +105,8 @@ const TableStyle = styled.div`
 					display: flex;
 					flex-direction: row;
 					transition: all 0.25s;
-					height: 50px;
-					min-height: 50px;
+					height: ${LINE_SIZE};
+					min-height: ${LINE_SIZE};
 					width: 100%;
 
 					.hovered {
@@ -149,7 +154,7 @@ const TableStyle = styled.div`
 						flex-direction: column;
 						flex-grow: 1;
 						font-size: 14px;
-						padding: 0 14px;
+						padding: 0 10px;
 						justify-content: center;
 						transition: all 0.25s;
 						width: 100%;
@@ -162,10 +167,10 @@ const TableStyle = styled.div`
 							flex-direction: row;
 							justify-content: flex-start;
 							width: 100%;
-							height: 50px;
+							height: ${LINE_SIZE};
 
 							svg {
-								font-size: 22px;
+								font-size: 20px;
 								margin-top: 14px;
 								margin-left: 4px;
 							}
@@ -244,7 +249,7 @@ const TableStyle = styled.div`
 					justify-content: center;
 					flex-direction: column;
 					margin: 0 7px !important;
-					padding: 0px;
+					padding: 0;
 				}
 
 				.currentPage {

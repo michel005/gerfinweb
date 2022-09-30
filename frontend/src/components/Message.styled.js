@@ -123,9 +123,16 @@ const MessageStyle = styled.div`
 
 	@media only screen and (max-width: 700px) {
 		.content {
-			transform: translateX(calc(-50% - 21px)) translateY(-50%);
+			top: 0;
+			transform: translateX(calc(-50% - 21px)) translateY(21px);
 			margin: 0 21px;
+			max-height: calc(100% - 42px);
 			width: calc(100% - 42px);
+
+			.text {
+				max-height: calc(100vh - 180px);
+				overflow-y: auto;
+			}
 		}
 	}
 `

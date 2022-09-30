@@ -41,21 +41,6 @@ const AccountsStyle = styled.div`
 		display: flex;
 		flex-direction: row;
 		margin-bottom: 14px;
-
-		& > * {
-			margin-right: 7px;
-		}
-	}
-
-	@media only screen and (max-width: 1000px) {
-		.commands {
-			flex-direction: column;
-
-			& > * {
-				margin-right: 0;
-				margin-top: 7px;
-			}
-		}
 	}
 `
 

@@ -60,21 +60,21 @@ export default function Accounts() {
 				>
 					<FontAwesomeIcon icon={faPlus} /> {locCommons.create}
 				</Button>
-				<ButtonChooser
-					label={loc.filter_label_account_types}
-					list={loc.types}
-					defaultValue={allExtraValues.account?.type}
-					nullable={true}
-					nullableText={loc.filter_all_types}
-					onChange={(value) => {
-						find({
-							entity: 'account',
-							extraValues: {
-								type: value,
-							},
-						})
-					}}
-				/>
+				{/*<ButtonChooser*/}
+				{/*	label={loc.filter_label_account_types}*/}
+				{/*	list={loc.types}*/}
+				{/*	defaultValue={allExtraValues.account?.type}*/}
+				{/*	nullable={true}*/}
+				{/*	nullableText={loc.filter_all_types}*/}
+				{/*	onChange={(value) => {*/}
+				{/*		find({*/}
+				{/*			entity: 'account',*/}
+				{/*			extraValues: {*/}
+				{/*				type: value,*/}
+				{/*			},*/}
+				{/*		})*/}
+				{/*	}}*/}
+				{/*/>*/}
 			</div>
 			<Table
 				entity={'account'}
