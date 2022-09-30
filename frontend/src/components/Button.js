@@ -58,6 +58,15 @@ const ButtonStyle = styled.button`
 			background-color: #444;
 		}
 	}
+
+	&.alert {
+		background-color: #ff1d1d;
+		color: #fff;
+
+		&:hover {
+			background-color: #ff4f4f;
+		}
+	}
 `
 
 export default function Button(props) {

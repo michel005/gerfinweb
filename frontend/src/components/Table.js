@@ -13,6 +13,7 @@ import { LocalizationContext } from '../hook/Localization.context'
 import { TableContext } from '../hook/Table.context'
 import Button from './Button'
 import TableStyle from './Table.styled'
+import { useMediaQuery } from 'react-responsive'
 
 export default function Table({
 	entity = null,
@@ -23,9 +24,13 @@ export default function Table({
 	editModifier = {},
 	enableOrderBy = {},
 	responsiveColumns = {},
+	responsiveLayout = () => <h3>Responsive Layout</h3>,
+	responsiveAction = () => null,
 }) {
 	const table = useContext(TableContext)
 	const { getText } = useContext(LocalizationContext)
+
+	const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 
 	function orderBy(field) {
 		if (enableOrderBy[field] === true || enableOrderBy[field] === undefined) {
@@ -100,65 +105,77 @@ export default function Table({
 	return (
 		<TableStyle empty={table.content[entity].length === 0}>
 			<div className={'table'}>
-				<div className={'header'}>
-					{Object.keys(header).map((field) => {
-						return (
-							<div
-								key={field}
-								className={`column column_${field} ${responsiveColumns[field] ? 'responsive' : ''}`}
-								onClick={() => orderBy(field)}
-								onMouseOver={() => mouseEnterEvent(field, true)}
-								onMouseOut={() => mouseEnterEvent(field, false)}
-							>
-								{header[field]}
-								{table.orderBy[entity].field === field &&
-									(table.orderBy[entity].direction === 'DESC' ? (
-										<FontAwesomeIcon icon={faArrowUpShortWide} />
-									) : (
-										<FontAwesomeIcon icon={faArrowDownShortWide} />
-									))}
-							</div>
-						)
-					})}
-				</div>
-				<div className={'body'}>
-					<div className={'rowsContainer'}>
-						{table.content[entity].map((row) => {
+				{!isMobile && (
+					<div className={'header'}>
+						{Object.keys(header).map((field) => {
 							return (
-								<div key={JSON.stringify(row)} className={'line'}>
-									{Object.keys(header).map((field) => {
-										return (
-											<div
-												key={field}
-												className={`column column_${field} ${
-													responsiveColumns[field] ? 'responsive' : ''
-												} ${parseFloat(row[field]) < 0 ? 'negative' : ''}`}
-												onDoubleClick={() => enableEditEvent(row, field)}
-											>
-												{table.editEvent &&
-												table.editEvent.id === (valueMapper.id ? valueMapper.id(row) : row.id) &&
-												table.editEvent.field === field ? (
-													<>
-														{table.editEvent?.loading ? (
-															<div className={'loading'}>
-																<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
-															</div>
-														) : (
-															editField(row, field)
-														)}
-													</>
-												) : (
-													<div className={'columnContent'}>
-														{valueModifier[field]
-															? valueModifier[field](row[field], row)
-															: row[field]}
-													</div>
-												)}
-											</div>
-										)
-									})}
+								<div
+									key={field}
+									className={`column column_${field} ${
+										responsiveColumns[field] ? 'responsive' : ''
+									}`}
+									onClick={() => orderBy(field)}
+									onMouseOver={() => mouseEnterEvent(field, true)}
+									onMouseOut={() => mouseEnterEvent(field, false)}
+								>
+									{header[field]}
+									{table.orderBy[entity].field === field &&
+										(table.orderBy[entity].direction === 'DESC' ? (
+											<FontAwesomeIcon icon={faArrowUpShortWide} />
+										) : (
+											<FontAwesomeIcon icon={faArrowDownShortWide} />
+										))}
 								</div>
 							)
+						})}
+					</div>
+				)}
+				<div className={'body'}>
+					<div className={'rowsContainer'}>
+						{table.content[entity].map((row, index) => {
+							if (isMobile === true && responsiveLayout) {
+								return (
+									<div key={index} onDoubleClick={() => responsiveAction(row)}>
+										{responsiveLayout(row)}
+									</div>
+								)
+							} else {
+								return (
+									<div key={JSON.stringify(row)} className={'line'}>
+										{Object.keys(header).map((field) => {
+											return (
+												<div
+													key={field}
+													className={`column column_${field} ${
+														responsiveColumns[field] ? 'responsive' : ''
+													} ${parseFloat(row[field]) < 0 ? 'negative' : ''}`}
+													onDoubleClick={() => enableEditEvent(row, field)}
+												>
+													{table.editEvent &&
+													table.editEvent.id === (valueMapper.id ? valueMapper.id(row) : row.id) &&
+													table.editEvent.field === field ? (
+														<>
+															{table.editEvent?.loading ? (
+																<div className={'loading'}>
+																	<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
+																</div>
+															) : (
+																editField(row, field)
+															)}
+														</>
+													) : (
+														<div className={'columnContent'}>
+															{valueModifier[field]
+																? valueModifier[field](row[field], row)
+																: row[field]}
+														</div>
+													)}
+												</div>
+											)
+										})}
+									</div>
+								)
+							}
 						})}
 						{table.content[entity].length === 0 && (
 							<div className={'line emptyTable'}>{getText('componnents.table.empty')}</div>

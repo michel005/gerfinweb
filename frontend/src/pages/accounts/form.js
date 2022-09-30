@@ -12,17 +12,19 @@ import Alert from '../../components/Alert'
 import { MessageContext } from '../../hook/Message.context'
 import PageSettings from '../../assets/page.settings'
 
-export default function AccountForm({ account }) {
+export default function AccountForm() {
 	const { loc: locCommons } = useLocalization('commons')
 	const { loc } = useLocalization('pages.account')
-	const { create } = useContext(TableContext)
-	const { setShowForm } = useContext(ConfigContext)
+	const { create, update, refresh } = useContext(TableContext)
+	const { setShowForm, showForm } = useContext(ConfigContext)
 	const { errorMessage } = useContext(MessageContext)
 	const [description, setDescription] = useState()
 
 	function changeDescription(event) {
 		setDescription(loc.types_description[event.target.value])
 	}
+
+	const account = showForm.account
 
 	useEffect(() => {
 		setDescription(loc.types_description[document.getElementById('accountType').value])
@@ -36,27 +38,53 @@ export default function AccountForm({ account }) {
 				<DisplayRowStyle>
 					<Button
 						onClick={() => {
-							create(
-								'account',
-								{
-									name: document.getElementById('accountName').value,
-									bank: document.getElementById('accountBank').value,
-									type: document.getElementById('accountType').value,
-								},
-								() => {
-									setShowForm((sf) => {
-										return { ...sf, account: false }
-									})
-								},
-								(error) => {
-									errorMessage({
-										header: loc.save_error,
-										text: error.response.data[0]
-											? error.response.data[0]
-											: error.response.data.message.substr(0, 100),
-									})
-								}
-							)
+							if (account.id) {
+								update(
+									'account',
+									account.id,
+									{
+										name: document.getElementById('accountName').value,
+										bank: document.getElementById('accountBank').value,
+										type: document.getElementById('accountType').value,
+									},
+									() => {
+										setShowForm((sf) => {
+											return { ...sf, account: false }
+										})
+										refresh({ entity: 'account' })
+									},
+									(error) => {
+										errorMessage({
+											header: loc.save_error,
+											text: error.response.data[0]
+												? error.response.data[0]
+												: error.response.data.message.substr(0, 100),
+										})
+									}
+								)
+							} else {
+								create(
+									'account',
+									{
+										name: document.getElementById('accountName').value,
+										bank: document.getElementById('accountBank').value,
+										type: document.getElementById('accountType').value,
+									},
+									() => {
+										setShowForm((sf) => {
+											return { ...sf, account: false }
+										})
+									},
+									(error) => {
+										errorMessage({
+											header: loc.save_error,
+											text: error.response.data[0]
+												? error.response.data[0]
+												: error.response.data.message.substr(0, 100),
+										})
+									}
+								)
+							}
 						}}
 					>
 						<FontAwesomeIcon icon={faSave} /> {locCommons.save}

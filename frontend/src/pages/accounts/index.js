@@ -1,4 +1,4 @@
-import { faCheck, faDollar, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faDollar, faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import Button from '../../components/Button'
@@ -9,10 +9,9 @@ import useLocalization from '../../hook/useLocalization'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import AccountsStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
-import ButtonChooser from '../../components/ButtonChooser'
 
 export default function Accounts() {
-	const { updateField, find, remove, allExtraValues } = useContext(TableContext)
+	const { updateField, remove } = useContext(TableContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
 	const { setAdjustAccountBalance, setShowForm } = useContext(ConfigContext)
 	const { loc } = useLocalization('pages.account')
@@ -54,7 +53,14 @@ export default function Accounts() {
 				<Button
 					onClick={() => {
 						setShowForm((sf) => {
-							return { ...sf, account: true }
+							return {
+								...sf,
+								account: {
+									name: 'Nova Conta',
+									type: 'DEBIT',
+									bank: 'Novo Banco',
+								},
+							}
 						})
 					}}
 				>
@@ -89,6 +95,66 @@ export default function Accounts() {
 					type: true,
 					currentBalance: true,
 					futureBalance: true,
+				}}
+				responsiveAction={(account) => {
+					setShowForm((sf) => {
+						return {
+							...sf,
+							account: account.account,
+						}
+					})
+				}}
+				responsiveLayout={(account) => {
+					return (
+						<div className={'responsiveLayout'}>
+							<div className={'layoutName'}>{account.account.name}</div>
+							<div className={'layoutBank'}>
+								{account.account.bank} (
+								<span className={'layoutType'}>{loc.types[account.account.type]}</span>)
+							</div>
+							<div className={'layoutBalance balance'}>
+								<div className={'balanceDescription'}>{loc.table.balance}</div>
+								<div className={'mainValue'}>
+									<div className={'currency'}>R$</div>
+									<div className={'value'}>{CurrencyUtils.format(account.balance)}</div>
+								</div>
+							</div>
+							<div className={'layoutBalance current'}>
+								<div className={'balanceDescription'}>{locCommons.current_balance}</div>
+								<div className={'mainValue'}>
+									<div className={'currency'}>R$</div>
+									<div className={'value'}>{CurrencyUtils.format(account.currentBalance)}</div>
+								</div>
+							</div>
+							<div className={'layoutBalance future'}>
+								<div className={'balanceDescription'}>{locCommons.future_balance}</div>
+								<div className={'mainValue'}>
+									<div className={'currency'}>R$</div>
+									<div className={'value'}>{CurrencyUtils.format(account.futureBalance)}</div>
+								</div>
+							</div>
+							<div className={'commands'}>
+								<Button
+									onClick={() => {
+										setShowForm((sf) => {
+											return {
+												...sf,
+												account: account.account,
+											}
+										})
+									}}
+								>
+									<FontAwesomeIcon icon={faPencil} /> {locCommons.update}
+								</Button>
+								<Button onClick={() => adjustAccountBalance(account.account)}>
+									<FontAwesomeIcon icon={faDollar} /> {loc.table.adjust_balance_command}
+								</Button>
+								<Button className={'alert'} onClick={() => deleteAccount(account.account)}>
+									<FontAwesomeIcon icon={faTrash} /> {loc.table.delete_command}
+								</Button>
+							</div>
+						</div>
+					)
 				}}
 				header={{
 					name: loc.table.name,

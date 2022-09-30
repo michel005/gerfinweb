@@ -266,6 +266,8 @@ const TableStyle = styled.div`
 
 	@media only screen and (max-width: 1000px) {
 		.table {
+			border-radius: 7px;
+
 			.header {
 				.column.responsive {
 					color: transparent;
@@ -278,6 +280,7 @@ const TableStyle = styled.div`
 			}
 
 			.body {
+				overflow-y: auto;
 				.rowsContainer {
 					.line {
 						.column.responsive {

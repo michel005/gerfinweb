@@ -90,7 +90,9 @@ export default function Main() {
 							<div key={index} className="optionContainer">
 								<button
 									className={PageSettings[page].path === window.location.pathname ? 'active' : ''}
-									onClick={() => defineCurrentPage({ ...PageSettings[page] })}
+									onClick={() => {
+										defineCurrentPage({ ...PageSettings[page] })
+									}}
 								>
 									{reduced ? (
 										loadingMenuOptions[page] ? (

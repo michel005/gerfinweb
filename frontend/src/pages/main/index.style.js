@@ -323,7 +323,7 @@ const MainStyle = styled.div`
 	@media only screen and (max-width: 1000px) {
 		.reduceButton {
 			top: 0;
-			left: 100vw;
+			left: 54px;
 			position: fixed;
 			transition: all 0.25s;
 
@@ -334,9 +334,10 @@ const MainStyle = styled.div`
 				color: ${(props) => (props.reduced ? '#222' : '#222')};
 				cursor: pointer;
 				margin: 0;
-				padding: 7px 10px;
+				padding: 6px 10px 7px;
 				transition: all 0.25s;
 				transform: translateX(-44px) translateY(10px);
+				font-size: 20px;
 
 				&:hover {
 					background-color: ${(props) => (props.reduced ? '#3333' : '#3333')};
@@ -485,7 +486,7 @@ const MainStyle = styled.div`
 			display: flex;
 			flex-direction: column;
 			flex-grow: 1;
-			height: 100vh;
+			height: calc(100vh);
 			position: fixed;
 			bottom: 0;
 			transition: all 0.25s;
@@ -500,15 +501,22 @@ const MainStyle = styled.div`
 				position: fixed;
 				padding: 0 21px;
 				left: 0;
-				top: 0;
+				top: -20px !important;
 				width: 100% !important;
 				transition: all 0.25s;
-				
+
 				.header {
-					text-overflow: ellipsis;
-					white-space: nowrap;
-					overflow: hidden;
-                }
+
+					h1 {
+						margin-top: 30px;
+						margin-bottom: 4px;
+						padding-left: 40px;
+
+						svg {
+							margin-right: 7px;
+						}
+					}
+				}
 			}
 		}
 	}

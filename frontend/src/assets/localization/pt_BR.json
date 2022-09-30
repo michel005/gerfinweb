@@ -12,6 +12,7 @@
 		"current_balance": "Saldo Atual",
 		"future_balance": "Saldo Previsto",
 		"commands": "Comandos",
+		"update": "Alterar",
 		"approve": "Aprovar",
 		"close": "Fechar",
 		"confirm": "Confirmar",
@@ -68,8 +69,8 @@
 				"balance": "Balanço",
 				"current_balance": "Atual",
 				"future_balance": "Futuro",
-				"delete_command": "Excluir Conta",
-				"adjust_balance_command": "Ajustar Saldo da Conta"
+				"delete_command": "Excluir",
+				"adjust_balance_command": "Ajustar Saldo"
 			},
 			"types": {
 				"DEBIT": "Débito",

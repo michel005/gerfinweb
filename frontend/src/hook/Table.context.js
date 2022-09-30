@@ -2,8 +2,6 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import url from '../assets/url_settings.json'
 import API from '../config/API'
 import { ConfigContext } from './Config.context'
-import { LocalizationContext } from './Localization.context'
-import { MessageContext } from './Message.context'
 import { PageContext } from './Page.context'
 import { UserContext } from './User.context'
 
@@ -12,8 +10,6 @@ const PAGE_SIZE = 20
 
 function TableProvider({ children }) {
 	const { formatedDataBaseForURL, dataBase, setDataBase } = useContext(ConfigContext)
-	const { simpleMessage } = useContext(MessageContext)
-	const { getText } = useContext(LocalizationContext)
 	const { user } = useContext(UserContext)
 	const { currentPage } = useContext(PageContext)
 	const [editEvent, setEditEvent] = useState(null)
@@ -137,7 +133,7 @@ function TableProvider({ children }) {
 			.catch(onError)
 	}
 
-	function update(entity, id, value, after = () => {}) {
+	function update(entity, id, value, after = () => {}, error) {
 		value.id = id
 		API.post(url[entity].update, value, {
 			headers: {
@@ -151,14 +147,7 @@ function TableProvider({ children }) {
 					setDataBase(new Date(dataBase))
 				}
 			})
-			.catch((error) => {
-				simpleMessage({
-					header: getText('componnents.table.update_field.header'),
-					text: error.response.data[0]
-						? error.response.data[0]
-						: JSON.stringify(error.response.data),
-				})
-			})
+			.catch(error)
 	}
 
 	function remove(entity, id, after = () => {}) {
@@ -450,6 +439,7 @@ function TableProvider({ children }) {
 				updateOrderBy,
 				find,
 				create,
+				update,
 				remove,
 				content,
 				updateField,

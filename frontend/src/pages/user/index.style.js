@@ -134,6 +134,13 @@ const UserStyle = styled.div`
 			justify-content: center;
 		}
 	}
+
+	@media only screen and (max-width: 1000px) {
+		.horizontalGroup {
+			display: flex;
+			flex-direction: column;
+		}
+	}
 `
 
 export default UserStyle
