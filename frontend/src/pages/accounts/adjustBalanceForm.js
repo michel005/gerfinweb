@@ -11,7 +11,6 @@ import DateUtils from '../../utils/DateUtils'
 import DisplayRowStyle from '../../components/DisplayRow.style'
 import url from '../../assets/url_settings.json'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import PageSettings from '../../assets/page.settings'
 import { faDollar, faSave } from '@fortawesome/free-solid-svg-icons'
 import { MessageContext } from '../../hook/Message.context'
 

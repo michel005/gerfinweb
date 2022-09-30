@@ -66,8 +66,8 @@
 				"bank": "Banco",
 				"type": "Tipo",
 				"balance": "Balanço",
-				"current_balance": "Saldo Atual",
-				"future_balance": "Saldo Futuro",
+				"current_balance": "Atual",
+				"future_balance": "Futuro",
 				"delete_command": "Excluir Conta",
 				"adjust_balance_command": "Ajustar Saldo da Conta"
 			},
@@ -149,7 +149,7 @@
 				"lead": "Faça um modelo para realizar lançamentos de forma mais rápida"
 			},
 			"table": {
-				"dueDay": "Vencimento",
+				"dueDay": "Dia",
 				"description": "Descrição",
 				"account": "Conta",
 				"value": "Valor",

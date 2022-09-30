@@ -65,10 +65,12 @@ export default function LoginPage() {
 	}
 
 	return (
-		<LoginStyle loading={loading}>
-			<div className={'loadInfo'}>
-				<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
-			</div>
+		<LoginStyle loading={loading.toString()}>
+			{loading && (
+				<div className={'loadInfo'}>
+					<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
+				</div>
+			)}
 			{showCreateAccount === true && !user && !loading && (
 				<div className={'createAccountPage'}>
 					<div className={'header'}>CREATE USER ACCOUNT</div>

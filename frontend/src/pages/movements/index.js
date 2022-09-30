@@ -1,5 +1,5 @@
 import { faArrowAltCircleDown } from '@fortawesome/free-regular-svg-icons'
-import { faArrowsRotate, faCheck, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useState } from 'react'
 import PageSettings from '../../assets/page.settings'
@@ -12,10 +12,6 @@ import { TableContext } from '../../hook/Table.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import MovementStyle from './index.style'
 import useLocalization from '../../hook/useLocalization'
-import DisplayRowStyle from '../../components/DisplayRow.style'
-import DateUtils from '../../utils/DateUtils'
-import MovementForm from './form'
-import Form from '../../components/Form'
 
 export default function Movements() {
 	const { updateField, find, remove, aditionalInformation } = useContext(TableContext)
@@ -120,10 +116,6 @@ export default function Movements() {
 				>
 					<FontAwesomeIcon icon={faArrowAltCircleDown} /> {locCommons.transfer}
 				</Button>
-				<DisplayRowStyle className={'expand'}></DisplayRowStyle>
-				<Button onClick={() => find({ entity: 'movement' })} className={'noText transparent'}>
-					<FontAwesomeIcon icon={faArrowsRotate} />
-				</Button>
 			</div>
 			<Table
 				entity={'movement'}
@@ -135,6 +127,11 @@ export default function Movements() {
 					status: loc.table.status,
 					movementDate: loc.table.movementDate,
 					commands: '',
+				}}
+				responsiveColumns={{
+					account: true,
+					status: true,
+					movementDate: true,
 				}}
 				enableOrderBy={{
 					commands: false,
@@ -170,35 +167,7 @@ export default function Movements() {
 						return movement.dueDate
 					},
 					description: (value, movement) => {
-						return (
-							<>
-								{movement.description
-									.replaceAll('(IN)', '')
-									.replaceAll('(OUT)', '')
-									.replaceAll('(ALERT)', '')
-									.trim()}{' '}
-								{movement.template && (
-									<div>
-										<div className={'label template'}>{loc.label.template}</div>
-									</div>
-								)}{' '}
-								{movement.description.indexOf('(IN)') !== -1 && (
-									<div>
-										<div className={'label transferDestiny'}>{loc.label.destiny_transfer}</div>
-									</div>
-								)}{' '}
-								{movement.description.indexOf('(OUT)') !== -1 && (
-									<div>
-										<div className={'label transferOrigin'}>{loc.label.origin_transfer}</div>
-									</div>
-								)}{' '}
-								{movement.description.indexOf('(ALERT)') !== -1 && (
-									<div>
-										<div className={'label alertMovement'}>{loc.label.alert}</div>
-									</div>
-								)}
-							</>
-						)
+						return movement.description
 					},
 					account: (value, movement) => {
 						return movement.account.name

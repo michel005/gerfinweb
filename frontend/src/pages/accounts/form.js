@@ -69,7 +69,7 @@ export default function AccountForm({ account }) {
 				})
 			}}
 		>
-			<div style={{ maxWidth: '472px' }}>
+			<div>
 				<DisplayRowStyle>
 					<Field id={'accountName'} label={loc.table.name} defaultValue={account.name} />
 					<Field id={'accountBank'} label={loc.table.bank} defaultValue={account.bank} />

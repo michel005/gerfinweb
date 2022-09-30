@@ -32,12 +32,12 @@ export default function Main() {
 
 	return (
 		<MainStyle reduced={reduced}>
+			<div className="reduceButton">
+				<button onClick={() => setReduced(!reduced)}>
+					<FontAwesomeIcon icon={faBars} />
+				</button>
+			</div>
 			<div className="menu">
-				<div className="reduceButton">
-					<button onClick={() => setReduced(!reduced)}>
-						<FontAwesomeIcon icon={faBars} />
-					</button>
-				</div>
 				<div className={'userImageContainer'}>
 					<img
 						className={'userImg'}
@@ -136,8 +136,7 @@ export default function Main() {
 												<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
 											</div>
 										) : (
-											(balance?.current < 0 ? '-' : '') +
-											CurrencyUtils.format(balance?.current).substring(3)
+											CurrencyUtils.format(balance?.current)
 										)}
 									</div>
 								</div>
@@ -160,8 +159,7 @@ export default function Main() {
 												<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
 											</div>
 										) : (
-											(balance?.future < 0 ? '-' : '') +
-											CurrencyUtils.format(balance?.future).substring(3)
+											CurrencyUtils.format(balance?.future)
 										)}
 									</div>
 								</div>

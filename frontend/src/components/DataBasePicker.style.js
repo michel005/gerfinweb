@@ -49,6 +49,10 @@ const DataBasePickerStyle = styled.div`
 			margin-right: 0;
 		}
 	}
+
+	@media only screen and (max-width: 1000px) {
+		width: calc(100% - 28px);
+	}
 `
 
 export default DataBasePickerStyle

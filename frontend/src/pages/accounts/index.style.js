@@ -46,6 +46,17 @@ const AccountsStyle = styled.div`
 			margin-right: 7px;
 		}
 	}
+
+	@media only screen and (max-width: 1000px) {
+		.commands {
+			flex-direction: column;
+
+			& > * {
+				margin-right: 0;
+				margin-top: 7px;
+			}
+		}
+	}
 `
 
 export default AccountsStyle

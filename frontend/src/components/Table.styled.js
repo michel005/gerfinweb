@@ -258,6 +258,59 @@ const TableStyle = styled.div`
 			}
 		}
 	}
+
+	@media only screen and (max-width: 1000px) {
+		.table {
+			.header {
+				.column.responsive {
+					color: transparent;
+					width: 0;
+					max-width: 0;
+					min-width: 0;
+					padding: 0;
+					pointer-events: none;
+				}
+			}
+
+			.body {
+				.rowsContainer {
+					.line {
+						.column.responsive {
+							color: transparent;
+							width: 0;
+							max-width: 0;
+							min-width: 0;
+							padding: 0;
+							pointer-events: none;
+						}
+					}
+				}
+			}
+
+			.page {
+				justify-content: center;
+
+				.pageController {
+					width: 100%;
+
+					.currentPage {
+						flex-grow: 1;
+						text-align: center;
+						width: 100%;
+					}
+				}
+			}
+
+			.currentPageDisplay {
+				color: transparent;
+				width: 0;
+				max-width: 0;
+				min-width: 0;
+				padding: 0 !important;
+				margin: 0;
+			}
+		}
+	}
 `
 
 export default TableStyle

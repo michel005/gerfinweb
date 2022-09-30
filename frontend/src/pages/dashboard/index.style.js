@@ -10,7 +10,7 @@ const DashboardStyle = styled.div`
 		margin-top: 14px;
 
 		&:first-child {
-			margin-top: 0px;
+			margin-top: 0;
 		}
 
 		& > * {
@@ -19,7 +19,7 @@ const DashboardStyle = styled.div`
 			width: 100px;
 
 			&:last-child {
-				margin-right: 0px;
+				margin-right: 0;
 			}
 		}
 	}
@@ -66,7 +66,7 @@ const DashboardStyle = styled.div`
 			}
 
 			.dueDate {
-				min-width: 100px;
+				min-width: 50px;
 			}
 
 			.description {
@@ -120,8 +120,39 @@ const DashboardStyle = styled.div`
 			}
 
 			.balance {
-				min-width: 150px;
+				min-width: 130px;
 				justify-content: flex-end;
+			}
+		}
+	}
+
+	@media only screen and (max-width: 1000px) {
+		.groups {
+			display: flex;
+			flex-direction: column;
+			margin-top: 14px;
+
+			& > * {
+				flex-grow: 1;
+				margin-right: 0;
+				margin-top: 14px;
+				width: 100%;
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+
+		.group {
+			.groupContent {
+				.balances {
+					min-width: 700px;
+				}
+				.account,
+				.movement {
+					min-width: 350px;
+				}
 			}
 		}
 	}

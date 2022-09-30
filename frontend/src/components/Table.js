@@ -22,6 +22,7 @@ export default function Table({
 	columnAction = {},
 	editModifier = {},
 	enableOrderBy = {},
+	responsiveColumns = {},
 }) {
 	const table = useContext(TableContext)
 	const { getText } = useContext(LocalizationContext)
@@ -104,7 +105,7 @@ export default function Table({
 						return (
 							<div
 								key={field}
-								className={'column column_' + field}
+								className={`column column_${field} ${responsiveColumns[field] ? 'responsive' : ''}`}
 								onClick={() => orderBy(field)}
 								onMouseOver={() => mouseEnterEvent(field, true)}
 								onMouseOut={() => mouseEnterEvent(field, false)}
@@ -129,12 +130,9 @@ export default function Table({
 										return (
 											<div
 												key={field}
-												className={
-													'column column_' +
-													field +
-													' ' +
-													(parseFloat(row[field]) < 0 ? 'negative' : '')
-												}
+												className={`column column_${field} ${
+													responsiveColumns[field] ? 'responsive' : ''
+												} ${parseFloat(row[field]) < 0 ? 'negative' : ''}`}
 												onDoubleClick={() => enableEditEvent(row, field)}
 											>
 												{table.editEvent &&

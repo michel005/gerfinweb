@@ -9,6 +9,7 @@ const MessageStyle = styled.div`
 	top: 0;
 	width: 100%;
 	z-index: 100;
+	transition: all 0.25s;
 
 	.content {
 		background-color: #fff;
@@ -18,8 +19,8 @@ const MessageStyle = styled.div`
 		position: fixed;
 		top: 50%;
 		transform: translateX(-50%) translateY(-50%);
-		min-width: 430px;
-		max-width: 550px;
+		width: 430px;
+		transition: all 0.25s;
 
 		.header {
 			border: 0 solid #39f;
@@ -28,12 +29,13 @@ const MessageStyle = styled.div`
 			display: flex;
 			flex-direction: row;
 			font-size: 18px;
+			transition: all 0.25s;
 
 			svg {
 				color: #39f;
 				font-size: 18px;
 				transition: all 0.25s;
-				padding: 18px 0px 14px 14px;
+				padding: 18px 0 14px 14px;
 			}
 
 			.headerText {
@@ -62,6 +64,7 @@ const MessageStyle = styled.div`
 			margin-top: 14px;
 			margin-bottom: 14px;
 			padding: 10px 14px;
+			transition: all 0.25s;
 
 			.field {
 				margin-bottom: 10px;
@@ -80,6 +83,7 @@ const MessageStyle = styled.div`
 			justify-content: flex-end;
 			margin-top: 21px;
 			padding: 0 14px 14px;
+			transition: all 0.25s;
 
 			button {
 				margin-right: 10px;
@@ -114,6 +118,14 @@ const MessageStyle = styled.div`
 			&:hover {
 				background: #ff6c6c;
 			}
+		}
+	}
+
+	@media only screen and (max-width: 700px) {
+		.content {
+			transform: translateX(calc(-50% - 21px)) translateY(-50%);
+			margin: 0 21px;
+			width: calc(100% - 42px);
 		}
 	}
 `

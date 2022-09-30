@@ -20,6 +20,10 @@ const DisplayRowStyle = styled.div`
 		flex-grow: 1;
 		width: 100%;
 	}
+
+	@media only screen and (max-width: 1000px) {
+		flex-direction: column;
+	}
 `
 
 export default DisplayRowStyle

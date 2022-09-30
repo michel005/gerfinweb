@@ -6,7 +6,7 @@ const TemplateStyle = styled.div`
 	height: 100%;
 
 	.column_dueDay {
-		max-width: 150px;
+		max-width: 100px;
 	}
 
 	.column_account {
@@ -14,7 +14,7 @@ const TemplateStyle = styled.div`
 	}
 
 	.column_value {
-		max-width: 200px;
+		max-width: 180px;
 		text-align: right;
 		justify-content: flex-end;
 	}

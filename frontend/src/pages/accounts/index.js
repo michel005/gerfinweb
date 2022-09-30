@@ -1,10 +1,4 @@
-import {
-	faArrowsRotate,
-	faCheck,
-	faDollar,
-	faPlus,
-	faTrash,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faDollar, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import Button from '../../components/Button'
@@ -16,8 +10,6 @@ import CurrencyUtils from '../../utils/CurrencyUtils'
 import AccountsStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
 import ButtonChooser from '../../components/ButtonChooser'
-import Alert from '../../components/Alert'
-import DisplayRowStyle from '../../components/DisplayRow.style'
 
 export default function Accounts() {
 	const { updateField, find, remove, allExtraValues } = useContext(TableContext)
@@ -83,10 +75,6 @@ export default function Accounts() {
 						})
 					}}
 				/>
-				<DisplayRowStyle className={'expand'}></DisplayRowStyle>
-				<Button onClick={() => find({ entity: 'account' })} className={'noText transparent'}>
-					<FontAwesomeIcon icon={faArrowsRotate} />
-				</Button>
 			</div>
 			<Table
 				entity={'account'}
@@ -95,6 +83,12 @@ export default function Accounts() {
 					currentBalance: false,
 					futureBalance: false,
 					commands: false,
+				}}
+				responsiveColumns={{
+					bank: true,
+					type: true,
+					currentBalance: true,
+					futureBalance: true,
 				}}
 				header={{
 					name: loc.table.name,

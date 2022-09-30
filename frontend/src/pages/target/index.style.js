@@ -10,7 +10,7 @@ const TargetStyle = styled.div`
 	}
 
 	.column_targetValue {
-		max-width: 200px;
+		max-width: 180px;
 		text-align: right;
 		justify-content: flex-end;
 	}

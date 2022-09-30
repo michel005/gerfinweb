@@ -1,4 +1,4 @@
-import { faArrowsRotate, faCheck, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import Button from '../../components/Button'
@@ -9,11 +9,10 @@ import { TableContext } from '../../hook/Table.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import TargetStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
-import DisplayRowStyle from '../../components/DisplayRow.style'
 
 export default function Targets() {
 	const { getText } = useContext(LocalizationContext)
-	const { updateField, find, remove, aditionalInformation } = useContext(TableContext)
+	const { updateField, remove, aditionalInformation } = useContext(TableContext)
 	const { setShowForm } = useContext(ConfigContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
 
@@ -50,10 +49,6 @@ export default function Targets() {
 				>
 					<FontAwesomeIcon icon={faPlus} /> {getText('commons.create')}
 				</Button>
-				<DisplayRowStyle className={'expand'}></DisplayRowStyle>
-				<Button onClick={() => find({ entity: 'target' })} className={'noText transparent'}>
-					<FontAwesomeIcon icon={faArrowsRotate} />
-				</Button>
 			</div>
 			<Table
 				entity={'target'}
@@ -63,6 +58,10 @@ export default function Targets() {
 					account: getText('pages.target.table.account'),
 					targetValue: getText('pages.target.table.targetValue'),
 					commands: '',
+				}}
+				responsiveColumns={{
+					targetDate: true,
+					account: true,
 				}}
 				enableOrderBy={{
 					commands: false,

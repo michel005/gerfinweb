@@ -181,20 +181,22 @@ export default function TransferForm() {
 						onChange={() => defineAccountAlert()}
 					/>
 				</DisplayRowStyle>
-				<Field
-					id={'transferStatus'}
-					type={'select'}
-					label={loc.table.status}
-					defaultValue={'PENDENT'}
-					nullable={false}
-					list={{ PENDENT: loc.types.PENDENT, APPROVED: loc.types.APPROVED }}
-				/>
-				<Field
-					id={'transferValue'}
-					label={loc.table.value}
-					defaultValue={'0,00'}
-					onChange={() => defineAccountAlert()}
-				/>
+				<DisplayRowStyle>
+					<Field
+						id={'transferStatus'}
+						type={'select'}
+						label={loc.table.status}
+						defaultValue={'PENDENT'}
+						nullable={false}
+						list={{ PENDENT: loc.types.PENDENT, APPROVED: loc.types.APPROVED }}
+					/>
+					<Field
+						id={'transferValue'}
+						label={loc.table.value}
+						defaultValue={'0,00'}
+						onChange={() => defineAccountAlert()}
+					/>
+				</DisplayRowStyle>
 				{accountAlert && <Alert alert={accountAlert} />}
 			</FormStyle>
 		</Form>

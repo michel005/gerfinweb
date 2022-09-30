@@ -14,7 +14,7 @@ export default function VerticalProgressIndicator({
 			value={value}
 			maximum={maximum}
 			minimum={minimum}
-            title={formatter ? formatter(value) : value.toFixed(2)}
+			title={formatter ? formatter(value) : value.toFixed(2)}
 		>
 			<div className={'background'}>
 				<div className={'progresso'}></div>

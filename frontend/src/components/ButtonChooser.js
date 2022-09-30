@@ -42,6 +42,20 @@ const ButtonChooserStyle = styled.div`
 			}
 		}
 	}
+
+	@media only screen and (max-width: 1000px) {
+		width: 100%;
+
+		.label {
+			display: none;
+		}
+
+		.values {
+			border-radius: 4px;
+			display: flex;
+			flex-direction: column;
+		}
+	}
 `
 
 export default function ButtonChooser({

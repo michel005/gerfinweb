@@ -15,6 +15,18 @@ const GroupStyled = styled.div`
 		padding-bottom: 14px;
 		width: 100%;
 	}
+
+	.groupContent {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+	}
+
+	@media only screen and (max-width: 1000px) {
+		.groupContent {
+			overflow-x: scroll;
+		}
+	}
 `
 
 export default GroupStyled

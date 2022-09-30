@@ -16,6 +16,32 @@ const MainStyle = styled.div`
 	z-index: 10;
 	backdrop-filter: blur(15px);
 
+	.reduceButton {
+		top: ${(props) => (props.reduced ? 'auto' : '18px')};
+		left: ${(props) =>
+			props.reduced ? `${MENU_REDUCED_WIDTH}` : `calc(${MENU_REDUCED_WIDTH} + 14px)`};
+		position: fixed;
+		transition: all 0.25s;
+		z-index: 100;
+
+		button {
+			background-color: ${(props) => (props.reduced ? 'transparent' : '#fff3')};
+			border: none;
+			border-radius: 4px;
+			color: ${(props) => (props.reduced ? '#222' : '#222')};
+			cursor: pointer;
+			margin: 0;
+			padding: 7px 10px;
+			transition: all 0.25s;
+			transform: translateX(-44px) translateY(10px);
+
+			&:hover {
+				background-color: ${(props) => (props.reduced ? '#3333' : '#3333')};
+				color: ${(props) => (props.reduced ? '#222' : '#fff')};
+			}
+		}
+	}
+
 	.menu {
 		background: ${(props) =>
 			props.reduced
@@ -108,29 +134,6 @@ const MainStyle = styled.div`
 			}
 		}
 
-		.reduceButton {
-			left: ${MENU_REDUCED_WIDTH};
-			position: fixed;
-			transition: all 0.25s;
-
-			button {
-				background-color: ${(props) => (props.reduced ? 'transparent' : '#fff3')};
-				border: none;
-				border-radius: 4px;
-				color: ${(props) => (props.reduced ? '#222' : '#222')};
-				cursor: pointer;
-				margin: 0;
-				padding: 7px 10px;
-				transition: all 0.25s;
-				transform: translateX(-44px) translateY(10px);
-
-				&:hover {
-					background-color: ${(props) => (props.reduced ? '#3333' : '#3333')};
-					color: ${(props) => (props.reduced ? '#222' : '#fff')};
-				}
-			}
-		}
-
 		.options {
 			display: flex;
 			flex-direction: column;
@@ -165,9 +168,8 @@ const MainStyle = styled.div`
 					font-size: 14px;
 					height: 100%;
 					text-overflow: ellipsis;
-					min-width: calc(
-						${(props) => (props.reduced ? MENU_REDUCED_WIDTH + ' - 21px' : MENU_WIDTH + ' - 70px')}
-					);
+					min-width: calc(${(props) =>
+						props.reduced ? MENU_REDUCED_WIDTH + ' - 21px' : MENU_WIDTH + ' - 70px'});
 					padding: 10px 14px;
 					text-align: left;
 					white-space: nowrap;
@@ -317,6 +319,200 @@ const MainStyle = styled.div`
 			}
 		}
 	}
+
+	@media only screen and (max-width: 1000px) {
+		.reduceButton {
+			top: 0;
+			left: 100vw;
+			position: fixed;
+			transition: all 0.25s;
+
+			button {
+				background-color: ${(props) => (props.reduced ? 'transparent' : '#fff3')};
+				border: none;
+				border-radius: 4px;
+				color: ${(props) => (props.reduced ? '#222' : '#222')};
+				cursor: pointer;
+				margin: 0;
+				padding: 7px 10px;
+				transition: all 0.25s;
+				transform: translateX(-44px) translateY(10px);
+
+				&:hover {
+					background-color: ${(props) => (props.reduced ? '#3333' : '#3333')};
+					color: ${(props) => (props.reduced ? '#222' : '#fff')};
+				}
+			}
+		}
+
+		.menu {
+			background: ${(props) => (props.reduced ? 'transparent' : '#fffe')};
+			box-shadow: none;
+			backdrop-filter: blur(10px);
+			border-radius: 0;
+			display: flex;
+			flex-direction: column;
+			height: 100vh;
+			left: 0;
+			margin: 0;
+			position: fixed;
+			padding-bottom: 14px;
+			top: 0;
+			width: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : '100%')};
+			transition: all 0.25s;
+			opacity: ${(props) => (props.reduced ? 0 : 1)};
+			pointer-events: ${(props) => (props.reduced ? 'none' : 'auto')};
+			z-index: 30;
+
+			&:hover {
+				box-shadow: none;
+			}
+
+			.userImageContainer {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				padding: 14px 0;
+				margin-top: 0;
+				transition: all 0.25s;
+
+				.userImg {
+					border-radius: ${(props) => (props.reduced ? '20px' : '100px')};
+					height: 80px;
+					width: 80px;
+					transition: all 0.25s;
+					box-shadow: #333 0 0 4px;
+				}
+			}
+
+			.userInfo {
+				margin-bottom: 0;
+				transition: all 0.25s;
+				width: 100%;
+
+				.userDescription {
+					color: #333;
+					display: ${(props) => (props.reduced ? 'none' : 'flex')};
+					flex-direction: column;
+					padding: 10px;
+					transition: all 0.25s;
+					opacity: ${(props) => (props.reduced ? '0' : '1')};
+					pointer-events: ${(props) => (props.reduced ? 'none' : 'auto')};
+
+					.commands {
+						display: flex;
+						flex-direction: row;
+						justify-content: center;
+						margin-top: 4px;
+
+						button {
+							background-color: transparent;
+							border: none;
+							color: #333;
+							cursor: pointer;
+							font-weight: bold;
+							margin-right: 8px;
+							text-align: left;
+							transition: all 0.25s;
+
+							&:hover {
+								color: #39f;
+							}
+						}
+					}
+				}
+			}
+
+			.balances {
+				background-color: ${(props) => (props.reduced ? '#3336' : 'transparent')};
+				backdrop-filter: ${(props) => (props.reduced ? 'blur(15px)' : 'none')};
+				box-shadow: ${(props) => (props.reduced ? '#aaa9 0 0 7px' : 'none')};
+				border-radius: 4px;
+				color: ${(props) => (props.reduced ? '#fff' : '#333')};
+				margin: ${(props) => (props.reduced ? '14px' : '14px 14px 0 14px')};
+				padding: 14px;
+				transform: ${(props) => (props.reduced ? 'translateX(-166px)' : 'none')};
+				width: calc(100% - 28px) !important;
+				transition: all 0.25s;
+
+				&:hover {
+					transform: ${(props) => (props.reduced ? 'translateX(-0)' : 'none')};
+				}
+
+				.balance {
+					display: flex;
+					flex-direction: column;
+					margin-bottom: 14px;
+					transition: all 0.25s;
+
+					&:last-child {
+						margin-bottom: 0;
+					}
+
+					.title {
+						color: ${(props) => (props.reduced ? '#fff' : '#000')};
+						font-size: 14px;
+					}
+
+					.value {
+						display: flex;
+						flex-direction: row;
+
+						.currency {
+							font-size: 12px;
+							margin-top: 5px;
+						}
+
+						.val {
+							font-size: 28px;
+							text-align: right;
+							width: 100%;
+
+							&.zero {
+								color: ${(props) => (props.reduced ? '#fff' : '#ccc')};
+							}
+
+							&.negative {
+								color: ${(props) => (props.reduced ? '#fff' : '#f32727')};
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.content {
+			display: flex;
+			flex-direction: column;
+			flex-grow: 1;
+			height: 100vh;
+			position: fixed;
+			bottom: 0;
+			transition: all 0.25s;
+			z-index: 10;
+			left: 0;
+			width: 100%;
+
+			.mainHeader {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-end;
+				position: fixed;
+				padding: 0 21px;
+				left: 0;
+				top: 0;
+				width: 100% !important;
+				transition: all 0.25s;
+				
+				.header {
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+                }
+			}
+		}
+	}
+}
 `
 
 export default MainStyle
