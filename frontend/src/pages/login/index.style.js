@@ -4,7 +4,7 @@ const LoginStyle = styled.div`
 	.loadInfo {
 		left: 50%;
 		font-size: 48px;
-		opacity: ${(props) => (props.loading ? 1 : 0)};
+		opacity: ${(props) => (props.loading === 'true' ? 1 : 0)};
 		pointer-events: none;
 		position: fixed;
 		top: 50%;
@@ -18,8 +18,8 @@ const LoginStyle = styled.div`
 		border-radius: 7px;
 		box-shadow: #3333 0 0 7px;
 		left: 50%;
-		opacity: ${(props) => (props.loading ? 0 : 1)};
-		pointer-events: ${(props) => (props.loading ? 'none' : 'auto')};
+		opacity: ${(props) => (props.loading === 'true' ? 0 : 1)};
+		pointer-events: ${(props) => (props.loading === 'true' ? 'none' : 'auto')};
 		padding-bottom: 21px;
 		position: fixed;
 		top: 50%;

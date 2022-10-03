@@ -1,5 +1,5 @@
 import { faArrowAltCircleDown } from '@fortawesome/free-regular-svg-icons'
-import { faCheck, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faExclamation, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useState } from 'react'
 import PageSettings from '../../assets/page.settings'
@@ -12,6 +12,7 @@ import { TableContext } from '../../hook/Table.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import MovementStyle from './index.style'
 import useLocalization from '../../hook/useLocalization'
+import DateUtils from '../../utils/DateUtils'
 
 export default function Movements() {
 	const { updateField, find, remove, aditionalInformation } = useContext(TableContext)
@@ -59,18 +60,28 @@ export default function Movements() {
 		})
 	}
 
+	function createMovementEvent() {
+		setShowTemplates(false)
+		setShowForm((sf) => {
+			return {
+				...sf,
+				movement: {
+					dueDate: DateUtils.stringJustDate(new Date()),
+					description: loc.new_movement.description,
+					status: 'PENDENT',
+					value: 0.0,
+				},
+			}
+		})
+	}
+
 	return (
 		<MovementStyle showTemplates={showTemplates}>
 			<div className={'commands'}>
 				<Button
 					disabled={aditionalInformation.account.length === 0}
 					title={aditionalInformation.account.length === 0 ? loc.create_no_account : ''}
-					onClick={() => {
-						setShowTemplates(false)
-						setShowForm((sf) => {
-							return { ...sf, movement: true }
-						})
-					}}
+					onClick={createMovementEvent}
 				>
 					<FontAwesomeIcon icon={faPlus} /> {locCommons.create}
 				</Button>
@@ -132,6 +143,36 @@ export default function Movements() {
 					account: true,
 					status: true,
 					movementDate: true,
+				}}
+				responsiveLayout={(movement) => (
+					<div className={'responsiveLayout'}>
+						<div className={'layoutDate'}>
+							{movement.date}
+							<div className={`statusLabel ${movement.status}`}>
+								{loc.types[movement.status]}{' '}
+								<FontAwesomeIcon icon={movement.status === 'PENDENT' ? faExclamation : faCheck} />
+							</div>
+						</div>
+						<div className={'descriptionAccountGroup'}>
+							<div className={'layoutDescription'}>{movement.description}</div>
+							<div className={'layoutAccountName'}>{movement.account.name}</div>
+						</div>
+						<div className={'layoutValue'}>
+							<div className={'mainValue'}>
+								<div className={'currency'}>R$</div>
+								<div className={'value'}>{CurrencyUtils.format(movement.value)}</div>
+							</div>
+						</div>
+					</div>
+				)}
+				responsiveAction={(movement) => {
+					setShowTemplates(false)
+					setShowForm((sf) => {
+						return {
+							...sf,
+							movement: movement,
+						}
+					})
 				}}
 				enableOrderBy={{
 					commands: false,

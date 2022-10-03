@@ -59,6 +59,9 @@ public class Movement extends UserAbstractEntity {
     @Enumerated(EnumType.STRING)
     private MovementStatus status;
 
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     public LocalDate getDate() {
         return movementDate == null ? dueDate : movementDate;
     }

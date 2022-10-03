@@ -24,6 +24,10 @@ const AccountsStyle = styled.div`
 			.commands {
 				margin-top: 10px;
 				pointer-events: auto;
+
+				& > button {
+					pointer-events: auto;
+				}
 			}
 		}
 
@@ -92,6 +96,7 @@ const AccountsStyle = styled.div`
 
 			& > button {
 				margin-right: 10px;
+				pointer-events: none;
 			}
 		}
 	}

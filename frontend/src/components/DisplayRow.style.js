@@ -22,7 +22,7 @@ const DisplayRowStyle = styled.div`
 	}
 
 	@media only screen and (max-width: 1000px) {
-		flex-direction: column;
+		flex-direction: ${(params) => (params.forceResponsive ? 'row' : 'column')};
 	}
 `
 

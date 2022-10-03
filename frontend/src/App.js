@@ -26,25 +26,8 @@ function App() {
 			<div className={styles.background}></div>
 			{!user && <LoginPage />}
 			{user && <Main />}
-			{user && showForm.account && (
-				<AccountForm
-					account={{
-						name: 'Nova Conta',
-						type: 'DEBIT',
-						bank: 'Novo Banco',
-					}}
-				/>
-			)}
-			{user && showForm.movement && (
-				<MovementForm
-					movement={{
-						dueDate: DateUtils.stringJustDate(new Date()),
-						description: getText('pages.movement.new_movement.description'),
-						status: 'PENDENT',
-						value: 0.0,
-					}}
-				/>
-			)}
+			{user && showForm.account && <AccountForm />}
+			{user && showForm.movement && <MovementForm />}
 			{user && showForm.transfer && <TransferForm />}
 			{user && showForm.target && (
 				<TargetForm

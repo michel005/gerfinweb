@@ -37,8 +37,10 @@ export default function UserProvider({ children }) {
 					clearCurrentUser()
 					setLoading(false)
 				})
+		} else {
+			setLoading(false)
 		}
-	}, [user])
+	}, [user, loading])
 
 	return (
 		<UserContext.Provider

@@ -17,7 +17,8 @@ const FormStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	.movementDueDate {
+	.movementDueDate,
+	.movementMovementDate {
 		width: 90px;
 	}
 
@@ -30,12 +31,14 @@ const FormStyle = styled.div`
 	}
 `
 
-export default function MovementForm({ movement }) {
+export default function MovementForm() {
 	const { loc: locCommons } = useLocalization('commons')
 	const { loc } = useLocalization('pages.movement')
-	const { aditionalInformation, create } = useContext(TableContext)
-	const { setShowForm } = useContext(ConfigContext)
+	const { aditionalInformation, create, update, refresh } = useContext(TableContext)
+	const { setShowForm, showForm } = useContext(ConfigContext)
 	const { errorMessage } = useContext(MessageContext)
+
+	const movement = showForm.movement
 
 	return (
 		<Form
@@ -44,34 +47,57 @@ export default function MovementForm({ movement }) {
 			commands={
 				<Button
 					onClick={() => {
-						create(
-							'movement',
-							{
-								dueDate: document.getElementById('movementDueDate').value,
-								description: document.getElementById('movementDescription').value,
-								status: document.getElementById('movementStatus').value,
-								account:
-									document.getElementById('movementAccount').value === ''
-										? null
-										: {
-												id: document.getElementById('movementAccount').value,
-										  },
-								value: parseFloat(document.getElementById('movementValue').value),
-							},
-							() => {
-								setShowForm((sf) => {
-									return { ...sf, movement: false }
-								})
-							},
-							(error) => {
-								errorMessage({
-									header: loc.save_error,
-									text: error.response.data[0]
-										? error.response.data[0]
-										: error.response.data.message,
-								})
-							}
-						)
+						let entity = {
+							dueDate: document.getElementById('movementDueDate').value,
+							description: document.getElementById('movementDescription').value,
+							status: document.getElementById('movementStatus').value,
+							account:
+								document.getElementById('movementAccount').value === ''
+									? null
+									: {
+											id: document.getElementById('movementAccount').value,
+									  },
+							value: parseFloat(document.getElementById('movementValue').value),
+						}
+						if (movement.id) {
+							update(
+								'movement',
+								movement.id,
+								entity,
+								() => {
+									setShowForm((sf) => {
+										return { ...sf, movement: false }
+									})
+									refresh({ entity: 'movement' })
+								},
+								(error) => {
+									errorMessage({
+										header: loc.save_error,
+										text: error.response.data[0]
+											? error.response.data[0]
+											: error.response.data.message,
+									})
+								}
+							)
+						} else {
+							create(
+								'movement',
+								entity,
+								() => {
+									setShowForm((sf) => {
+										return { ...sf, movement: false }
+									})
+								},
+								(error) => {
+									errorMessage({
+										header: loc.save_error,
+										text: error.response.data[0]
+											? error.response.data[0]
+											: error.response.data.message,
+									})
+								}
+							)
+						}
 					}}
 				>
 					<FontAwesomeIcon icon={faSave} /> {locCommons.save}
@@ -84,14 +110,19 @@ export default function MovementForm({ movement }) {
 			}}
 		>
 			<FormStyle>
-				<DisplayRowStyle>
+				<DisplayRowStyle forceResponsive={true}>
 					<Field id={'movementDueDate'} label={loc.table.dueDate} defaultValue={movement.dueDate} />
 					<Field
-						id={'movementDescription'}
-						label={loc.table.description}
-						defaultValue={movement.description}
+						id={'movementMovementDate'}
+						label={loc.table.movementDate}
+						defaultValue={movement.movementDate}
 					/>
 				</DisplayRowStyle>
+				<Field
+					id={'movementDescription'}
+					label={loc.table.description}
+					defaultValue={movement.description}
+				/>
 				<DisplayRowStyle>
 					<Field
 						id={'movementStatus'}
@@ -115,11 +146,7 @@ export default function MovementForm({ movement }) {
 						}}
 					/>
 				</DisplayRowStyle>
-				<Field
-					id={'movementValue'}
-					label={loc.table.value}
-					defaultValue={CurrencyUtils.format(movement.value).replace('R$', '').trim()}
-				/>
+				<Field id={'movementValue'} label={loc.table.value} defaultValue={movement.value} />
 			</FormStyle>
 		</Form>
 	)
