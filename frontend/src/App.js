@@ -23,30 +23,13 @@ function App() {
 
 	return (
 		<>
-			<div className={styles.background}></div>
 			{!user && <LoginPage />}
 			{user && <Main />}
 			{user && showForm.account && <AccountForm />}
 			{user && showForm.movement && <MovementForm />}
 			{user && showForm.transfer && <TransferForm />}
-			{user && showForm.target && (
-				<TargetForm
-					target={{
-						targetDate: DateUtils.stringJustDate(new Date()),
-						description: getText('pages.target.new_target.description'),
-						value: 0.0,
-					}}
-				/>
-			)}
-			{user && showForm.template && (
-				<TemplateForm
-					template={{
-						dueDay: new Date().getDate(),
-						description: getText('pages.template.new_template.description'),
-						value: 0.0,
-					}}
-				/>
-			)}
+			{user && showForm.target && <TargetForm />}
+			{user && showForm.template && <TemplateForm />}
 			{user && showForm.adjustBalance && <AdjustBalanceForm />}
 			{message && <Message message={message} />}
 		</>

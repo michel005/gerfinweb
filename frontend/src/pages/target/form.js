@@ -26,12 +26,13 @@ const FormStyle = styled.div`
 	}
 `
 
-export default function TargetForm({ target }) {
+export default function TargetForm() {
 	const { loc: locCommons } = useLocalization('commons')
 	const { loc } = useLocalization('pages.target')
-	const { aditionalInformation, create } = useContext(TableContext)
-	const { setShowForm } = useContext(ConfigContext)
+	const { aditionalInformation, create, update } = useContext(TableContext)
+	const { setShowForm, showForm } = useContext(ConfigContext)
 	const [alert, setAlert] = useState()
+	const target = showForm.target
 
 	useEffect(() => {
 		setAlert(
@@ -48,7 +49,7 @@ export default function TargetForm({ target }) {
 			commands={
 				<Button
 					onClick={() => {
-						create('target', {
+						const entity = {
 							targetDate: document.getElementById('targetDate').value,
 							description: document.getElementById('targetDescription').value,
 							account:
@@ -58,7 +59,12 @@ export default function TargetForm({ target }) {
 											id: document.getElementById('targetAccount').value,
 									  },
 							targetValue: document.getElementById('targetValue').value.replace(',', '.'),
-						})
+						}
+						if (target.id) {
+							update('target', target.id, entity)
+						} else {
+							create('target', entity)
+						}
 						setShowForm((sf) => {
 							return { ...sf, target: false }
 						})
@@ -104,11 +110,7 @@ export default function TargetForm({ target }) {
 					}}
 				/>
 				{alert && <Alert alert={alert} />}
-				<Field
-					id={'targetValue'}
-					label={loc.table.targetValue}
-					defaultValue={CurrencyUtils.format(target.value).replace('R$', '').trim()}
-				/>
+				<Field id={'targetValue'} label={loc.table.targetValue} defaultValue={target.targetValue} />
 			</FormStyle>
 		</Form>
 	)

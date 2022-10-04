@@ -9,12 +9,14 @@ import { TableContext } from '../../hook/Table.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import TemplateStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
+import useLocalization from '../../hook/useLocalization'
 
 export default function Templates() {
 	const { getText } = useContext(LocalizationContext)
 	const { updateField, remove, aditionalInformation } = useContext(TableContext)
 	const { setShowForm } = useContext(ConfigContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
+	const { loc } = useLocalization('pages.template')
 
 	function deleteTemplate(movement) {
 		choiceMessage({
@@ -43,7 +45,14 @@ export default function Templates() {
 				<Button
 					onClick={() => {
 						setShowForm((sf) => {
-							return { ...sf, template: true }
+							return {
+								...sf,
+								template: {
+									dueDay: new Date().getDate(),
+									description: loc.new_template.description,
+									value: 0.0,
+								},
+							}
 						})
 					}}
 				>
@@ -63,6 +72,34 @@ export default function Templates() {
 				responsiveColumns={{
 					account: true,
 					recurrency: true,
+				}}
+				responsiveLayout={(template) => (
+					<div className={'responsiveLayout'}>
+						<div className={'layoutDate'}>
+							{template.dueDay ? template.dueDay : 'Dia atual'}
+							<div className={`statusLabel ${template.recurrency}`}>
+								{loc.recurrency[template.recurrency]}{' '}
+							</div>
+						</div>
+						<div className={'descriptionAccountGroup'}>
+							<div className={'layoutDescription'}>{template.description}</div>
+							<div className={'layoutAccountName'}>{template.account?.name}</div>
+						</div>
+						<div className={'layoutValue'}>
+							<div className={'mainValue'}>
+								<div className={'currency'}>R$</div>
+								<div className={'value'}>{CurrencyUtils.format(template.value)}</div>
+							</div>
+						</div>
+					</div>
+				)}
+				responsiveAction={(template) => {
+					setShowForm((sf) => {
+						return {
+							...sf,
+							template: template,
+						}
+					})
 				}}
 				enableOrderBy={{
 					commands: false,

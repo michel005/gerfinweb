@@ -18,7 +18,9 @@ export default function Message() {
 						<FontAwesomeIcon icon={faClose} onClick={() => setMessage(undefined)} />
 					)}
 				</div>
-				<div className={'text'}>{message.text}</div>
+				<div className={'text'}>
+					<div className={'field'}>{message.text}</div>
+				</div>
 				{message.commands && (
 					<div className={'commands'}>
 						{message.commands &&

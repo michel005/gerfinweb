@@ -2,24 +2,21 @@ import styled from 'styled-components'
 
 const MENU_WIDTH = '260px'
 const MENU_REDUCED_WIDTH = '58px'
-const HEADER_HEIGHT = '84px'
-const MONTH_HEIGHT = '30px'
+const HEADER_HEIGHT = '100px'
 
 const MainStyle = styled.div`
 	display: flex;
 	flex-direction: row;
-	height: 100vh;
+	height: 100%;
 	left: 0;
 	position: fixed;
 	top: 0;
 	width: 100%;
 	z-index: 10;
-	backdrop-filter: blur(15px);
 
 	.reduceButton {
-		top: ${(props) => (props.reduced ? 'auto' : '18px')};
-		left: ${(props) =>
-			props.reduced ? `${MENU_REDUCED_WIDTH}` : `calc(${MENU_REDUCED_WIDTH} + 14px)`};
+		top: 0;
+		left: ${(props) => (props.reduced ? `${MENU_REDUCED_WIDTH}` : `calc(${MENU_REDUCED_WIDTH})`)};
 		position: fixed;
 		transition: all 0.25s;
 		z-index: 100;
@@ -48,13 +45,10 @@ const MainStyle = styled.div`
 				? 'linear-gradient(to bottom, #fffc, #fff9)'
 				: 'linear-gradient(to bottom, #fffc, #fff9)'};
 		box-shadow: ${(props) => (props.reduced ? '#3333 0 0 14px' : '#3333 0 0 14px')};
-		backdrop-filter: blur(10px);
-		border-radius: ${(props) => (props.reduced ? '0px' : '7px')};
 		display: flex;
 		flex-direction: column;
-		height: ${(props) => (props.reduced ? '100vh' : 'calc(100vh - 42px)')};
+		height: ${(props) => (props.reduced ? '100%' : '100%')};
 		left: 0;
-		margin: ${(props) => (props.reduced ? '0' : '21px 7px 21px 21px')};
 		position: fixed;
 		padding-bottom: 14px;
 		top: 0;
@@ -140,6 +134,7 @@ const MainStyle = styled.div`
 			justify-content: flex-start;
 			flex-grow: 1;
 			height: 100%;
+			padding-top: 14px;
 
 			.fullHeight {
 				display: flex;
@@ -151,9 +146,9 @@ const MainStyle = styled.div`
 			.optionContainer {
 				display: flex;
 				flex-direction: column;
-				padding: ${(props) => (props.reduced ? '7px 7px 0 7px' : '7px 14px 0 14px')};
 				justify-content: center;
 				text-align: center;
+				padding-top: 7px;
 
 				.spacer {
 					height: 14px;
@@ -162,16 +157,13 @@ const MainStyle = styled.div`
 				button {
 					background-color: transparent;
 					border: none;
-					border-radius: 4px;
 					color: ${(props) => (props.reduced ? 'transparent' : '#111')};
 					cursor: pointer;
 					font-size: 14px;
-					height: 100%;
-					text-overflow: ellipsis;
 					min-width: calc(${(props) =>
 						props.reduced ? MENU_REDUCED_WIDTH + ' - 21px' : MENU_WIDTH + ' - 70px'});
-					padding: 10px 14px;
-					text-align: left;
+					padding: 14px;
+					text-align: ${(props) => (props.reduced ? 'center' : 'left')};
 					white-space: nowrap;
 					overflow: hidden;
 					transition: all 0.25s;
@@ -196,7 +188,7 @@ const MainStyle = styled.div`
 
 					svg {
 						color: ${(props) => (props.reduced ? '#333' : '#000')};
-						margin-right: 14px;
+						margin-right: ${(props) => (props.reduced ? '0' : '14px')};
 					}
 				}
 			}
@@ -210,7 +202,7 @@ const MainStyle = styled.div`
 				margin: ${(props) => (props.reduced ? '14px' : '14px 14px 0 14px')};
 				padding: 14px;
 				transform: ${(props) => (props.reduced ? 'translateX(-166px)' : 'none')};
-				width: 202px;
+				width: ${(props) => (props.reduced ? '202px' : 'calc(100% - 28px)')};
 				transition: all 0.25s;
 
 				&:hover {
@@ -261,69 +253,66 @@ const MainStyle = styled.div`
 	}
 
 	.content {
-		display: flex;
-		flex-direction: column;
-		flex-grow: 1;
-		height: 100%;
-		left: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
-		position: fixed;
-		bottom: 0;
-		width: calc(100% - ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)});
-		transition: all 0.25s;
-		z-index: 10;
+
+		.mainHeader {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+			min-height: ${HEADER_HEIGHT};
+			position: fixed;
+			left: calc(${(props) =>
+				props.reduced ? `calc(${MENU_REDUCED_WIDTH} + 22px)` : `calc(${MENU_WIDTH} - 4px)`});
+			top: 0;
+			transition: all 0.25s;
+
+			.header {
+				display: flex;
+				flex-direction: column;
+				flex-grow: 1;
+				width: 100%;
+
+				h1 {
+					margin-top: 30px;
+					margin-bottom: 4px;
+
+					svg {
+						margin-right: 7px;
+					}
+				}
+
+				h3 {
+					color: #aaa;
+					font-weight: normal;
+					margin-bottom: 7px;
+				}
+			}
+		}
 
 		.centeredContent {
 			display: flex;
 			flex-direction: column;
-			min-height: calc(100% - ${HEADER_HEIGHT} - ${MONTH_HEIGHT});
-			height: calc(100% - ${HEADER_HEIGHT} - ${MONTH_HEIGHT});
-			max-height: calc(100% - ${HEADER_HEIGHT} - ${MONTH_HEIGHT});
-			margin-top: calc(${MONTH_HEIGHT} + ${HEADER_HEIGHT});
-			padding: 7px 21px 21px;
+			height: calc(100% - ${HEADER_HEIGHT} - 48px - 28px);
+			position: fixed;
+			top: calc(${HEADER_HEIGHT} + 14px);
+			left: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : `calc(${MENU_WIDTH} - 28px)`)};
+			padding: 0 14px;
 			overflow-y: auto;
 			overflow-x: hidden;
 			transition: all 0.25s;
-			width: 100%;
-
-			.mainHeader {
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-end;
-				min-height: ${HEADER_HEIGHT};
-				position: fixed;
-				top: 0;
-				width: calc(100% - ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)} - 42px);
-				transition: all 0.25s;
-
-				.header {
-					display: flex;
-					flex-direction: column;
-					flex-grow: 1;
-					width: 100%;
-
-					h1 {
-						margin-top: 30px;
-						margin-bottom: 4px;
-
-						svg {
-							margin-right: 7px;
-						}
-					}
-
-					h3 {
-						color: #aaa;
-						font-weight: normal;
-						margin-bottom: 7px;
-					}
-				}
-			}
+			width: calc(100% - ${(props) =>
+				props.reduced ? MENU_REDUCED_WIDTH : `calc(${MENU_WIDTH} - 28px)`});
+			
+			& > div {
+				margin: 14px 0 !important;
+				height: calc(100% - 28px);
+            }
 		}
 	}
 
 	@media only screen and (max-width: 1000px) {
 		.reduceButton {
 			top: 0;
-			left: 54px;
+			left: 58px;
 			position: fixed;
 			transition: all 0.25s;
 
@@ -353,7 +342,7 @@ const MainStyle = styled.div`
 			border-radius: 0;
 			display: flex;
 			flex-direction: column;
-			height: 100vh;
+			height: 100%;
 			left: 0;
 			margin: 0;
 			position: fixed;
@@ -486,36 +475,28 @@ const MainStyle = styled.div`
 			display: flex;
 			flex-direction: column;
 			flex-grow: 1;
-			height: calc(100vh);
+			height: calc(100% - 20px);
 			position: fixed;
-			bottom: 0;
+			top: 0;
 			transition: all 0.25s;
 			z-index: 10;
-			left: 0;
-			width: 100%;
+			left: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
+			width: calc(100% - 24px - ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)});
 
 			.mainHeader {
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-end;
-				position: fixed;
-				padding: 0 21px;
+				opacity: 0;
+			}
+
+			.centeredContent {
+				top: 60px;
 				left: 0;
-				top: -20px !important;
-				width: 100% !important;
-				transition: all 0.25s;
+				width: 100%;
+				padding: 0 14px;
+				height: calc(100% - ${HEADER_HEIGHT} - 22px);
 
-				.header {
-
-					h1 {
-						margin-top: 30px;
-						margin-bottom: 4px;
-						padding-left: 40px;
-
-						svg {
-							margin-right: 7px;
-						}
-					}
+				& > div {
+					margin: 14px 0 !important;
+					height: calc(100% - 28px);
 				}
 			}
 		}

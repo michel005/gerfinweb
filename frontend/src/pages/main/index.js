@@ -18,6 +18,7 @@ import MainStyle from './index.style'
 import useLocalization from '../../hook/useLocalization'
 import UserFallbackImage from '../../assets/user_fallback_image.png'
 import { TableContext } from '../../hook/Table.context'
+import { useMediaQuery } from 'react-responsive'
 
 export default function Main() {
 	const { currentPage, defineCurrentPage } = useContext(PageContext)
@@ -25,7 +26,9 @@ export default function Main() {
 	const { choiceMessage, setMessage } = useContext(MessageContext)
 	const { balance, dataBase, loadingDataBase } = useContext(ConfigContext)
 	const { loadingMenuOptions } = useContext(TableContext)
-	const [reduced, setReduced] = useState(false)
+
+	const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+	const [reduced, setReduced] = useState(isMobile)
 	const { loc } = useLocalization('logout')
 	const { loc: locPages } = useLocalization('pages')
 	const { loc: locCommons } = useLocalization('commons')
@@ -168,22 +171,20 @@ export default function Main() {
 							</div>
 						)}
 					</div>
-					<DataBasePicker reduced={reduced} />
 				</div>
 			</div>
 			<div className="content">
-				<div className="centeredContent">
-					{currentPage && (
-						<div className="mainHeader">
-							<div className="header">
-								<h1>
-									<FontAwesomeIcon icon={currentPage.icon} />{' '}
-									{locPages[currentPage.name].header.text}
-								</h1>
-								<h3>{locPages[currentPage.name].header.lead}</h3>
-							</div>
+				{currentPage && (
+					<div className="mainHeader">
+						<div className="header">
+							<h1>
+								<FontAwesomeIcon icon={currentPage.icon} /> {locPages[currentPage.name].header.text}
+							</h1>
+							<h3>{locPages[currentPage.name].header.lead}</h3>
 						</div>
-					)}
+					</div>
+				)}
+				<div className="centeredContent">
 					{currentPage && currentPage.path === '/' && <Dashboard />}
 					{currentPage && currentPage.path === '/account' && <Accounts />}
 					{currentPage && currentPage.path === '/movement' && <Movements />}
@@ -191,6 +192,7 @@ export default function Main() {
 					{currentPage && currentPage.path === '/target' && <Targets />}
 					{currentPage && currentPage.path === '/user' && <User />}
 				</div>
+				<DataBasePicker reduced={reduced} />
 			</div>
 		</MainStyle>
 	)

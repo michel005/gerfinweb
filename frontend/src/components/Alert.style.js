@@ -6,7 +6,6 @@ const AlertStyle = styled.div`
 	border-radius: 4px;
 	border: 1px solid #ccc;
 	background-color: #f4f4f4;
-	margin-bottom: 14px;
 
 	.icon {
 		background-color: #fff;

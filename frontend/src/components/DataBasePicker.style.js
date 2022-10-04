@@ -1,26 +1,21 @@
 import styled from 'styled-components'
 
 const DataBasePickerStyle = styled.div`
-	background-color: ${(props) => (props.reduced ? '#3336' : 'transparent')};
-	backdrop-filter: ${(props) => (props.reduced ? 'blur(15px)' : 'none')};
-	box-shadow: ${(props) => (props.reduced ? '#aaa9 0 0 7px' : 'none')};
+	background-color: #3339;
 	border-radius: 4px;
-	color: ${(props) => (props.reduced ? '#fff' : '#333')};
+	color: #333;
 	display: flex;
 	flex-direction: row;
+	flex-grow: 1;
 	margin: 0 14px;
-	bottom: ${(props) => (props.reduced ? '199px' : 'auto')};
-	transform: ${(props) => (props.reduced ? 'translateX(-166px)' : 'none')};
-	width: 202px;
 	transition: all 0.25s;
-	min-height: 44px;
-	overflow: hidden;
-
-	&:hover {
-		transform: ${(props) => (props.reduced ? 'translateX(0)' : 'none')};
-	}
+	position: fixed;
+	right: 0;
+	bottom: 14px;
+	z-index: 100;
 
 	.label {
+		color: #fff;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -31,7 +26,6 @@ const DataBasePickerStyle = styled.div`
 	}
 
 	button {
-		color: ${(props) => (props.reduced ? '#fff' : '#333')};
 		height: 100%;
 		flex-direction: column;
 		justify-content: center;
@@ -41,11 +35,11 @@ const DataBasePickerStyle = styled.div`
 
 		&:hover {
 			background-color: #fff3 !important;
-			color: ${(props) => (props.reduced ? '#fff' : '#39f')};
+			color: #39f;
 		}
 
 		svg {
-			color: ${(props) => (props.reduced ? '#fff' : '#333')};
+			color: #fff;
 			margin-right: 0;
 		}
 	}

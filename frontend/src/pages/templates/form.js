@@ -35,13 +35,14 @@ const FormStyle = styled.div`
 	}
 `
 
-export default function TemplateForm({ template }) {
+export default function TemplateForm() {
 	const { loc: locCommons } = useLocalization('commons')
 	const { loc } = useLocalization('pages.template')
-	const { aditionalInformation, create } = useContext(TableContext)
-	const { setShowForm } = useContext(ConfigContext)
+	const { aditionalInformation, create, update, refresh } = useContext(TableContext)
+	const { setShowForm, showForm } = useContext(ConfigContext)
 	const { simpleMessage } = useContext(MessageContext)
 	const [recurrency, setRecurrency] = useState()
+	const template = showForm.template
 
 	useEffect(() => {
 		setRecurrency(loc.recurrency_description[document.getElementById('templateRecurrency').value])
@@ -55,36 +56,57 @@ export default function TemplateForm({ template }) {
 				<>
 					<Button
 						onClick={() => {
-							create(
-								'template',
-								{
-									dueDay: parseInt(document.getElementById('templateDueDay').value),
-									description: document.getElementById('templateDescription').value,
-									recurrency: document.getElementById('templateRecurrency').value,
-									account:
-										document.getElementById('templateAccount').value === ''
-											? null
-											: {
-													id: document.getElementById('templateAccount').value,
-											  },
-									value: parseFloat(
-										document.getElementById('templateValue').value.replace(',', '.')
-									),
-								},
-								() => {
-									setShowForm((sf) => {
-										return { ...sf, template: false }
-									})
-								},
-								(error) => {
-									simpleMessage({
-										header: 'Erro ao salvar conta',
-										text: error.response.data[0]
-											? error.response.data[0]
-											: error.response.data.message,
-									})
-								}
-							)
+							const entity = {
+								dueDay: parseInt(document.getElementById('templateDueDay').value),
+								description: document.getElementById('templateDescription').value,
+								recurrency: document.getElementById('templateRecurrency').value,
+								account:
+									document.getElementById('templateAccount').value === ''
+										? null
+										: {
+												id: document.getElementById('templateAccount').value,
+										  },
+								value: parseFloat(document.getElementById('templateValue').value.replace(',', '.')),
+							}
+							if (template.id) {
+								update(
+									'template',
+									template.id,
+									entity,
+									() => {
+										setShowForm((sf) => {
+											return { ...sf, template: false }
+										})
+										refresh({ entity: 'template' })
+									},
+									(error) => {
+										simpleMessage({
+											header: 'Erro ao salvar conta',
+											text: error.response.data[0]
+												? error.response.data[0]
+												: error.response.data.message,
+										})
+									}
+								)
+							} else {
+								create(
+									'template',
+									entity,
+									() => {
+										setShowForm((sf) => {
+											return { ...sf, template: false }
+										})
+									},
+									(error) => {
+										simpleMessage({
+											header: 'Erro ao salvar conta',
+											text: error.response.data[0]
+												? error.response.data[0]
+												: error.response.data.message,
+										})
+									}
+								)
+							}
 						}}
 					>
 						<FontAwesomeIcon icon={faSave} /> {locCommons.save}

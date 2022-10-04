@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import API from '../config/API'
 import { UserContext } from './User.context'
+import { useMediaQuery } from 'react-responsive'
 
 const ConfigContext = createContext({})
 
@@ -16,8 +17,9 @@ export default function ConfigProvider({ children }) {
 	const [dataBase, setDataBase] = useState(new Date())
 	const [loadingDataBase, setLoadingDataBase] = useState(false)
 	const [showForm, setShowForm] = useState(initialShowForm)
+	const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 	const [ux, setUx] = useState({
-		reduced: false,
+		reduced: isMobile ? true : false,
 	})
 	const [balance, setBalance] = useState()
 	const [adjustAccountBalance, setAdjustAccountBalance] = useState(null)

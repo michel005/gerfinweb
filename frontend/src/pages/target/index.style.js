@@ -5,6 +5,15 @@ const TargetStyle = styled.div`
 	flex-direction: column;
 	height: 100%;
 
+	.responsiveLayout {
+		padding: 14px;
+		transition: all 0.25s;
+
+		&:hover {
+			background-color: #f9f9f9;
+		}
+	}
+
 	.column_account {
 		max-width: 250px;
 	}

@@ -130,7 +130,6 @@ const DashboardStyle = styled.div`
 		.groups {
 			display: flex;
 			flex-direction: column;
-			margin-top: 14px;
 
 			& > * {
 				flex-grow: 1;

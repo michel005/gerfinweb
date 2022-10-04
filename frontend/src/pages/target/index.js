@@ -9,6 +9,8 @@ import { TableContext } from '../../hook/Table.context'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import TargetStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
+import ProgressIndicator from '../../components/ProgressIndicator'
+import DateUtils from '../../utils/DateUtils'
 
 export default function Targets() {
 	const { getText } = useContext(LocalizationContext)
@@ -43,7 +45,14 @@ export default function Targets() {
 				<Button
 					onClick={() =>
 						setShowForm((sf) => {
-							return { ...sf, target: true }
+							return {
+								...sf,
+								target: {
+									targetDate: DateUtils.stringJustDate(new Date()),
+									description: getText('pages.target.new_target.description'),
+									targetValue: 0.0,
+								},
+							}
 						})
 					}
 				>
@@ -65,6 +74,24 @@ export default function Targets() {
 				}}
 				enableOrderBy={{
 					commands: false,
+				}}
+				responsiveLayout={(target) => (
+					<div className={'responsiveLayout'}>
+						<ProgressIndicator
+							label={target.description}
+							value={target.targetValue}
+							maximum={target.targetValue}
+							formatter={(value) => 'R$ ' + CurrencyUtils.format(value).trim()}
+						/>
+					</div>
+				)}
+				responsiveAction={(target) => {
+					setShowForm((sf) => {
+						return {
+							...sf,
+							target: target,
+						}
+					})
 				}}
 				valueMapper={{
 					id: (target) => {

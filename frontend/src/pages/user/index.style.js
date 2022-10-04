@@ -110,7 +110,7 @@ const UserStyle = styled.div`
 
 	.passwordAlert {
 		margin-top: 14px;
-		margin-bottom: 0px;
+		margin-bottom: 0;
 		max-width: 400px;
 	}
 
@@ -139,6 +139,14 @@ const UserStyle = styled.div`
 		.horizontalGroup {
 			display: flex;
 			flex-direction: column;
+		}
+
+		.passwordAlert {
+			max-width: none;
+		}
+
+		.group {
+			margin-right: 0;
 		}
 	}
 `

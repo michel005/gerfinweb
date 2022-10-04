@@ -3,7 +3,7 @@ const { default: styled } = require('styled-components')
 const MessageStyle = styled.div`
 	background-color: #3333;
 	backdrop-filter: blur(10px);
-	height: 100vh;
+	height: 100%;
 	left: 0;
 	position: fixed;
 	top: 0;
@@ -59,19 +59,15 @@ const MessageStyle = styled.div`
 		}
 
 		.text {
+			display: flex;
+			flex-direction: column;
 			color: #999;
 			font-size: 16px;
-			margin-top: 14px;
-			margin-bottom: 14px;
-			padding: 10px 14px;
+			padding: 14px;
 			transition: all 0.25s;
 
 			.field {
 				margin-bottom: 10px;
-			}
-
-			& > div {
-				margin-top: 14px !important;
 			}
 		}
 
@@ -81,8 +77,7 @@ const MessageStyle = styled.div`
 			flex-direction: row;
 			font-size: 16px;
 			justify-content: flex-end;
-			margin-top: 21px;
-			padding: 0 14px 14px;
+			padding: 14px;
 			transition: all 0.25s;
 
 			button {
@@ -124,14 +119,15 @@ const MessageStyle = styled.div`
 	@media only screen and (max-width: 700px) {
 		.content {
 			top: 0;
-			transform: translateX(calc(-50% - 21px)) translateY(21px);
-			margin: 0 21px;
-			max-height: calc(100% - 42px);
-			width: calc(100% - 42px);
+			transform: translateX(calc(-50%)) translateY(0);
+			height: 100%;
+			max-height: calc(100%);
+			width: calc(100%);
+			overflow-y: auto;
 
 			.text {
-				max-height: calc(100vh - 180px);
 				overflow-y: auto;
+				flex-grow: 1;
 			}
 		}
 	}

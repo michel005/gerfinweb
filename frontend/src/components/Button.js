@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const ButtonStyle = styled.button`
 	background-color: #39f;
-	border: 0px solid transparent;
+	border: 0 solid transparent;
 	border-radius: 7px;
 	color: #fff;
 	cursor: pointer;
@@ -31,6 +31,10 @@ const ButtonStyle = styled.button`
 		margin-right: 7px;
 	}
 
+	&.noPadding {
+		padding: 4px 7px;
+	}
+
 	&.noText {
 		display: flex;
 		flex-direction: column;
@@ -46,7 +50,7 @@ const ButtonStyle = styled.button`
 		color: #333;
 
 		&:hover {
-			background-color: #3331;
+			background-color: #fffc;
 		}
 	}
 

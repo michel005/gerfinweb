@@ -11,23 +11,10 @@ const AccountsStyle = styled.div`
 		width: 100%;
 
 		&:hover {
-			background-color: #eee;
-
-			.layoutBalance.balance,
-			.layoutBalance.current,
-			.layoutBalance.future,
-			.commands {
-				opacity: 1;
-				margin-top: 0;
-			}
+			background-color: #f4f4f4;
 
 			.commands {
-				margin-top: 10px;
-				pointer-events: auto;
-
-				& > button {
-					pointer-events: auto;
-				}
+				display: flex;
 			}
 		}
 
@@ -70,33 +57,11 @@ const AccountsStyle = styled.div`
 			}
 		}
 
-		.layoutBalance.balance,
-		.layoutBalance.current,
-		.layoutBalance.future,
 		.commands {
-			opacity: 0;
-		}
-
-		.layoutBalance.balance {
-			margin-top: -20px;
-		}
-
-		.layoutBalance.current {
-			margin-top: -80px;
-		}
-
-		.layoutBalance.future {
-			margin-top: -80px;
-		}
-
-		.commands {
-			margin-top: -50px;
-			padding: 0 4px;
-			pointer-events: none;
+			padding: 4px 4px 0;
 
 			& > button {
 				margin-right: 10px;
-				pointer-events: none;
 			}
 		}
 	}

@@ -112,47 +112,45 @@ export default function Accounts() {
 								{account.account.bank} (
 								<span className={'layoutType'}>{loc.types[account.account.type]}</span>)
 							</div>
-							<div className={'layoutBalance balance'}>
-								<div className={'balanceDescription'}>{loc.table.balance}</div>
-								<div className={'mainValue'}>
-									<div className={'currency'}>R$</div>
-									<div className={'value'}>{CurrencyUtils.format(account.balance)}</div>
-								</div>
-							</div>
-							<div className={'layoutBalance current'}>
-								<div className={'balanceDescription'}>{locCommons.current_balance}</div>
-								<div className={'mainValue'}>
-									<div className={'currency'}>R$</div>
-									<div className={'value'}>{CurrencyUtils.format(account.currentBalance)}</div>
-								</div>
-							</div>
-							<div className={'layoutBalance future'}>
-								<div className={'balanceDescription'}>{locCommons.future_balance}</div>
-								<div className={'mainValue'}>
-									<div className={'currency'}>R$</div>
-									<div className={'value'}>{CurrencyUtils.format(account.futureBalance)}</div>
-								</div>
-							</div>
 							<div className={'commands'}>
 								<Button
-									onClick={() => {
-										setShowForm((sf) => {
-											return {
-												...sf,
-												account: account.account,
-											}
-										})
-									}}
+									className={'transparent noPadding'}
+									onClick={() => deleteAccount(account.account)}
 								>
-									<FontAwesomeIcon icon={faPencil} /> {locCommons.update}
+									<FontAwesomeIcon icon={faTrash} /> {locCommons.delete}
 								</Button>
-								<Button onClick={() => adjustAccountBalance(account.account)}>
+								<Button
+									className={'transparent noPadding'}
+									onClick={() => adjustAccountBalance(account.account)}
+								>
 									<FontAwesomeIcon icon={faDollar} /> {loc.table.adjust_balance_command}
 								</Button>
-								<Button className={'alert'} onClick={() => deleteAccount(account.account)}>
-									<FontAwesomeIcon icon={faTrash} /> {loc.table.delete_command}
-								</Button>
 							</div>
+							{account.selected && (
+								<>
+									<div className={'layoutBalance balance'}>
+										<div className={'balanceDescription'}>{loc.table.balance}</div>
+										<div className={'mainValue'}>
+											<div className={'currency'}>R$</div>
+											<div className={'value'}>{CurrencyUtils.format(account.balance)}</div>
+										</div>
+									</div>
+									<div className={'layoutBalance current'}>
+										<div className={'balanceDescription'}>{locCommons.current_balance}</div>
+										<div className={'mainValue'}>
+											<div className={'currency'}>R$</div>
+											<div className={'value'}>{CurrencyUtils.format(account.currentBalance)}</div>
+										</div>
+									</div>
+									<div className={'layoutBalance future'}>
+										<div className={'balanceDescription'}>{locCommons.future_balance}</div>
+										<div className={'mainValue'}>
+											<div className={'currency'}>R$</div>
+											<div className={'value'}>{CurrencyUtils.format(account.futureBalance)}</div>
+										</div>
+									</div>
+								</>
+							)}
 						</div>
 					)
 				}}

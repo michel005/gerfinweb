@@ -4,7 +4,6 @@ const LINE_SIZE = '40px'
 
 const TableStyle = styled.div`
 	background-color: #fff;
-	border-radius: 7px;
 	box-shadow: #ccc 0 0 7px;
 	display: flex;
 	flex-direction: column;
@@ -20,14 +19,11 @@ const TableStyle = styled.div`
 		flex-direction: column;
 		height: 100%;
 		max-width: 100%;
-		overflow: hidden;
 
 		.header {
 			background-color: #39f;
 			border: 0 solid #ccc;
 			border-bottom-width: 1px;
-			border-top-left-radius: 7px;
-			border-top-right-radius: 7px;
 			display: flex;
 			flex-direction: row;
 			height: calc(${LINE_SIZE} + 6px);
@@ -121,11 +117,6 @@ const TableStyle = styled.div`
 						}
 					}
 
-					&:last-child {
-						border-bottom-left-radius: 7px;
-						border-bottom-right-radius: 7px;
-					}
-
 					&:hover {
 						background-color: #ddd;
 						border-radius: 0;
@@ -178,7 +169,6 @@ const TableStyle = styled.div`
 
 						.columnContent {
 							border: 1px solid transparent;
-							border-radius: 4px;
 							padding: 4px;
 						}
 
@@ -232,7 +222,7 @@ const TableStyle = styled.div`
 				justify-content: center;
 				flex-grow: 1;
 				pointer-events: none;
-				padding: 0px 21px;
+				padding: 0 21px;
 				user-select: none;
 			}
 
@@ -265,9 +255,11 @@ const TableStyle = styled.div`
 	}
 
 	@media only screen and (max-width: 1000px) {
-		.table {
-			border-radius: 7px;
+		height: calc(100% - 47px);
+		min-height: initial;
+		overflow: hidden;
 
+		.table {
 			.header {
 				.column.responsive {
 					color: transparent;
@@ -281,6 +273,7 @@ const TableStyle = styled.div`
 
 			.body {
 				overflow-y: auto;
+
 				.rowsContainer {
 					.line {
 						.column.responsive {
