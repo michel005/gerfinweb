@@ -13,6 +13,9 @@ import CurrencyUtils from '../../utils/CurrencyUtils'
 import MovementStyle from './index.style'
 import useLocalization from '../../hook/useLocalization'
 import DateUtils from '../../utils/DateUtils'
+import DataBasePicker from '../../components/DataBasePicker'
+import CommandBar from '../../components/CommandBar'
+import ButtonMultipleOption from '../../components/ButtonMultipleOption'
 
 export default function Movements() {
 	const { updateField, find, remove, aditionalInformation } = useContext(TableContext)
@@ -77,57 +80,37 @@ export default function Movements() {
 
 	return (
 		<MovementStyle showTemplates={showTemplates}>
-			<div className={'commands'}>
-				<Button
-					disabled={aditionalInformation.account.length === 0}
-					title={aditionalInformation.account.length === 0 ? loc.create_no_account : ''}
-					onClick={createMovementEvent}
-				>
-					<FontAwesomeIcon icon={faPlus} /> {locCommons.create}
-				</Button>
-				<Button
-					onClick={() => {
-						setShowTemplates(!showTemplates)
-					}}
-					disabled={
-						aditionalInformation.template.length === 0 || aditionalInformation.account.length === 0
-					}
-					title={
-						aditionalInformation.account.length === 0
-							? loc.create_no_account
-							: aditionalInformation.template.length === 0
-							? loc.create_no_template
-							: locTemplate.header.text
-					}
-				>
-					<FontAwesomeIcon icon={PageSettings.template.icon} /> {locTemplate.header.text}
-				</Button>
-				<div className={'templateList'}>
-					{aditionalInformation.template.map((template) => {
-						return (
-							<div
-								key={template.id}
-								className={'templateItem'}
-								onClick={() => addMovementBasedOnTemplate(template)}
-							>
-								<div className={'description'}>{template.description}</div>
-							</div>
-						)
+			<CommandBar>
+				<ButtonMultipleOption
+					icon={<FontAwesomeIcon icon={faPlus} />}
+					label={locCommons.create}
+					event={createMovementEvent}
+					options={[
+						{
+							icon: <FontAwesomeIcon icon={faArrowAltCircleDown} />,
+							label: locCommons.transfer,
+							event: () => {
+								setShowTemplates(false)
+								setShowForm((sf) => {
+									return { ...sf, transfer: true }
+								})
+							},
+						},
+					]}
+				/>
+				<ButtonMultipleOption
+					icon={<FontAwesomeIcon icon={PageSettings.template.icon} />}
+					label={locTemplate.header.text}
+					options={aditionalInformation.template.map((template) => {
+						return {
+							label: template.description,
+							event: () => addMovementBasedOnTemplate(template),
+						}
 					})}
-				</div>
-				<Button
-					disabled={aditionalInformation.account.length === 0}
-					title={aditionalInformation.account.length === 0 ? loc.create_no_account : ''}
-					onClick={() => {
-						setShowTemplates(false)
-						setShowForm((sf) => {
-							return { ...sf, transfer: true }
-						})
-					}}
-				>
-					<FontAwesomeIcon icon={faArrowAltCircleDown} /> {locCommons.transfer}
-				</Button>
-			</div>
+				/>
+				<div style={{ display: 'flex', flexGrow: 1 }}></div>
+				<DataBasePicker />
+			</CommandBar>
 			<Table
 				entity={'movement'}
 				header={{
@@ -152,6 +135,11 @@ export default function Movements() {
 								{loc.types[movement.status]}{' '}
 								<FontAwesomeIcon icon={movement.status === 'PENDENT' ? faExclamation : faCheck} />
 							</div>
+							{movement.template && (
+								<div className={`statusLabel template`}>
+									{loc.label.template} <FontAwesomeIcon icon={PageSettings.template.icon} />
+								</div>
+							)}
 						</div>
 						<div className={'descriptionAccountGroup'}>
 							<div className={'layoutDescription'}>{movement.description}</div>

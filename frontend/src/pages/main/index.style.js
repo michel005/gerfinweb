@@ -1,507 +1,254 @@
 import styled from 'styled-components'
 
-const MENU_WIDTH = '260px'
-const MENU_REDUCED_WIDTH = '58px'
-const HEADER_HEIGHT = '100px'
+const DEF = {
+	TOPBAR: {
+		width: '100%',
+		height: '50px',
+	},
+	SIDEBAR: {
+		width: '200px',
+		height: '100%',
+	},
+	FOOTER: {
+		width: '100%',
+		height: '50px',
+	},
+	REDUCED: {
+		SIDEBAR: {
+			width: '50px',
+			height: '100%',
+		},
+	},
+}
 
 const MainStyle = styled.div`
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	height: 100%;
 	left: 0;
 	position: fixed;
 	top: 0;
 	width: 100%;
 	z-index: 10;
+	transition: all 0.2s;
 
-	.reduceButton {
-		top: 0;
-		left: ${(props) => (props.reduced ? `${MENU_REDUCED_WIDTH}` : `calc(${MENU_REDUCED_WIDTH})`)};
-		position: fixed;
-		transition: all 0.25s;
-		z-index: 100;
-
-		button {
-			background-color: ${(props) => (props.reduced ? 'transparent' : '#fff3')};
-			border: none;
-			border-radius: 4px;
-			color: ${(props) => (props.reduced ? '#222' : '#222')};
-			cursor: pointer;
-			margin: 0;
-			padding: 7px 10px;
-			transition: all 0.25s;
-			transform: translateX(-44px) translateY(10px);
-
-			&:hover {
-				background-color: ${(props) => (props.reduced ? '#3333' : '#3333')};
-				color: ${(props) => (props.reduced ? '#222' : '#fff')};
-			}
-		}
-	}
-
-	.menu {
-		background: ${(props) =>
-			props.reduced
-				? 'linear-gradient(to bottom, #fffc, #fff9)'
-				: 'linear-gradient(to bottom, #fffc, #fff9)'};
-		box-shadow: ${(props) => (props.reduced ? '#3333 0 0 14px' : '#3333 0 0 14px')};
+	& > .topBar {
 		display: flex;
-		flex-direction: column;
-		height: ${(props) => (props.reduced ? '100%' : '100%')};
-		left: 0;
-		position: fixed;
-		padding-bottom: 14px;
-		top: 0;
-		width: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : 'calc(' + MENU_WIDTH + ' - 28px)')};
-		transition: all 0.25s;
-		z-index: 30;
+		flex-direction: row;
+		height: ${DEF.TOPBAR.height};
+		width: ${DEF.TOPBAR.width};
 
-		&:hover {
-			box-shadow: ${(props) => (props.reduced ? '#3336 0 0 14px' : '#3336 0 0 14px')};
-		}
-
-		.userImageContainer {
+		& > .title {
 			display: flex;
 			flex-direction: row;
-			justify-content: center;
-			padding: ${(props) => (props.reduced ? '14px 0 0 0' : '20px 0')};
-			margin-top: ${(props) => (props.reduced ? '38px' : '0')};
-			transition: all 0.25s;
+			height: ${DEF.TOPBAR.height};
+			width: ${DEF.SIDEBAR.width};
+			overflow: hidden;
 
-			.userImg {
-				border-radius: ${(props) => (props.reduced ? '20px' : '100px')};
-				height: ${(props) => (props.reduced ? `calc(${MENU_REDUCED_WIDTH} - 18px)` : '150px')};
-				width: ${(props) => (props.reduced ? `calc(${MENU_REDUCED_WIDTH} - 18px)` : '150px')};
-				transition: all 0.25s;
-				box-shadow: #333 0 0 4px;
-			}
-		}
+			& > .reduceButton {
+				height: ${DEF.TOPBAR.height};
+				width: ${DEF.TOPBAR.height};
 
-		.userInfo {
-			margin-bottom: 7px;
-			transition: all 0.25s;
-			width: 100%;
-
-			.userDescription {
-				color: #333;
-				display: ${(props) => (props.reduced ? 'none' : 'flex')};
-				flex-direction: column;
-				padding: 10px;
-				transition: all 0.25s;
-				opacity: ${(props) => (props.reduced ? '0' : '1')};
-				pointer-events: ${(props) => (props.reduced ? 'none' : 'auto')};
-
-				.userFullName,
-				.userEmail {
-					font-size: 14px;
-					padding-bottom: 4px;
-					text-align: center;
-				}
-
-				.userFullName {
-					svg {
-						margin-right: 7px;
-					}
-				}
-
-				.commands {
-					display: flex;
-					flex-direction: row;
-					justify-content: center;
-					margin-top: 4px;
-
-					button {
-						background-color: transparent;
-						border: none;
-						color: #333;
-						cursor: pointer;
-						font-weight: bold;
-						margin-right: 8px;
-						text-align: left;
-						transition: all 0.25s;
-
-						&:hover {
-							color: #39f;
-						}
-					}
-				}
-			}
-		}
-
-		.options {
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			flex-grow: 1;
-			height: 100%;
-			padding-top: 14px;
-
-			.fullHeight {
-				display: flex;
-				flex-direction: column;
-				flex-grow: 1;
-				height: 100%;
-			}
-
-			.optionContainer {
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				text-align: center;
-				padding-top: 7px;
-
-				.spacer {
-					height: 14px;
-				}
-
-				button {
+				& > button {
 					background-color: transparent;
 					border: none;
-					color: ${(props) => (props.reduced ? 'transparent' : '#111')};
 					cursor: pointer;
-					font-size: 14px;
-					min-width: calc(${(props) =>
-						props.reduced ? MENU_REDUCED_WIDTH + ' - 21px' : MENU_WIDTH + ' - 70px'});
-					padding: 14px;
-					text-align: ${(props) => (props.reduced ? 'center' : 'left')};
-					white-space: nowrap;
-					overflow: hidden;
-					transition: all 0.25s;
+					font-size: 18px;
+					height: 100%;
+					width: 100%;
 
 					&:hover {
-						background-color: ${(props) => (props.reduced ? '#3331' : '#3331')};
-					}
-
-					&:active {
-						transform: scale(0.95);
-					}
-
-					&.active {
-						background-color: ${(props) => (props.reduced ? '#3333' : '#39f')};
-						box-shadow: ${(props) => (props.reduced ? 'none' : '#39fa 0 0 7px')};
-						color: ${(props) => (props.reduced ? 'transparent' : '#fff')};
-
-						svg {
-							color: ${(props) => (props.reduced ? '#333' : '#fff')};
-						}
-					}
-
-					svg {
-						color: ${(props) => (props.reduced ? '#333' : '#000')};
-						margin-right: ${(props) => (props.reduced ? '0' : '14px')};
+						color: #aaa;
 					}
 				}
 			}
 
-			.balances {
-				background-color: ${(props) => (props.reduced ? '#3336' : 'transparent')};
-				backdrop-filter: ${(props) => (props.reduced ? 'blur(15px)' : 'none')};
-				box-shadow: ${(props) => (props.reduced ? '#aaa9 0 0 7px' : 'none')};
-				border-radius: 4px;
-				color: ${(props) => (props.reduced ? '#fff' : '#333')};
-				margin: ${(props) => (props.reduced ? '14px' : '14px 14px 0 14px')};
-				padding: 14px;
-				transform: ${(props) => (props.reduced ? 'translateX(-166px)' : 'none')};
-				width: ${(props) => (props.reduced ? '202px' : 'calc(100% - 28px)')};
-				transition: all 0.25s;
-
-				&:hover {
-					transform: ${(props) => (props.reduced ? 'translateX(-0)' : 'none')};
-				}
-
-				.balance {
-					display: flex;
-					flex-direction: column;
-					margin-bottom: 14px;
-					transition: all 0.25s;
-
-					&:last-child {
-						margin-bottom: 0;
-					}
-
-					.title {
-						color: ${(props) => (props.reduced ? '#fff' : '#000')};
-						font-size: 14px;
-					}
-
-					.value {
-						display: flex;
-						flex-direction: row;
-
-						.currency {
-							font-size: 12px;
-							margin-top: 5px;
-						}
-
-						.val {
-							font-size: 28px;
-							text-align: right;
-							width: 100%;
-
-							&.zero {
-								color: ${(props) => (props.reduced ? '#fff' : '#ccc')};
-							}
-
-							&.negative {
-								color: ${(props) => (props.reduced ? '#fff' : '#f32727')};
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	.content {
-
-		.mainHeader {
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-end;
-			min-height: ${HEADER_HEIGHT};
-			position: fixed;
-			left: calc(${(props) =>
-				props.reduced ? `calc(${MENU_REDUCED_WIDTH} + 22px)` : `calc(${MENU_WIDTH} - 4px)`});
-			top: 0;
-			transition: all 0.25s;
-
-			.header {
+			& > .text {
+				color: #333;
 				display: flex;
 				flex-direction: column;
-				flex-grow: 1;
-				width: 100%;
+				flex-wrap: nowrap;
+				font-size: 18px;
+				height: ${DEF.TOPBAR.height};
+				justify-content: center;
+				transform: translateY(-1px);
+				width: calc(100% - ${DEF.TOPBAR.height});
 
-				h1 {
-					margin-top: 30px;
-					margin-bottom: 4px;
+				& > .textContainer {
+					text-overflow: ellipsis;
 
-					svg {
-						margin-right: 7px;
+					& > .highlight {
+						color: #39f;
 					}
 				}
-
-				h3 {
-					color: #aaa;
-					font-weight: normal;
-					margin-bottom: 7px;
-				}
 			}
 		}
 
-		.centeredContent {
+		& > .user {
 			display: flex;
 			flex-direction: column;
-			height: calc(100% - ${HEADER_HEIGHT} - 48px - 28px);
-			position: fixed;
-			top: calc(${HEADER_HEIGHT} + 14px);
-			left: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : `calc(${MENU_WIDTH} - 28px)`)};
-			padding: 0 14px;
-			overflow-y: auto;
-			overflow-x: hidden;
-			transition: all 0.25s;
-			width: calc(100% - ${(props) =>
-				props.reduced ? MENU_REDUCED_WIDTH : `calc(${MENU_WIDTH} - 28px)`});
-			
-			& > div {
-				margin: 14px 0 !important;
-				height: calc(100% - 28px);
-            }
-		}
-	}
+			justify-content: center;
+			height: ${DEF.TOPBAR.height};
+			width: calc(100% - ${DEF.SIDEBAR.width});
 
-	@media only screen and (max-width: 1000px) {
-		.reduceButton {
-			top: 0;
-			left: 58px;
-			position: fixed;
-			transition: all 0.25s;
-
-			button {
-				background-color: ${(props) => (props.reduced ? 'transparent' : '#fff3')};
-				border: none;
-				border-radius: 4px;
-				color: ${(props) => (props.reduced ? '#222' : '#222')};
-				cursor: pointer;
-				margin: 0;
-				padding: 6px 10px 7px;
-				transition: all 0.25s;
-				transform: translateX(-44px) translateY(10px);
-				font-size: 20px;
-
-				&:hover {
-					background-color: ${(props) => (props.reduced ? '#3333' : '#3333')};
-					color: ${(props) => (props.reduced ? '#222' : '#fff')};
-				}
-			}
-		}
-
-		.menu {
-			background: ${(props) => (props.reduced ? 'transparent' : '#fffe')};
-			box-shadow: none;
-			backdrop-filter: blur(10px);
-			border-radius: 0;
-			display: flex;
-			flex-direction: column;
-			height: 100%;
-			left: 0;
-			margin: 0;
-			position: fixed;
-			padding-bottom: 14px;
-			top: 0;
-			width: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : '100%')};
-			transition: all 0.25s;
-			opacity: ${(props) => (props.reduced ? 0 : 1)};
-			pointer-events: ${(props) => (props.reduced ? 'none' : 'auto')};
-			z-index: 30;
-
-			&:hover {
-				box-shadow: none;
-			}
-
-			.userImageContainer {
+			& > .userContainer {
 				display: flex;
 				flex-direction: row;
-				justify-content: center;
-				padding: 14px 0;
-				margin-top: 0;
-				transition: all 0.25s;
-
-				.userImg {
-					border-radius: ${(props) => (props.reduced ? '20px' : '100px')};
-					height: 80px;
-					width: 80px;
-					transition: all 0.25s;
-					box-shadow: #333 0 0 4px;
-				}
-			}
-
-			.userInfo {
-				margin-bottom: 0;
-				transition: all 0.25s;
+				justify-content: flex-end;
 				width: 100%;
 
-				.userDescription {
-					color: #333;
-					display: ${(props) => (props.reduced ? 'none' : 'flex')};
-					flex-direction: column;
-					padding: 10px;
-					transition: all 0.25s;
-					opacity: ${(props) => (props.reduced ? '0' : '1')};
-					pointer-events: ${(props) => (props.reduced ? 'none' : 'auto')};
-
-					.commands {
-						display: flex;
-						flex-direction: row;
-						justify-content: center;
-						margin-top: 4px;
-
-						button {
-							background-color: transparent;
-							border: none;
-							color: #333;
-							cursor: pointer;
-							font-weight: bold;
-							margin-right: 8px;
-							text-align: left;
-							transition: all 0.25s;
-
-							&:hover {
-								color: #39f;
-							}
-						}
-					}
-				}
-			}
-
-			.balances {
-				background-color: ${(props) => (props.reduced ? '#3336' : 'transparent')};
-				backdrop-filter: ${(props) => (props.reduced ? 'blur(15px)' : 'none')};
-				box-shadow: ${(props) => (props.reduced ? '#aaa9 0 0 7px' : 'none')};
-				border-radius: 4px;
-				color: ${(props) => (props.reduced ? '#fff' : '#333')};
-				margin: ${(props) => (props.reduced ? '14px' : '14px 14px 0 14px')};
-				padding: 14px;
-				transform: ${(props) => (props.reduced ? 'translateX(-166px)' : 'none')};
-				width: calc(100% - 28px) !important;
-				transition: all 0.25s;
-
-				&:hover {
-					transform: ${(props) => (props.reduced ? 'translateX(-0)' : 'none')};
-				}
-
-				.balance {
+				& > .userImageContainer {
+					border-radius: 24px;
+					cursor: pointer;
 					display: flex;
 					flex-direction: column;
-					margin-bottom: 14px;
-					transition: all 0.25s;
+					justify-content: center;
+					padding: 4px;
+					margin: 7px;
 
-					&:last-child {
-						margin-bottom: 0;
+					&:hover {
+						background-color: #ccc;
 					}
 
-					.title {
-						color: ${(props) => (props.reduced ? '#fff' : '#000')};
-						font-size: 14px;
-					}
-
-					.value {
-						display: flex;
-						flex-direction: row;
-
-						.currency {
-							font-size: 12px;
-							margin-top: 5px;
-						}
-
-						.val {
-							font-size: 28px;
-							text-align: right;
-							width: 100%;
-
-							&.zero {
-								color: ${(props) => (props.reduced ? '#fff' : '#ccc')};
-							}
-
-							&.negative {
-								color: ${(props) => (props.reduced ? '#fff' : '#f32727')};
-							}
-						}
+					& > .userImg {
+						border-radius: 18px;
+						height: 36px;
+						width: 36px;
 					}
 				}
-			}
-		}
 
-		.content {
-			display: flex;
-			flex-direction: column;
-			flex-grow: 1;
-			height: calc(100% - 20px);
-			position: fixed;
-			top: 0;
-			transition: all 0.25s;
-			z-index: 10;
-			left: ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)};
-			width: calc(100% - 24px - ${(props) => (props.reduced ? MENU_REDUCED_WIDTH : MENU_WIDTH)});
+				& > .userOptions {
+					background-color: #3339;
+					backdrop-filter: blur(10px);
+					border-radius: 4px;
+					display: flex;
+					right: 7px;
+					flex-direction: column;
+					position: fixed;
+					top: calc(${DEF.TOPBAR.height} + 3px);
+					width: 130px;
+					overflow: hidden;
+					z-index: 100;
 
-			.mainHeader {
-				opacity: 0;
-			}
+					& > button {
+						background-color: transparent;
+						border: none;
+						color: #fff;
+						cursor: pointer;
+						padding: 7px;
 
-			.centeredContent {
-				top: 60px;
-				left: 0;
-				width: 100%;
-				padding: 0 14px;
-				height: calc(100% - ${HEADER_HEIGHT} - 22px);
-
-				& > div {
-					margin: 14px 0 !important;
-					height: calc(100% - 28px);
+						&:hover {
+							background-color: #3333;
+						}
+					}
 				}
 			}
 		}
 	}
-}
+
+	& > .content {
+		display: flex;
+		flex-direction: row;
+		height: calc(100% - ${DEF.TOPBAR.height});
+		width: 100%;
+
+		& > .sideBar {
+			display: flex;
+			flex-direction: column;
+			height: ${DEF.SIDEBAR.height};
+			width: ${(props) => (props.reduced ? DEF.REDUCED.SIDEBAR.width : DEF.SIDEBAR.width)};
+			transition: all 0.25s;
+
+			& > .optionContainer {
+				display: flex;
+				flex-direction: column;
+				height: ${DEF.TOPBAR.height};
+				justify-content: center;
+				padding: 0 16px;
+				cursor: pointer;
+				width: ${(props) => (props.reduced ? DEF.REDUCED.SIDEBAR.width : DEF.SIDEBAR.width)};
+				transition: all 0.25s;
+
+				&.active {
+					background-color: #39f;
+					border-top-right-radius: 7px;
+					border-bottom-right-radius: 7px;
+
+					& > button {
+						color: #fff;
+					}
+				}
+
+				& > button {
+					background-color: transparent;
+					border: none;
+					cursor: pointer;
+					display: flex;
+					flex-direction: row;
+					justify-content: flex-start;
+
+					& > svg {
+						height: 18px;
+						margin-right: 20px;
+						width: 18px;
+					}
+				}
+			}
+		}
+
+		& > .stage {
+			height: 100%;
+			overflow-y: auto;
+			padding: 14px;
+			width: ${(props) =>
+				props.reduced
+					? `calc(100% - ${DEF.REDUCED.SIDEBAR.width})`
+					: `calc(100% - ${DEF.SIDEBAR.width})`};
+			transition: all 0.25s;
+		}
+	}
+
+	@media only screen and (max-width: 700px) {
+		& > .topBar {
+			height: ${DEF.TOPBAR.height};
+			width: ${DEF.TOPBAR.width};
+			transition: all 0.25s;
+
+			& > .user {
+				height: ${DEF.TOPBAR.height};
+				width: calc(100% - ${DEF.REDUCED.SIDEBAR.width});
+				transition: all 0.25s;
+			}
+		}
+
+		& > .content {
+			height: calc(100% - ${DEF.TOPBAR.height});
+			width: 100%;
+
+			& > .sideBar {
+				background-color: #eff2fdff;
+				height: ${DEF.SIDEBAR.height};
+				left: 0;
+				position: fixed;
+				top: ${DEF.TOPBAR.height};
+				overflow: hidden;
+				width: ${(props) => (props.reduced ? 0 : DEF.SIDEBAR.width)};
+				z-index: 100;
+
+				& > .optionContainer {
+					&.active {
+						border-top-right-radius: 0;
+						border-bottom-right-radius: 0;
+					}
+				}
+			}
+
+			& > .stage {
+				height: 100%;
+				width: 100%;
+			}
+		}
+	}
 `
 
 export default MainStyle

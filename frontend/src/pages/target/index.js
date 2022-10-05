@@ -11,6 +11,8 @@ import TargetStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
 import ProgressIndicator from '../../components/ProgressIndicator'
 import DateUtils from '../../utils/DateUtils'
+import CommandBar from '../../components/CommandBar'
+import DataBasePicker from '../../components/DataBasePicker'
 
 export default function Targets() {
 	const { getText } = useContext(LocalizationContext)
@@ -41,7 +43,7 @@ export default function Targets() {
 
 	return (
 		<TargetStyle>
-			<div className={'commands'}>
+			<CommandBar>
 				<Button
 					onClick={() =>
 						setShowForm((sf) => {
@@ -58,7 +60,9 @@ export default function Targets() {
 				>
 					<FontAwesomeIcon icon={faPlus} /> {getText('commons.create')}
 				</Button>
-			</div>
+				<div style={{ display: 'flex', flexGrow: 1 }}></div>
+				<DataBasePicker />
+			</CommandBar>
 			<Table
 				entity={'target'}
 				header={{

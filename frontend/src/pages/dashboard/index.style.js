@@ -130,6 +130,7 @@ const DashboardStyle = styled.div`
 		.groups {
 			display: flex;
 			flex-direction: column;
+			margin-top: 0;
 
 			& > * {
 				flex-grow: 1;
@@ -141,16 +142,10 @@ const DashboardStyle = styled.div`
 					margin-right: 0;
 				}
 			}
-		}
 
-		.group {
 			.groupContent {
 				.balances {
 					min-width: 700px;
-				}
-				.account,
-				.movement {
-					min-width: 350px;
 				}
 			}
 		}

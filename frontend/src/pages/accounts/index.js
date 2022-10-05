@@ -9,6 +9,8 @@ import useLocalization from '../../hook/useLocalization'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import AccountsStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
+import CommandBar from '../../components/CommandBar'
+import DataBasePicker from '../../components/DataBasePicker'
 
 export default function Accounts() {
 	const { updateField, remove } = useContext(TableContext)
@@ -49,7 +51,7 @@ export default function Accounts() {
 
 	return (
 		<AccountsStyle>
-			<div className={'commands'}>
+			<CommandBar>
 				<Button
 					onClick={() => {
 						setShowForm((sf) => {
@@ -66,22 +68,9 @@ export default function Accounts() {
 				>
 					<FontAwesomeIcon icon={faPlus} /> {locCommons.create}
 				</Button>
-				{/*<ButtonChooser*/}
-				{/*	label={loc.filter_label_account_types}*/}
-				{/*	list={loc.types}*/}
-				{/*	defaultValue={allExtraValues.account?.type}*/}
-				{/*	nullable={true}*/}
-				{/*	nullableText={loc.filter_all_types}*/}
-				{/*	onChange={(value) => {*/}
-				{/*		find({*/}
-				{/*			entity: 'account',*/}
-				{/*			extraValues: {*/}
-				{/*				type: value,*/}
-				{/*			},*/}
-				{/*		})*/}
-				{/*	}}*/}
-				{/*/>*/}
-			</div>
+				<div style={{ display: 'flex', flexGrow: 1 }}></div>
+				<DataBasePicker />
+			</CommandBar>
 			<Table
 				entity={'account'}
 				enableOrderBy={{

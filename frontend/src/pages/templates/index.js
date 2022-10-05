@@ -10,6 +10,8 @@ import CurrencyUtils from '../../utils/CurrencyUtils'
 import TemplateStyle from './index.style'
 import { ConfigContext } from '../../hook/Config.context'
 import useLocalization from '../../hook/useLocalization'
+import CommandBar from '../../components/CommandBar'
+import DataBasePicker from '../../components/DataBasePicker'
 
 export default function Templates() {
 	const { getText } = useContext(LocalizationContext)
@@ -41,7 +43,7 @@ export default function Templates() {
 
 	return (
 		<TemplateStyle>
-			<div className={'commands'}>
+			<CommandBar>
 				<Button
 					onClick={() => {
 						setShowForm((sf) => {
@@ -58,7 +60,9 @@ export default function Templates() {
 				>
 					<FontAwesomeIcon icon={faPlus} /> {getText('commons.create')}
 				</Button>
-			</div>
+				<div style={{ display: 'flex', flexGrow: 1 }}></div>
+				<DataBasePicker />
+			</CommandBar>
 			<Table
 				entity={'template'}
 				header={{

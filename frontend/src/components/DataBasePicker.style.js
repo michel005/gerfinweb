@@ -1,51 +1,45 @@
 import styled from 'styled-components'
 
 const DataBasePickerStyle = styled.div`
-	background-color: #3339;
+	background-color: #fffc;
 	border-radius: 4px;
 	color: #333;
 	display: flex;
+	height: 34px;
 	flex-direction: row;
-	flex-grow: 1;
-	margin: 0 14px;
 	transition: all 0.25s;
-	position: fixed;
-	right: 0;
-	bottom: 14px;
-	z-index: 100;
+	overflow: hidden;
 
 	.label {
-		color: #fff;
+		color: #333;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		text-align: center;
+		font-size: 14px;
 		padding: 0 14px;
-		width: 100%;
+		width: calc(100% - 68px);
 		transition: all 0.3s;
 	}
 
 	button {
-		height: 100%;
-		flex-direction: column;
+		background-color: transparent;
+		border: none;
+		height: 34px;
+		flex-direction: row;
 		justify-content: center;
 		border-radius: 0 !important;
-		padding: 14px;
 		transition: all 0.3s;
+		width: 34px;
 
 		&:hover {
-			background-color: #fff3 !important;
-			color: #39f;
+			background-color: #3333 !important;
+			color: #fff;
 		}
 
 		svg {
-			color: #fff;
-			margin-right: 0;
+			margin: 0;
 		}
-	}
-
-	@media only screen and (max-width: 1000px) {
-		width: calc(100% - 28px);
 	}
 `
 

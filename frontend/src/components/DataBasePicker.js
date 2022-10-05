@@ -11,15 +11,15 @@ export default function DataBasePicker({ reduced }) {
 	return (
 		<DataBasePickerStyle reduced={reduced}>
 			<div>
-				<Button onClick={previewMonth} className="transparent" title={'CTRL + Esquerda'}>
+				<button onClick={previewMonth} className="transparent" title={'CTRL + Esquerda'}>
 					<FontAwesomeIcon icon={faChevronLeft} title={'CTRL + Esquerda'} />
-				</Button>
+				</button>
 			</div>
 			<div className="label">{formatedForUX()}</div>
 			<div>
-				<Button onClick={nextMonth} className="transparent" title={'CTRL + Direita'}>
+				<button onClick={nextMonth} className="transparent" title={'CTRL + Direita'}>
 					<FontAwesomeIcon icon={faChevronRight} title={'CTRL + Direita'} />
-				</Button>
+				</button>
 			</div>
 		</DataBasePickerStyle>
 	)

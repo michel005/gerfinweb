@@ -49,6 +49,16 @@ const MovementStyle = styled.div`
 					}
 				}
 
+				&.template {
+					border-color: #aaa;
+					color: #aaa;
+
+					svg {
+						background-color: #aaa;
+						color: #fff;
+					}
+				}
+
 				svg {
 					background-color: #fff;
 					border-radius: 10px;
@@ -118,45 +128,6 @@ const MovementStyle = styled.div`
 		flex-direction: row;
 	}
 
-	.templateList {
-		background-color: #fffc;
-		backdrop-filter: blur(12px);
-		border-radius: 4px;
-		box-shadow: #ccc 0 0 7px;
-		padding: 7px;
-		position: absolute;
-		width: 300px;
-		transition: all 0.25s;
-		opacity: ${(props) => (props.showTemplates ? 1 : 0)};
-		pointer-events: ${(props) => (props.showTemplates ? 'auto' : 'none')};
-		transform: ${(props) =>
-			props.showTemplates
-				? 'translateY(40px) translateX(83px)'
-				: 'translateY(20px) translateX(83px)'};
-
-		.templateItem {
-			border-radius: 4px;
-			color: #333;
-			cursor: pointer;
-			display: flex;
-			flex-direction: row;
-			font-size: 14px;
-			padding: 7px;
-			transition: all 0.25s;
-
-			&:hover {
-				background-color: #1113;
-			}
-
-			.dueDay {
-				display: flex;
-				flex-direction: row;
-				justify-content: flex-start;
-				width: 50px;
-			}
-		}
-	}
-
 	.column_dueDate,
 	.column_movementDate {
 		max-width: 110px;
@@ -193,16 +164,6 @@ const MovementStyle = styled.div`
 				color: #666;
 				transform: scale(1.2);
 			}
-		}
-	}
-
-	.commands {
-		display: flex;
-		flex-direction: row;
-		padding-bottom: 14px;
-
-		& > * {
-			margin-right: 7px;
 		}
 	}
 
