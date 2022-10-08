@@ -3,7 +3,6 @@ import useLocalization from '../../hook/useLocalization'
 import DisplayRowStyle from '../../components/DisplayRow.style'
 import { useContext } from 'react'
 import { TableContext } from '../../hook/Table.context'
-import CurrencyUtils from '../../utils/CurrencyUtils'
 import styled from 'styled-components'
 import Form from '../../components/Form'
 import Button from '../../components/Button'
@@ -11,7 +10,8 @@ import { ConfigContext } from '../../hook/Config.context'
 import { MessageContext } from '../../hook/Message.context'
 import PageSettings from '../../assets/page.settings'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSave } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faClose, faSave, faTrash } from '@fortawesome/free-solid-svg-icons'
+import CommandBar from '../../components/CommandBar'
 
 const FormStyle = styled.div`
 	display: flex;
@@ -34,74 +34,102 @@ const FormStyle = styled.div`
 export default function MovementForm() {
 	const { loc: locCommons } = useLocalization('commons')
 	const { loc } = useLocalization('pages.movement')
-	const { aditionalInformation, create, update, refresh } = useContext(TableContext)
+	const { aditionalInformation, create, update, refresh, remove } = useContext(TableContext)
 	const { setShowForm, showForm } = useContext(ConfigContext)
-	const { errorMessage } = useContext(MessageContext)
+	const { errorMessage, choiceMessage, setMessage } = useContext(MessageContext)
 
 	const movement = showForm.movement
+
+	function deleteMovement(movement) {
+		choiceMessage({
+			icon: <FontAwesomeIcon icon={faTrash} />,
+			header: loc.delete.header,
+			text: loc.delete.text,
+			option1: {
+				text: locCommons.yes,
+				icon: faCheck,
+				event: () => {
+					remove('movement', movement.id, () => {
+						setMessage(undefined)
+					})
+				},
+			},
+			config: {
+				style: 'red',
+				withoutClose: true,
+			},
+		})
+	}
+
+	function saveMovement() {
+		let entity = {
+			dueDate: document.getElementById('movementDueDate').value,
+			description: document.getElementById('movementDescription').value,
+			status: document.getElementById('movementStatus').value,
+			account:
+				document.getElementById('movementAccount').value === ''
+					? null
+					: {
+							id: document.getElementById('movementAccount').value,
+					  },
+			value: parseFloat(document.getElementById('movementValue').value),
+		}
+		if (movement.id) {
+			update(
+				'movement',
+				movement.id,
+				entity,
+				() => {
+					setShowForm((sf) => {
+						return { ...sf, movement: false }
+					})
+					refresh({ entity: 'movement' })
+				},
+				(error) => {
+					errorMessage({
+						header: loc.save_error,
+						text: error.response.data[0] ? error.response.data[0] : error.response.data.message,
+					})
+				}
+			)
+		} else {
+			create(
+				'movement',
+				entity,
+				() => {
+					setShowForm((sf) => {
+						return { ...sf, movement: false }
+					})
+				},
+				(error) => {
+					errorMessage({
+						header: loc.save_error,
+						text: error.response.data[0] ? error.response.data[0] : error.response.data.message,
+					})
+				}
+			)
+		}
+	}
 
 	return (
 		<Form
 			icon={<FontAwesomeIcon icon={PageSettings.movement.icon} />}
 			header={loc.form_header}
 			commands={
-				<Button
-					onClick={() => {
-						let entity = {
-							dueDate: document.getElementById('movementDueDate').value,
-							description: document.getElementById('movementDescription').value,
-							status: document.getElementById('movementStatus').value,
-							account:
-								document.getElementById('movementAccount').value === ''
-									? null
-									: {
-											id: document.getElementById('movementAccount').value,
-									  },
-							value: parseFloat(document.getElementById('movementValue').value),
-						}
-						if (movement.id) {
-							update(
-								'movement',
-								movement.id,
-								entity,
-								() => {
-									setShowForm((sf) => {
-										return { ...sf, movement: false }
-									})
-									refresh({ entity: 'movement' })
-								},
-								(error) => {
-									errorMessage({
-										header: loc.save_error,
-										text: error.response.data[0]
-											? error.response.data[0]
-											: error.response.data.message,
-									})
-								}
-							)
-						} else {
-							create(
-								'movement',
-								entity,
-								() => {
-									setShowForm((sf) => {
-										return { ...sf, movement: false }
-									})
-								},
-								(error) => {
-									errorMessage({
-										header: loc.save_error,
-										text: error.response.data[0]
-											? error.response.data[0]
-											: error.response.data.message,
-									})
-								}
-							)
-						}
-					}}
-				>
-					<FontAwesomeIcon icon={faSave} /> {locCommons.save}
-				</Button>
+				<CommandBar noPaddingBottom={true} fixedInBottom={true}>
+					{movement.id && (
+						<Button
+							icon={<FontAwesomeIcon icon={faClose} />}
+							className={'alert'}
+							onClick={() => deleteMovement(movement)}
+						>
+							{locCommons.delete}
+						</Button>
+					)}
+					<Button icon={<FontAwesomeIcon icon={faSave} />} onClick={saveMovement}>
+						{locCommons.save}
+					</Button>
+				</CommandBar>
 			}
 			onClose={() => {
 				setShowForm((sf) => {

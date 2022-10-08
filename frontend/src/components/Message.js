@@ -4,6 +4,7 @@ import Button from './Button'
 import MessageStyle from './Message.styled'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
+import CommandBar from './CommandBar'
 
 export default function Message() {
 	const { message, setMessage } = useContext(MessageContext)
@@ -22,20 +23,21 @@ export default function Message() {
 					<div className={'field'}>{message.text}</div>
 				</div>
 				{message.commands && (
-					<div className={'commands'}>
+					<CommandBar paddingLeftRight={true}>
 						{message.commands &&
 							message.commands.map((command, index) => {
 								return (
 									<Button
+										icon={command.icon && <FontAwesomeIcon icon={command.icon} />}
 										key={index}
 										onClick={command.event}
 										className={index > 0 ? 'transparent' : ''}
 									>
-										{command && <FontAwesomeIcon icon={command.icon} />} {command.text}
+										{command.text}
 									</Button>
 								)
 							})}
-					</div>
+					</CommandBar>
 				)}
 			</div>
 		</MessageStyle>

@@ -79,18 +79,6 @@ const MessageStyle = styled.div`
 			justify-content: flex-end;
 			padding: 14px;
 			transition: all 0.25s;
-
-			button {
-				margin-right: 10px;
-
-				svg {
-					margin-top: 4px;
-				}
-
-				&:last-child {
-					margin-right: 0;
-				}
-			}
 		}
 	}
 
@@ -107,7 +95,7 @@ const MessageStyle = styled.div`
 			}
 		}
 
-		button.primary {
+		.button.primary {
 			background: #ff0000;
 
 			&:hover {
@@ -125,9 +113,18 @@ const MessageStyle = styled.div`
 			width: calc(100%);
 			overflow-y: auto;
 
+			.header {
+				background-color: #fff;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+			}
+
 			.text {
 				overflow-y: auto;
 				flex-grow: 1;
+				padding-top: 64px;
 			}
 		}
 	}

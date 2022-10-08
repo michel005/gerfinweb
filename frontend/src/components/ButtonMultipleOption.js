@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import Button from './Button'
 import styled from 'styled-components'
@@ -10,30 +10,32 @@ const ButtonMultipleOptionStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
-	height: ${(props) => (props.show ? 'auto' : '34px')};
 	transition: all 0.25s;
 
 	& > .firstButton {
 		display: flex;
 		flex-direction: row;
-		height: 34px;
 		width: 100%;
 
 		& > .primary {
 			border-radius: 0;
 			min-width: calc(100% - 34px);
+
+			& > .buttonContent {
+				display: flex;
+				width: 100%;
+				flex-grow: 1;
+			}
 		}
 
 		& > .noText {
 			border-radius: 0;
 			text-align: center;
 			padding: 0;
-			height: 34px;
 			min-width: 34px;
 			transition: all 0.25s;
 
-			& > svg {
-				margin-left: 10px;
+			svg {
 				rotate: ${(props) => (props.show ? '0deg' : '180deg')};
 				transition: all 0.25s;
 			}
@@ -51,17 +53,38 @@ const ButtonMultipleOptionStyle = styled.div`
 		transition: all 0.25s;
 		transform: translateY(${(props) => (props.show ? '38px' : '0px')});
 		position: fixed;
-		overflow: hidden;
+		overflow-x: hidden;
+		overflow-y: auto;
+		max-height: 200px;
 
-		& > button {
-			border-radius: 0;
-			color: #fff;
-			text-align: left;
-			justify-content: flex-start;
-			transition: all 0.25s;
+		::-webkit-scrollbar {
+			width: 10px;
+		}
+
+		::-webkit-scrollbar-track {
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+			background: #3333;
+		}
+
+		::-webkit-scrollbar-thumb {
+			border-radius: 5px;
+			background: #888;
 
 			&:hover {
-				background-color: #3339;
+				background: #fff3;
+			}
+		}
+
+		& > .button {
+			pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
+
+			.buttonIcon,
+			.buttonContent {
+				color: #fff;
+			}
+			.buttonContent {
+				text-align: left;
 			}
 		}
 	}
@@ -71,6 +94,7 @@ const ButtonMultipleOptionStyle = styled.div`
 			border-radius: 0;
 			transform: none;
 			position: relative;
+			display: ${(props) => (props.show ? 'flex' : 'none')};
 		}
 	}
 `
@@ -82,17 +106,19 @@ export default function ButtonMultipleOption({ icon, label, event, options = [] 
 		<ButtonMultipleOptionStyle show={show}>
 			<div className={'firstButton'}>
 				{event ? (
-					<Button onClick={event}>
-						{icon} {label}
+					<Button className={'primary'} onClick={event} icon={icon}>
+						{label}
 					</Button>
 				) : (
-					<Button className={'primary noHover'}>
-						{icon} {label}
+					<Button className={'primary noHover'} icon={icon}>
+						{label}
 					</Button>
 				)}
-				<Button className={'noText'} onClick={() => setShow(!show)}>
-					<FontAwesomeIcon icon={faArrowUp} />
-				</Button>
+				<Button
+					className={'noText'}
+					onClick={() => setShow(!show)}
+					icon={<FontAwesomeIcon icon={faChevronUp} />}
+				/>
 			</div>
 			<div className={'options'}>
 				{options.map((option, index) => {
@@ -104,8 +130,9 @@ export default function ButtonMultipleOption({ icon, label, event, options = [] 
 								option.event()
 								setShow(false)
 							}}
+							icon={option.icon}
 						>
-							{option.icon} {option.label}
+							{option.label}
 						</Button>
 					)
 				})}

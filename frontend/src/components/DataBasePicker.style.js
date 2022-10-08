@@ -2,10 +2,10 @@ import styled from 'styled-components'
 
 const DataBasePickerStyle = styled.div`
 	background-color: #fffc;
-	border-radius: 4px;
+	border-radius: 7px;
+	box-shadow: #3333 0 0 7px;
 	color: #333;
 	display: flex;
-	height: 34px;
 	flex-direction: row;
 	transition: all 0.25s;
 	overflow: hidden;
@@ -18,28 +18,21 @@ const DataBasePickerStyle = styled.div`
 		text-align: center;
 		font-size: 14px;
 		padding: 0 14px;
-		width: calc(100% - 68px);
+		width: 100%;
 		transition: all 0.3s;
 	}
 
-	button {
-		background-color: transparent;
-		border: none;
-		height: 34px;
-		flex-direction: row;
-		justify-content: center;
-		border-radius: 0 !important;
-		transition: all 0.3s;
-		width: 34px;
+	.button {
+		width: 40px;
+		height: 100%;
+	}
 
-		&:hover {
-			background-color: #3333 !important;
-			color: #fff;
-		}
+	.left {
+		border-radius: 7px 0 0 7px;
+	}
 
-		svg {
-			margin: 0;
-		}
+	.right {
+		border-radius: 0 7px 7px 0;
 	}
 `
 

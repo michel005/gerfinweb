@@ -11,9 +11,6 @@ import CurrencyUtils from '../../utils/CurrencyUtils'
 import DateUtils from '../../utils/DateUtils'
 import DashboardStyle from './index.style'
 import CommandBar from '../../components/CommandBar'
-import Button from '../../components/Button'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import DataBasePicker from '../../components/DataBasePicker'
 
 export default function Dashboard() {

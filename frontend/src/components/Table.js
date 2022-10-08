@@ -5,7 +5,6 @@ import {
 	faBackwardFast,
 	faForward,
 	faForwardFast,
-	faSpinner,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
@@ -19,11 +18,7 @@ export default function Table({
 	entity = null,
 	header = {},
 	valueModifier = {},
-	valueMapper = {},
-	columnAction = {},
-	editModifier = {},
 	enableOrderBy = {},
-	responsiveColumns = {},
 	responsiveLayout = () => <h3>Responsive Layout</h3>,
 	responsiveAction = () => null,
 }) {
@@ -58,50 +53,6 @@ export default function Table({
 		}
 	}
 
-	function actionEditField(event, row, field) {
-		if (event.code === 'Escape') {
-			table.setEditEvent(null)
-		} else if (event.code === 'Enter' && columnAction[field]) {
-			try {
-				table.setEditEvent((e) => {
-					return { ...e, loading: true }
-				})
-				columnAction[field]()
-			} catch {
-				if (columnAction[field](row, event.target.value)) {
-					table.setEditEvent(null)
-				}
-			}
-		}
-	}
-
-	function enableEditEvent(row, field) {
-		if (columnAction[field]) {
-			table.setEditEvent({
-				id: valueMapper.id ? valueMapper.id(row) : row.id,
-				field: field,
-				loading: false,
-			})
-		}
-	}
-
-	function editField(row, field) {
-		let defaultEditor = (
-			<input
-				type={'text'}
-				id={'edit_field_' + field}
-				defaultValue={valueMapper[field] ? valueMapper[field](row) : row[field]}
-				onKeyDown={(event) => actionEditField(event, row, field)}
-			/>
-		)
-		let noEditEvent = () => {
-			table.setEditEvent(null)
-		}
-		return editModifier[field]
-			? editModifier[field](row, field, actionEditField, defaultEditor, noEditEvent)
-			: defaultEditor
-	}
-
 	return (
 		<TableStyle empty={table.content[entity].length === 0}>
 			<div className={'table'}>
@@ -111,9 +62,7 @@ export default function Table({
 							return (
 								<div
 									key={field}
-									className={`column column_${field} ${
-										responsiveColumns[field] ? 'responsive' : ''
-									}`}
+									className={`column column_${field}`}
 									onClick={() => orderBy(field)}
 									onMouseOver={() => mouseEnterEvent(field, true)}
 									onMouseOut={() => mouseEnterEvent(field, false)}
@@ -147,29 +96,15 @@ export default function Table({
 												<div
 													key={field}
 													className={`column column_${field} ${
-														responsiveColumns[field] ? 'responsive' : ''
-													} ${parseFloat(row[field]) < 0 ? 'negative' : ''}`}
-													onDoubleClick={() => enableEditEvent(row, field)}
+														parseFloat(row[field]) < 0 ? 'negative' : ''
+													}`}
+													onDoubleClick={() => responsiveAction(row)}
 												>
-													{table.editEvent &&
-													table.editEvent.id === (valueMapper.id ? valueMapper.id(row) : row.id) &&
-													table.editEvent.field === field ? (
-														<>
-															{table.editEvent?.loading ? (
-																<div className={'loading'}>
-																	<FontAwesomeIcon icon={faSpinner} className={'fa-spin'} />
-																</div>
-															) : (
-																editField(row, field)
-															)}
-														</>
-													) : (
-														<div className={'columnContent'}>
-															{valueModifier[field]
-																? valueModifier[field](row[field], row)
-																: row[field]}
-														</div>
-													)}
+													<div className={'columnContent'}>
+														{valueModifier[field]
+															? valueModifier[field](row[field], row)
+															: row[field]}
+													</div>
 												</div>
 											)
 										})}
@@ -192,17 +127,15 @@ export default function Table({
 						<Button
 							disabled={table.pageController[entity].currentPage === 0}
 							onClick={() => table.find({ entity: entity, page: 0 })}
-						>
-							<FontAwesomeIcon icon={faBackwardFast} />
-						</Button>
+							icon={<FontAwesomeIcon icon={faBackwardFast} />}
+						/>
 						<Button
 							disabled={table.pageController[entity].currentPage === 0}
 							onClick={() =>
 								table.find({ entity: entity, page: table.pageController[entity].currentPage - 1 })
 							}
-						>
-							<FontAwesomeIcon icon={faBackward} />
-						</Button>
+							icon={<FontAwesomeIcon icon={faBackward} />}
+						/>
 						<div className={'currentPage'}>
 							{getText('componnents.table.page_counter')
 								.replace('@#CURRENT@#', `${table.pageController[entity].currentPage + 1}`)
@@ -223,9 +156,8 @@ export default function Table({
 							onClick={() =>
 								table.find({ entity: entity, page: table.pageController[entity].currentPage + 1 })
 							}
-						>
-							<FontAwesomeIcon icon={faForward} />
-						</Button>
+							icon={<FontAwesomeIcon icon={faForward} />}
+						/>
 						<Button
 							disabled={
 								table.pageController[entity].currentPage ===
@@ -234,9 +166,8 @@ export default function Table({
 							onClick={() =>
 								table.find({ entity: entity, page: table.pageController[entity].totalPages - 1 })
 							}
-						>
-							<FontAwesomeIcon icon={faForwardFast} />
-						</Button>
+							icon={<FontAwesomeIcon icon={faForwardFast} />}
+						/>
 					</div>
 				</div>
 			</div>

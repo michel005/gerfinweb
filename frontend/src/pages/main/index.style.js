@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const DEF = {
 	TOPBAR: {
 		width: '100%',
-		height: '50px',
+		height: '60px',
 	},
 	SIDEBAR: {
 		width: '200px',
@@ -15,7 +15,7 @@ const DEF = {
 	},
 	REDUCED: {
 		SIDEBAR: {
-			width: '50px',
+			width: '60px',
 			height: '100%',
 		},
 	},
@@ -33,6 +33,10 @@ const MainStyle = styled.div`
 	transition: all 0.2s;
 
 	& > .topBar {
+		background-color: #fff;
+		border-color: #3331;
+		border-width: 0 0 1px 0;
+		border-style: solid;
 		display: flex;
 		flex-direction: row;
 		height: ${DEF.TOPBAR.height};
@@ -46,39 +50,27 @@ const MainStyle = styled.div`
 			overflow: hidden;
 
 			& > .reduceButton {
-				height: ${DEF.TOPBAR.height};
-				width: ${DEF.TOPBAR.height};
-
-				& > button {
-					background-color: transparent;
-					border: none;
-					cursor: pointer;
-					font-size: 18px;
-					height: 100%;
-					width: 100%;
-
-					&:hover {
-						color: #aaa;
-					}
-				}
-			}
-
-			& > .text {
-				color: #333;
 				display: flex;
 				flex-direction: column;
-				flex-wrap: nowrap;
-				font-size: 18px;
 				height: ${DEF.TOPBAR.height};
 				justify-content: center;
-				transform: translateY(-1px);
-				width: calc(100% - ${DEF.TOPBAR.height});
+				padding: 0 7px;
 
-				& > .textContainer {
-					text-overflow: ellipsis;
+				& > .button {
+					width: calc(${DEF.SIDEBAR.width} - 14px);
 
-					& > .highlight {
-						color: #39f;
+					& > .buttonIcon,
+					& > .buttonContent {
+						font-size: 18px;
+						font-weight: bold;
+
+						.highlight {
+							color: #39f;
+						}
+					}
+
+					& > .buttonContent {
+						width: 100%;
 					}
 				}
 			}
@@ -127,7 +119,7 @@ const MainStyle = styled.div`
 					position: fixed;
 					top: calc(${DEF.TOPBAR.height} + 3px);
 					width: 130px;
-					overflow: hidden;
+					overflow-x: hidden;
 					z-index: 100;
 
 					& > button {
@@ -153,44 +145,60 @@ const MainStyle = styled.div`
 		width: 100%;
 
 		& > .sideBar {
+			background-color: #fff;
+			border-color: #3331;
+			border-width: 0 1px 0 0;
+			border-style: solid;
 			display: flex;
 			flex-direction: column;
-			height: ${DEF.SIDEBAR.height};
+			height: calc(${DEF.SIDEBAR.height} + 1);
+			margin-top: -1px;
 			width: ${(props) => (props.reduced ? DEF.REDUCED.SIDEBAR.width : DEF.SIDEBAR.width)};
 			transition: all 0.25s;
 
-			& > .optionContainer {
-				display: flex;
-				flex-direction: column;
-				height: ${DEF.TOPBAR.height};
-				justify-content: center;
-				padding: 0 16px;
-				cursor: pointer;
-				width: ${(props) => (props.reduced ? DEF.REDUCED.SIDEBAR.width : DEF.SIDEBAR.width)};
-				transition: all 0.25s;
+			& > .line {
+				background-color: #3331;
+				margin: 0 7px;
+				height: 1px;
+				width: calc(
+					${(props) => (props.reduced ? DEF.REDUCED.SIDEBAR.width : DEF.SIDEBAR.width)} - 14px
+				);
+			}
 
-				&.active {
-					background-color: #39f;
-					border-top-right-radius: 7px;
-					border-bottom-right-radius: 7px;
+			& > .button {
+				background-color: transparent;
+				color: #333;
+				font-size: 16px;
+				justify-content: flex-start;
+				margin: 7px 7px 0;
+				padding: 10px 14px;
 
-					& > button {
-						color: #fff;
+				& > .buttonContent {
+					opacity: ${(props) => (props.reduced ? 0 : 1)};
+					pointer-events: ${(props) => (props.reduced ? 'none' : 'auto')};
+				}
+
+				&:hover {
+					background-color: #d1deff;
+
+					& > .buttonContent {
+						color: #79a0ff;
+					}
+
+					& > .buttonIcon {
+						color: #79a0ff;
 					}
 				}
 
-				& > button {
-					background-color: transparent;
-					border: none;
-					cursor: pointer;
-					display: flex;
-					flex-direction: row;
-					justify-content: flex-start;
+				&.active {
+					background-color: #c4d5ff;
 
-					& > svg {
-						height: 18px;
-						margin-right: 20px;
-						width: 18px;
+					& > .buttonContent {
+						color: #5c8bff;
+					}
+
+					& > .buttonIcon {
+						color: #5c8bff;
 					}
 				}
 			}
@@ -210,8 +218,6 @@ const MainStyle = styled.div`
 
 	@media only screen and (max-width: 700px) {
 		& > .topBar {
-			height: ${DEF.TOPBAR.height};
-			width: ${DEF.TOPBAR.width};
 			transition: all 0.25s;
 
 			& > .user {
@@ -226,7 +232,6 @@ const MainStyle = styled.div`
 			width: 100%;
 
 			& > .sideBar {
-				background-color: #eff2fdff;
 				height: ${DEF.SIDEBAR.height};
 				left: 0;
 				position: fixed;

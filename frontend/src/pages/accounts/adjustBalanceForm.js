@@ -44,6 +44,7 @@ export default function AdjustBalanceForm() {
 			header={loc.header}
 			commands={
 				<Button
+					icon={<FontAwesomeIcon icon={faSave} />}
 					onClick={() => {
 						API.post(
 							url.movement.ajustBalance,
@@ -78,7 +79,7 @@ export default function AdjustBalanceForm() {
 							})
 					}}
 				>
-					<FontAwesomeIcon icon={faSave} /> {locCommons.save}
+					{locCommons.save}
 				</Button>
 			}
 			onClose={() => {

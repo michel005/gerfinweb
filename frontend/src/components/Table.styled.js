@@ -172,23 +172,6 @@ const TableStyle = styled.div`
 							padding: 4px;
 						}
 
-						select {
-							background-color: #fffc;
-							border: none;
-							font-size: 14px;
-							color: #333;
-							height: 100%;
-						}
-
-						input {
-							background-color: #fff;
-							border: 1px solid #aaa;
-							border-radius: 4px;
-							font-size: 14px;
-							padding: 4px;
-							width: 100%;
-						}
-
 						&.negative {
 							color: red;
 						}
@@ -231,7 +214,7 @@ const TableStyle = styled.div`
 				flex-direction: row;
 				padding: 0 7px;
 
-				button {
+				.button {
 					background-color: transparent;
 					border: none;
 					color: #000;
@@ -254,7 +237,7 @@ const TableStyle = styled.div`
 		}
 	}
 
-	@media only screen and (max-width: 1000px) {
+	@media only screen and (max-width: 700px) {
 		height: calc(100% - 47px);
 		min-height: initial;
 		overflow: hidden;

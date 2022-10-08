@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const ButtonStyle = styled.button`
+const ButtonStyle = styled.div`
 	background-color: #39f;
 	border: 0 solid transparent;
 	border-radius: 7px;
@@ -10,38 +10,29 @@ const ButtonStyle = styled.button`
 	flex-direction: row;
 	font-size: 14px;
 	justify-content: center;
-	padding: 7px 14px 8px;
+	padding: 7px 14px;
 	transition: all 0.25s;
+	opacity: ${(params) => (params.disabled ? 0.5 : 1)};
+	pointer-events: ${(params) => (params.disabled ? 'none' : 'auto')};
 
 	&:hover {
-		background-color: #3090f0;
+		background-color: #39fc;
 	}
 
-	&:disabled {
-		cursor: not-allowed;
-		opacity: 0.3;
-
-		&:hover {
-			background-color: #39f;
-		}
-	}
-
-	svg {
-		margin-top: 2.5px;
-		margin-right: 7px;
-	}
-
-	&.noPadding {
-		padding: 4px 7px;
-	}
-
-	&.noText {
+	& > .buttonIcon {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		margin-right: ${(props) => (props.hasContent ? '10px' : '0')};
+	}
 
-		svg {
-			margin: 0;
+	& > .buttonContent {
+		width: 100%;
+	}
+
+	&.primery.noHover {
+		&:hover {
+			background-color: #39f;
 		}
 	}
 
@@ -50,7 +41,13 @@ const ButtonStyle = styled.button`
 		color: #333;
 
 		&:hover {
-			background-color: #fffc;
+			background-color: #3333;
+		}
+
+		&.noHover {
+			&:hover {
+				background-color: transparent;
+			}
 		}
 	}
 
@@ -73,8 +70,17 @@ const ButtonStyle = styled.button`
 	}
 `
 
-export default function Button(props) {
+export default function Button({ disabled, icon, children, className, onClick }) {
 	return (
-		<ButtonStyle {...props} className={props.className ? props.className : 'primary'}></ButtonStyle>
+		<ButtonStyle
+			hasIcon={!!icon}
+			hasContent={!!children}
+			disabled={disabled}
+			className={`button ${className}`}
+			onClick={onClick}
+		>
+			{icon && <div className={'buttonIcon'}>{icon}</div>}
+			{children && <div className={'buttonContent'}>{children}</div>}
+		</ButtonStyle>
 	)
 }

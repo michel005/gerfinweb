@@ -1,10 +1,8 @@
-import { faCheck, faDollar, faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext } from 'react'
 import Button from '../../components/Button'
 import Table from '../../components/Table'
-import { MessageContext } from '../../hook/Message.context'
-import { TableContext } from '../../hook/Table.context'
 import useLocalization from '../../hook/useLocalization'
 import CurrencyUtils from '../../utils/CurrencyUtils'
 import AccountsStyle from './index.style'
@@ -13,41 +11,9 @@ import CommandBar from '../../components/CommandBar'
 import DataBasePicker from '../../components/DataBasePicker'
 
 export default function Accounts() {
-	const { updateField, remove } = useContext(TableContext)
-	const { choiceMessage, setMessage } = useContext(MessageContext)
-	const { setAdjustAccountBalance, setShowForm } = useContext(ConfigContext)
+	const { setShowForm } = useContext(ConfigContext)
 	const { loc } = useLocalization('pages.account')
 	const { loc: locCommons } = useLocalization('commons')
-
-	function deleteAccount(account) {
-		choiceMessage({
-			icon: <FontAwesomeIcon icon={faTrash} />,
-			header: loc.delete.header,
-			text: loc.delete.text.replaceAll('@#NAME@#', account.name),
-			option1: {
-				text: locCommons.yes,
-				icon: faCheck,
-				event: () => {
-					remove('account', account.id, () => {
-						setMessage(undefined)
-					})
-				},
-			},
-			config: {
-				style: 'red',
-				withoutClose: true,
-			},
-		})
-	}
-
-	function adjustAccountBalance(account) {
-		setAdjustAccountBalance((x) => {
-			return { ...account }
-		})
-		setShowForm((sf) => {
-			return { ...sf, adjustBalance: true }
-		})
-	}
 
 	return (
 		<AccountsStyle>
@@ -65,8 +31,9 @@ export default function Accounts() {
 							}
 						})
 					}}
+					icon={<FontAwesomeIcon icon={faPlus} />}
 				>
-					<FontAwesomeIcon icon={faPlus} /> {locCommons.create}
+					{locCommons.create}
 				</Button>
 				<div style={{ display: 'flex', flexGrow: 1 }}></div>
 				<DataBasePicker />
@@ -100,20 +67,6 @@ export default function Accounts() {
 							<div className={'layoutBank'}>
 								{account.account.bank} (
 								<span className={'layoutType'}>{loc.types[account.account.type]}</span>)
-							</div>
-							<div className={'commands'}>
-								<Button
-									className={'transparent noPadding'}
-									onClick={() => deleteAccount(account.account)}
-								>
-									<FontAwesomeIcon icon={faTrash} /> {locCommons.delete}
-								</Button>
-								<Button
-									className={'transparent noPadding'}
-									onClick={() => adjustAccountBalance(account.account)}
-								>
-									<FontAwesomeIcon icon={faDollar} /> {loc.table.adjust_balance_command}
-								</Button>
 							</div>
 							{account.selected && (
 								<>
@@ -150,30 +103,6 @@ export default function Accounts() {
 					balance: loc.table.balance,
 					currentBalance: loc.table.current_balance,
 					futureBalance: loc.table.future_balance,
-					commands: '',
-				}}
-				valueMapper={{
-					id: (account) => {
-						return account.account.id
-					},
-					name: (account) => {
-						return account.account.name
-					},
-					bank: (account) => {
-						return account.account.bank
-					},
-					type: (account) => {
-						return account.account.type
-					},
-					balance: (account) => {
-						return account.balance
-					},
-					currentBalance: (account) => {
-						return account.currentBalance
-					},
-					futureBalance: (account) => {
-						return account.futureBalance
-					},
 				}}
 				valueModifier={{
 					id: (value, account) => {
@@ -196,57 +125,6 @@ export default function Accounts() {
 					},
 					futureBalance: (value, account) => {
 						return CurrencyUtils.format(account.futureBalance)
-					},
-					commands: (value, account) => {
-						return (
-							<>
-								<button
-									className="transparent"
-									title={loc.table.adjust_balance_command}
-									onClick={() => adjustAccountBalance(account.account)}
-								>
-									<FontAwesomeIcon icon={faDollar} />
-								</button>
-								<button
-									className="transparent"
-									title={loc.table.delete_command}
-									onClick={() => deleteAccount(account.account)}
-								>
-									<FontAwesomeIcon icon={faTrash} />
-								</button>
-							</>
-						)
-					},
-				}}
-				editModifier={{
-					type: (account, field, event) => (
-						<select
-							defaultValue={account.account.type}
-							onChange={(ev) => {
-								ev.code = 'Enter'
-								event(ev, account, field)
-							}}
-							onKeyDown={(ev) => event(ev, account, field)}
-						>
-							{Object.keys(loc.types).map((accountType, accountTypeIndex) => {
-								return (
-									<option key={accountTypeIndex} value={accountType}>
-										{loc.types[accountType]}
-									</option>
-								)
-							})}
-						</select>
-					),
-				}}
-				columnAction={{
-					name: (account, value) => {
-						updateField('account', account.account, 'name', value)
-					},
-					bank: (account, value) => {
-						updateField('account', account.account, 'bank', value)
-					},
-					type: (account, value) => {
-						updateField('account', account.account, 'type', value)
 					},
 				}}
 			/>
