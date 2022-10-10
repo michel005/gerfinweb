@@ -23,7 +23,7 @@ export default function Message() {
 					<div className={'field'}>{message.text}</div>
 				</div>
 				{message.commands && (
-					<CommandBar paddingLeftRight={true}>
+					<CommandBar fixedInBottom={true}>
 						{message.commands &&
 							message.commands.map((command, index) => {
 								return (
@@ -31,7 +31,7 @@ export default function Message() {
 										icon={command.icon && <FontAwesomeIcon icon={command.icon} />}
 										key={index}
 										onClick={command.event}
-										className={index > 0 ? 'transparent' : ''}
+										className={index > 0 ? 'transparent' : 'primary'}
 									>
 										{command.text}
 									</Button>

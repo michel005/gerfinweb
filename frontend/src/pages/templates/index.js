@@ -17,7 +17,7 @@ export default function Templates() {
 
 	return (
 		<TemplateStyle>
-			<CommandBar>
+			<CommandBar padding={'0 0 14px 0'}>
 				<Button
 					icon={<FontAwesomeIcon icon={faPlus} />}
 					onClick={() => {
@@ -35,8 +35,6 @@ export default function Templates() {
 				>
 					{locCommons.create}
 				</Button>
-				<div style={{ display: 'flex', flexGrow: 1 }}></div>
-				<DataBasePicker />
 			</CommandBar>
 			<Table
 				entity={'template'}

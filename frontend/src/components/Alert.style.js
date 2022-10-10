@@ -14,13 +14,13 @@ const AlertStyle = styled.div`
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		padding: 14px;
+		padding: 10px 14px;
 
 		svg {
 			background-color: #ccc;
 			border-radius: 30px;
-			height: 30px;
-			width: 30px;
+			height: 24px;
+			width: 24px;
 			padding: 7px;
 			color: #fff;
 		}

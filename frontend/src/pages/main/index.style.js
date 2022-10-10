@@ -90,20 +90,19 @@ const MainStyle = styled.div`
 				width: 100%;
 
 				& > .userImageContainer {
-					border-radius: 24px;
+					border-radius: 4px;
 					cursor: pointer;
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
 					padding: 4px;
 					margin: 7px;
-
-					&:hover {
-						background-color: #ccc;
-					}
+					transition: all 0.25s;
 
 					& > .userImg {
-						border-radius: 18px;
+						background-color: #3f97af;
+						box-shadow: #666 0 0 7px;
+						border-radius: 4px;
 						height: 36px;
 						width: 36px;
 					}
@@ -117,7 +116,7 @@ const MainStyle = styled.div`
 					right: 7px;
 					flex-direction: column;
 					position: fixed;
-					top: calc(${DEF.TOPBAR.height} + 3px);
+					top: calc(${DEF.TOPBAR.height} - 4px);
 					width: 130px;
 					overflow-x: hidden;
 					z-index: 100;
@@ -239,13 +238,6 @@ const MainStyle = styled.div`
 				overflow: hidden;
 				width: ${(props) => (props.reduced ? 0 : DEF.SIDEBAR.width)};
 				z-index: 100;
-
-				& > .optionContainer {
-					&.active {
-						border-top-right-radius: 0;
-						border-bottom-right-radius: 0;
-					}
-				}
 			}
 
 			& > .stage {

@@ -83,6 +83,7 @@ export default function TemplateForm() {
 						{locCommons.delete}
 					</Button>
 					<Button
+						icon={<FontAwesomeIcon icon={faSave} />}
 						onClick={() => {
 							const entity = {
 								dueDay: parseInt(document.getElementById('templateDueDay').value),
@@ -137,7 +138,7 @@ export default function TemplateForm() {
 							}
 						}}
 					>
-						<FontAwesomeIcon icon={faSave} /> {locCommons.save}
+						{locCommons.save}
 					</Button>
 				</CommandBar>
 			}
@@ -185,15 +186,6 @@ export default function TemplateForm() {
 				<DisplayRowStyle className={'templateContainer'}>
 					<Field id={'templateValue'} label={loc.table.value} defaultValue={template.value} />
 				</DisplayRowStyle>
-				<Alert
-					convertHtml={true}
-					alert={
-						loc.dueDay_description +
-						'<br/><br/>Recorrência ' +
-						recurrency +
-						'<br/><br/>Quanto mais campos você preencher no modelo, mais rápido fica para criar um lançamento.'
-					}
-				/>
 			</FormStyle>
 		</Form>
 	)

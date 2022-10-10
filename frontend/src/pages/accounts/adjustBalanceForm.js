@@ -13,6 +13,7 @@ import url from '../../assets/url_settings.json'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDollar, faSave } from '@fortawesome/free-solid-svg-icons'
 import { MessageContext } from '../../hook/Message.context'
+import CommandBar from '../../components/CommandBar'
 
 const FormStyle = styled.div`
 	display: flex;
@@ -36,54 +37,52 @@ export default function AdjustBalanceForm() {
 	const { loc } = useLocalization('pages.account.adjust_balance')
 	const { refresh } = useContext(TableContext)
 	const { errorMessage } = useContext(MessageContext)
-	const { setShowForm, adjustAccountBalance, setAdjustAccountBalance } = useContext(ConfigContext)
+	const { setShowForm, showForm } = useContext(ConfigContext)
 
 	return (
 		<Form
 			icon={<FontAwesomeIcon icon={faDollar} />}
 			header={loc.header}
 			commands={
-				<Button
-					icon={<FontAwesomeIcon icon={faSave} />}
-					onClick={() => {
-						API.post(
-							url.movement.ajustBalance,
-							{
-								date: DateUtils.stringJustDate(new Date()),
-								description: document.getElementById('descriptionBalance').value,
-								value: parseFloat(
-									document.getElementById('newAccountBalance').value.replaceAll(',', '.')
-								),
-								account: adjustAccountBalance,
-							},
-							{
-								headers: {
-									Authorization: localStorage.getItem('authHeader'),
+				<CommandBar fixedInBottom={true}>
+					<Button
+						icon={<FontAwesomeIcon icon={faSave} />}
+						onClick={() => {
+							API.post(
+								url.movement.ajustBalance,
+								{
+									date: DateUtils.stringJustDate(new Date()),
+									description: document.getElementById('descriptionBalance').value,
+									value: parseFloat(
+										document.getElementById('newAccountBalance').value.replaceAll(',', '.')
+									),
+									account: showForm.adjustBalance,
 								},
-							}
-						)
-							.then(() => {
-								refresh({ entity: 'account' })
-								setAdjustAccountBalance(undefined)
-								setShowForm((sf) => {
-									return { ...sf, adjustBalance: false }
+								{
+									headers: {
+										Authorization: localStorage.getItem('authHeader'),
+									},
+								}
+							)
+								.then(() => {
+									refresh({ entity: 'account' })
+									setShowForm((sf) => {
+										return { ...sf, adjustBalance: false }
+									})
 								})
-							})
-							.catch((error) => {
-								errorMessage({
-									header: loc.save_error,
-									text: error.response.data[0]
-										? error.response.data[0]
-										: error.response.data.message.substr(0, 100),
+								.catch((error) => {
+									errorMessage({
+										header: loc.save_error,
+										text: error,
+									})
 								})
-							})
-					}}
-				>
-					{locCommons.save}
-				</Button>
+						}}
+					>
+						{locCommons.save}
+					</Button>
+				</CommandBar>
 			}
 			onClose={() => {
-				setAdjustAccountBalance(undefined)
 				setShowForm((sf) => {
 					return { ...sf, adjustBalance: false }
 				})

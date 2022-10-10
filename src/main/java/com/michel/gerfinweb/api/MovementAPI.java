@@ -146,7 +146,7 @@ public class MovementAPI {
     private ResponseEntity<?> transfer(Authentication authentication, @RequestBody TransferModel transferModel) {
         List<String> errors = new ArrayList<>();
         if (transferModel.getAccountDestiny() == null) {
-            errors.add("Desiny account was not informed!");
+            errors.add("Destiny account was not informed!");
         }
         if (transferModel.getAccountOrigin() == null) {
             errors.add("Origin account was not informed!");
@@ -197,8 +197,8 @@ public class MovementAPI {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/createBasedOnTemplate")
-    private ResponseEntity<?> createBasedOnTemplate(Authentication authentication, @RequestParam Long id, @RequestParam String dataBase) {
+    @GetMapping("/templateBased")
+    private ResponseEntity<?> templateBased(Authentication authentication, @RequestParam Long id, @RequestParam String dataBase) {
     	Optional<Template> template = templateRepository.findById(id);
     	
     	if (template.isEmpty()) {
@@ -230,10 +230,7 @@ public class MovementAPI {
         movement.setAccount(template.get().getAccount() == null ? accountRepository.findById(accounts.get(0).getId()).get() : template.get().getAccount());
         movement.setTemplate(template.get());
 
-        defineMovementDate(movement);
-        Movement savedMovement = movementRepository.save(movement);
-
-        return ResponseEntity.ok(savedMovement);
+        return ResponseEntity.ok(movement);
     }
 
     @PostMapping("/update")

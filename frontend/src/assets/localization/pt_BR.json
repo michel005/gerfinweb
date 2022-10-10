@@ -128,8 +128,8 @@
 				"description": "Novo lançamento"
 			},
 			"delete": {
-				"header": "Você realmente deseja excluir este lançamento?",
-				"text": "Esta operação não pode ser revertido!"
+				"header": "Exclusão de lançamento!",
+				"text": "Você realmente deseja excluir este lançamento?"
 			},
 			"label": {
 				"template": "Modelo",

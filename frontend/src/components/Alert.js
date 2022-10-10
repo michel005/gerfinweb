@@ -4,7 +4,7 @@ import { faExclamation } from '@fortawesome/free-solid-svg-icons'
 
 export default function Alert({ alert, convertHtml = false, className, icon = faExclamation }) {
 	return (
-		<AlertStyle className={className}>
+		<AlertStyle className={className + ' alert'}>
 			<div className={'icon'}>
 				<FontAwesomeIcon icon={icon} />
 			</div>{' '}

@@ -14,10 +14,11 @@ import DateUtils from '../../utils/DateUtils'
 import DataBasePicker from '../../components/DataBasePicker'
 import CommandBar from '../../components/CommandBar'
 import ButtonMultipleOption from '../../components/ButtonMultipleOption'
+import url from '../../assets/url_settings.json'
 
 export default function Movements() {
-	const { find, aditionalInformation } = useContext(TableContext)
-	const { dataBase, setDataBase, formatedDataBaseForURL, setShowForm } = useContext(ConfigContext)
+	const { aditionalInformation } = useContext(TableContext)
+	const { formatedDataBaseForURL, setShowForm } = useContext(ConfigContext)
 	const [showTemplates, setShowTemplates] = useState(false)
 	const { loc } = useLocalization('pages.movement')
 	const { loc: locTemplate } = useLocalization('pages.template')
@@ -25,17 +26,23 @@ export default function Movements() {
 
 	function addMovementBasedOnTemplate(template) {
 		setShowTemplates(false)
-		API.post(
-			'/movement/createBasedOnTemplate?id=' + template.id + '&dataBase=' + formatedDataBaseForURL(),
-			{},
+		API.get(
+			url.movement.templateBased
+				.replaceAll('@#ID@#', template.id)
+				.replaceAll('@#DATABASE@#', formatedDataBaseForURL()),
 			{
 				headers: {
 					Authorization: localStorage.getItem('authHeader'),
 				},
 			}
-		).then(() => {
-			find({ entity: 'movement' })
-			setDataBase(new Date(dataBase))
+		).then((response) => {
+			setShowTemplates(false)
+			setShowForm((sf) => {
+				return {
+					...sf,
+					movement: response.data,
+				}
+			})
 		})
 	}
 
@@ -56,7 +63,7 @@ export default function Movements() {
 
 	return (
 		<MovementStyle showTemplates={showTemplates}>
-			<CommandBar>
+			<CommandBar padding={'0 0 14px 0'}>
 				<ButtonMultipleOption
 					icon={<FontAwesomeIcon icon={faPlus} />}
 					label={locCommons.create}

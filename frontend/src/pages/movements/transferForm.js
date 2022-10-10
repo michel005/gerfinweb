@@ -26,11 +26,11 @@ const FormStyle = styled.div`
 
 export default function TransferForm() {
 	const { loc: locCommons } = useLocalization('commons')
-	const { loc: locComponents } = useLocalization('components')
+	const { loc: locComponents } = useLocalization('componnents')
 	const { loc } = useLocalization('pages.movement')
 	const { aditionalInformation, find } = useContext(TableContext)
 	const { setShowForm, dataBase, setDataBase } = useContext(ConfigContext)
-	const { simpleMessage } = useContext(MessageContext)
+	const { errorMessage } = useContext(MessageContext)
 
 	return (
 		<Form
@@ -77,11 +77,9 @@ export default function TransferForm() {
 									})
 								})
 								.catch((error) => {
-									simpleMessage({
+									errorMessage({
 										header: locComponents.table.update_field.header,
-										text: error.response.data[0]
-											? error.response.data[0]
-											: error.response.data.message,
+										text: error,
 									})
 								})
 						}}

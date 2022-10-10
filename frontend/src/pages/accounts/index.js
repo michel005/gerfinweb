@@ -17,7 +17,7 @@ export default function Accounts() {
 
 	return (
 		<AccountsStyle>
-			<CommandBar>
+			<CommandBar padding={'0 0 14px 0'}>
 				<Button
 					onClick={() => {
 						setShowForm((sf) => {

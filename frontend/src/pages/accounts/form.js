@@ -123,7 +123,7 @@ export default function AccountForm() {
 			icon={<FontAwesomeIcon icon={PageSettings.account.icon} />}
 			header={loc.form_header}
 			commands={
-				<CommandBar noPaddingBottom={true} fixedInBottom={true}>
+				<CommandBar fixedInBottom={true}>
 					{account.id && (
 						<Button
 							className={'alert'}

@@ -77,7 +77,6 @@ const MessageStyle = styled.div`
 			flex-direction: row;
 			font-size: 16px;
 			justify-content: flex-end;
-			padding: 14px;
 			transition: all 0.25s;
 		}
 	}
@@ -113,18 +112,9 @@ const MessageStyle = styled.div`
 			width: calc(100%);
 			overflow-y: auto;
 
-			.header {
-				background-color: #fff;
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-			}
-
 			.text {
 				overflow-y: auto;
 				flex-grow: 1;
-				padding-top: 64px;
 			}
 		}
 	}

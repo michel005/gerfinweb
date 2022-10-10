@@ -5,10 +5,12 @@ const LINE_SIZE = '40px'
 const TableStyle = styled.div`
 	background-color: #fff;
 	box-shadow: #ccc 0 0 7px;
+	border-radius: 7px;
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 	min-height: 500px;
+	overflow: hidden;
 
 	* {
 		user-select: none;
@@ -256,19 +258,6 @@ const TableStyle = styled.div`
 
 			.body {
 				overflow-y: auto;
-
-				.rowsContainer {
-					.line {
-						.column.responsive {
-							color: transparent;
-							width: 0;
-							max-width: 0;
-							min-width: 0;
-							padding: 0;
-							pointer-events: none;
-						}
-					}
-				}
 			}
 
 			.page {

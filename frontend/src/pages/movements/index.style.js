@@ -166,15 +166,6 @@ const MovementStyle = styled.div`
 			}
 		}
 	}
-
-	@media only screen and (max-width: 700px) {
-		.templateList {
-			transform: ${(props) =>
-				props.showTemplates
-					? 'translateY(40px) translateX(0px)'
-					: 'translateY(20px) translateX(0px)'};
-		}
-	}
 `
 
 export default MovementStyle

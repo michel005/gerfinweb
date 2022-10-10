@@ -41,7 +41,15 @@ export default function MessageProvider({ children }) {
 		setMessage({
 			icon: <FontAwesomeIcon icon={faExclamation} />,
 			header,
-			text,
+			text: text.response?.data[0] ? (
+				<>
+					{text.response.data.map((error, index) => {
+						return <p key={index}>{error}</p>
+					})}
+				</>
+			) : (
+				JSON.stringify(text.response.data)
+			),
 			config: {
 				style: 'red',
 			},

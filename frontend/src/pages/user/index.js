@@ -12,10 +12,13 @@ import { faArrowRight, faClose, faPassport, faSave } from '@fortawesome/free-sol
 import Alert from '../../components/Alert'
 import useLocalization from '../../hook/useLocalization'
 import UserFallbackImage from '../../assets/user_fallback_image.png'
+import url from '../../assets/url_settings.json'
+import DisplayRowStyle from '../../components/DisplayRow.style'
+import CommandBar from '../../components/CommandBar'
 
 export default function User() {
 	const { user, defineCurrentUser, clearCurrentUser } = useContext(UserContext)
-	const { simpleMessage, setMessage } = useContext(MessageContext)
+	const { simpleMessage, setMessage, errorMessage } = useContext(MessageContext)
 	const { getText } = useContext(LocalizationContext)
 	const [fullName, setFullName] = useState(user.currentUser.fullName)
 	const [oldPassword, setOldPassword] = useState('')
@@ -26,7 +29,7 @@ export default function User() {
 
 	function changeFullName() {
 		API.post(
-			'/user/update/fullName?fullName=' + fullName,
+			`${url.user.updateFullName} ${fullName}`,
 			{},
 			{
 				headers: {
@@ -44,18 +47,16 @@ export default function User() {
 				}
 			})
 			.catch((error) => {
-				simpleMessage({
+				errorMessage({
 					header: getText('componnents.table.update_field.header'),
-					text: error.response.data[0]
-						? error.response.data[0]
-						: JSON.stringify(error.response.data),
+					text: error,
 				})
 			})
 	}
 
 	function changePassword() {
 		API.post(
-			'/user/update/password',
+			url.user.updatePassword,
 			{
 				oldPassword: oldPassword,
 				newPassword: newPassword,
@@ -78,11 +79,9 @@ export default function User() {
 				})
 			})
 			.catch((error) => {
-				simpleMessage({
+				errorMessage({
 					header: getText('pages.user.update_password.header'),
-					text: error.response.data[0]
-						? error.response.data[0]
-						: JSON.stringify(error.response.data),
+					text: error,
 				})
 			})
 	}
@@ -94,7 +93,7 @@ export default function User() {
 			document.getElementById('newPicture').files[0],
 			document.getElementById('newPicture').value
 		)
-		API.post('/user/update/image', data, {
+		API.post(url.user.updateImage, data, {
 			headers: {
 				Authorization: localStorage.getItem('authHeader'),
 			},
@@ -110,7 +109,7 @@ export default function User() {
 
 	function removeProfilePicture() {
 		API.post(
-			'/user/remove/image',
+			url.user.removeImage,
 			{},
 			{
 				headers: {
@@ -127,122 +126,109 @@ export default function User() {
 		})
 	}
 
+	function ProfilePicture(image, cancelEvent, diusabled) {
+		return (
+			<div className={'profPic ' + (diusabled && 'disabled')}>
+				<div className={'deleteImageButtonContainer'}>
+					{!diusabled && (
+						<div className={'innerButtonContainer'}>
+							<Button
+								icon={<FontAwesomeIcon icon={faClose} />}
+								onClick={cancelEvent}
+								className={'secondary'}
+							/>
+						</div>
+					)}
+				</div>
+				<img alt={''} src={image} />
+			</div>
+		)
+	}
+
 	return (
 		<UserStyle>
-			<div className={'horizontalGroup'}>
-				<div className={'verticalGroup profilePictureGroup'}>
-					<Group header={'Informações do Perfil'}>
-						<div className={'profile'}>
-							<div className={'profPic'} style={{ opacity: inputProfilePicture ? 0.5 : 1 }}>
-								<div className={'profilePicture'}>
-									<img
-										width={'150px'}
-										height={'150px'}
-										alt={''}
-										src={
-											user.currentUser.profileImage
-												? 'data:image/png;base64,' + user.currentUser.profileImage
-												: UserFallbackImage
-										}
-									/>
-								</div>
-								<div className={'deleteImageButtonContainer'}>
-									<div className={'deleteImageButton'} onClick={removeProfilePicture}>
-										<FontAwesomeIcon icon={faClose} />
+			<div className={'profilePictureGroup'}>
+				<Group header={'Informações do Perfil'}>
+					<div className={'profile'}>
+						{ProfilePicture(
+							user.currentUser.profileImage
+								? 'data:image/png;base64,' + user.currentUser.profileImage
+								: UserFallbackImage,
+							removeProfilePicture,
+							!!inputProfilePicture
+						)}
+						{inputProfilePicture && (
+							<>
+								<div className={'iconTransferContainer'}>
+									<div className={'iconTransfer'}>
+										<FontAwesomeIcon icon={faArrowRight} />
 									</div>
 								</div>
-							</div>
-							{inputProfilePicture && (
-								<>
-									<div className={'iconTransferContainer'}>
-										<div className={'iconTransfer'}>
-											<FontAwesomeIcon icon={faArrowRight} />
-										</div>
-									</div>
-									<div className={'profPic'}>
-										<div className={'profilePicture'}>
-											<img
-												width={'150px'}
-												height={'150px'}
-												src={URL.createObjectURL(inputProfilePicture.files[0])}
-												alt={''}
-											/>
-										</div>
-										<div className={'deleteImageButtonContainer'}>
-											<div
-												className={'deleteImageButton'}
-												onClick={() => {
-													document.getElementById('newPicture').value = ''
-													setInputProfilePicture(null)
-												}}
-											>
-												<FontAwesomeIcon icon={faClose} />
-											</div>
-										</div>
-									</div>
-								</>
-							)}
-						</div>
-						<Field
-							id={'newPicture'}
-							label={getText('pages.user.form.profilePicture')}
-							type={'file'}
-							defaultValue={inputProfilePicture}
-							onChange={(e) => {
-								setInputProfilePicture(document.getElementById('newPicture'))
-							}}
-						/>
-						<Field
-							id={'fullName'}
-							label={getText('pages.user.form.fullName')}
-							type={'text'}
-							value={fullName}
-							onChange={(e) => setFullName(e.target.value)}
-						/>
-						<Field
-							id={'email'}
-							label={getText('pages.user.form.email')}
-							type={'text'}
-							disabled={true}
-							defaultValue={user.currentUser.email}
-						/>
-						<div className={'commands'}>
-							<Button onClick={changeFullName}>
-								<FontAwesomeIcon icon={faSave} /> {getText('commons.save')}
-							</Button>
-						</div>
-					</Group>
-				</div>
-				<div>
-					<Group header={'Alteração de senha'}>
-						<Field
-							label={getText('pages.user.form.oldPassword')}
-							type={'password'}
-							value={oldPassword}
-							onChange={(e) => setOldPassword(e.target.value)}
-						/>
-						<Field
-							label={getText('pages.user.form.newPassword')}
-							type={'password'}
-							value={newPassword}
-							onChange={(e) => setNewPassword(e.target.value)}
-						/>
-						<Field
-							label={getText('pages.user.form.newPasswordConfirm')}
-							type={'password'}
-							value={passwordConfirm}
-							onChange={(e) => setPasswordConfirm(e.target.value)}
-						/>
-						<Alert alert={loc.update_password.tip} className={'passwordAlert'} />
-						<div className={'commands'}>
-							<Button onClick={changePassword}>
-								<FontAwesomeIcon icon={faPassport} />{' '}
-								{getText('pages.user.form.changePasswordButton')}
-							</Button>
-							<div className={'alert'}>{getText('pages.user.form.changePasswordHint')}</div>
-						</div>
-					</Group>
-				</div>
+								{ProfilePicture(URL.createObjectURL(inputProfilePicture.files[0]), () => {
+									document.getElementById('newPicture').value = ''
+									setInputProfilePicture(null)
+								})}
+							</>
+						)}
+					</div>
+					<Field
+						id={'newPicture'}
+						label={loc.form.profilePicture}
+						type={'file'}
+						defaultValue={inputProfilePicture}
+						onChange={(e) => {
+							setInputProfilePicture(document.getElementById('newPicture'))
+						}}
+					/>
+					<Field
+						id={'fullName'}
+						label={loc.form.fullName}
+						type={'text'}
+						value={fullName}
+						onChange={(e) => setFullName(e.target.value)}
+					/>
+					<Field
+						id={'email'}
+						label={loc.form.email}
+						type={'text'}
+						disabled={true}
+						defaultValue={user.currentUser.email}
+					/>
+					<CommandBar padding={'14px 0 0 0'}>
+						<Button icon={<FontAwesomeIcon icon={faSave} />} onClick={changeFullName}>
+							{getText('commons.save')}
+						</Button>
+					</CommandBar>
+				</Group>
+			</div>
+			<div>
+				<Group header={'Alteração de senha'}>
+					<Field
+						label={loc.form.oldPassword}
+						type={'password'}
+						value={oldPassword}
+						onChange={(e) => setOldPassword(e.target.value)}
+					/>
+					<Field
+						label={loc.form.newPassword}
+						type={'password'}
+						value={newPassword}
+						onChange={(e) => setNewPassword(e.target.value)}
+					/>
+					<Field
+						label={loc.form.newPasswordConfirm}
+						type={'password'}
+						value={passwordConfirm}
+						onChange={(e) => setPasswordConfirm(e.target.value)}
+					/>
+					<Alert alert={loc.update_password.tip} className={'passwordAlert'} />
+					<CommandBar padding={'14px 0 0 0'}>
+						<Button icon={<FontAwesomeIcon icon={faPassport} />} onClick={changePassword}>
+							{loc.form.changePasswordButton}
+						</Button>
+						<div className={'passwordWarning'}>{loc.form.changePasswordHint}</div>
+					</CommandBar>
+				</Group>
 			</div>
 		</UserStyle>
 	)

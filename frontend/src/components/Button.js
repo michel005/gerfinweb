@@ -10,7 +10,7 @@ const ButtonStyle = styled.div`
 	flex-direction: row;
 	font-size: 14px;
 	justify-content: center;
-	padding: 7px 14px;
+	padding: 10px 14px;
 	transition: all 0.25s;
 	opacity: ${(params) => (params.disabled ? 0.5 : 1)};
 	pointer-events: ${(params) => (params.disabled ? 'none' : 'auto')};

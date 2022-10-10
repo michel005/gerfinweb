@@ -10,8 +10,16 @@ import { ConfigContext } from '../../hook/Config.context'
 import { MessageContext } from '../../hook/Message.context'
 import PageSettings from '../../assets/page.settings'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faClose, faSave, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {
+	faArrowDown,
+	faArrowUp,
+	faCheck,
+	faClose,
+	faSave,
+	faTrash,
+} from '@fortawesome/free-solid-svg-icons'
 import CommandBar from '../../components/CommandBar'
+import Alert from '../../components/Alert'
 
 const FormStyle = styled.div`
 	display: flex;
@@ -28,6 +36,10 @@ const FormStyle = styled.div`
 
 	#movementValue {
 		text-align: right;
+	}
+
+	.alert {
+		margin-bottom: 10px;
 	}
 `
 
@@ -52,6 +64,9 @@ export default function MovementForm() {
 					remove('movement', movement.id, () => {
 						setMessage(undefined)
 					})
+					setShowForm((sf) => {
+						return { ...sf, movement: false }
+					})
 				},
 			},
 			config: {
@@ -63,6 +78,7 @@ export default function MovementForm() {
 
 	function saveMovement() {
 		let entity = {
+			...movement,
 			dueDate: document.getElementById('movementDueDate').value,
 			description: document.getElementById('movementDescription').value,
 			status: document.getElementById('movementStatus').value,
@@ -88,7 +104,7 @@ export default function MovementForm() {
 				(error) => {
 					errorMessage({
 						header: loc.save_error,
-						text: error.response.data[0] ? error.response.data[0] : error.response.data.message,
+						text: error,
 					})
 				}
 			)
@@ -104,7 +120,7 @@ export default function MovementForm() {
 				(error) => {
 					errorMessage({
 						header: loc.save_error,
-						text: error.response.data[0] ? error.response.data[0] : error.response.data.message,
+						text: error,
 					})
 				}
 			)
@@ -175,6 +191,21 @@ export default function MovementForm() {
 					/>
 				</DisplayRowStyle>
 				<Field id={'movementValue'} label={loc.table.value} defaultValue={movement.value} />
+				{movement.template && (
+					<Alert
+						alert={'<b>Modelo de Lançamento:</b> ' + movement.template.description}
+						convertHtml={true}
+					/>
+				)}
+				{movement.description.indexOf('(IN)') !== -1 && (
+					<Alert icon={faArrowUp} alert={'<b>Transferência de Origem</b>'} convertHtml={true} />
+				)}
+				{movement.description.indexOf('(OUT)') !== -1 && (
+					<Alert icon={faArrowDown} alert={'<b>Transferência de Destino</b>'} convertHtml={true} />
+				)}
+				{movement.description.indexOf('(ALERT)') !== -1 && (
+					<Alert className={'error'} alert={'<b>Prioritário!</b>'} convertHtml={true} />
+				)}
 			</FormStyle>
 		</Form>
 	)

@@ -18,7 +18,7 @@ export default function Targets() {
 
 	return (
 		<TargetStyle>
-			<CommandBar>
+			<CommandBar padding={'0 0 14px 0'}>
 				<Button
 					icon={<FontAwesomeIcon icon={faPlus} />}
 					onClick={() =>
@@ -36,8 +36,6 @@ export default function Targets() {
 				>
 					{getText('commons.create')}
 				</Button>
-				<div style={{ display: 'flex', flexGrow: 1 }}></div>
-				<DataBasePicker />
 			</CommandBar>
 			<Table
 				entity={'target'}

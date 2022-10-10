@@ -10,7 +10,8 @@
 		"update": "/movement/update",
 		"delete": "/movement/delete?id=@#ID@#",
 		"find": "/movement/findAll?dataBase=@#DATA_BASE@#",
-		"ajustBalance": "/movement/adjustAccountBalance"
+		"ajustBalance": "/movement/adjustAccountBalance",
+		"templateBased": "/movement/templateBased?id=@#ID@#&dataBase=@#DATABASE@#"
 	},
 	"template": {
 		"create": "/template/create",
@@ -23,5 +24,11 @@
 		"update": "/target/update",
 		"delete": "/target/delete?id=@#ID@#",
 		"find": "/target/findAll?dataBase=@#DATA_BASE@#"
+	},
+	"user": {
+		"updateFullName": "/user/update/fullName?fullName=",
+		"updatePassword": "/user/update/password",
+		"updateImage": "/user/update/image",
+		"removeImage": "/user/remove/image"
 	}
 }

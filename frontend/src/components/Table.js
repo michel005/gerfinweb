@@ -25,7 +25,7 @@ export default function Table({
 	const table = useContext(TableContext)
 	const { getText } = useContext(LocalizationContext)
 
-	const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
+	const isMobile = useMediaQuery({ query: '(max-width: 700px)' })
 
 	function orderBy(field) {
 		if (enableOrderBy[field] === true || enableOrderBy[field] === undefined) {

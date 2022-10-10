@@ -7,7 +7,6 @@ const GroupStyled = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 21px;
-	overflow: hidden;
 
 	.title {
 		font-size: 18px;

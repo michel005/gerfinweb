@@ -21,7 +21,7 @@ export default function Dashboard() {
 
 	return (
 		<DashboardStyle>
-			<CommandBar noPaddingBottom={true}>
+			<CommandBar padding={'0'}>
 				<div style={{ display: 'flex', flexGrow: 1 }}></div>
 				<DataBasePicker />
 			</CommandBar>
