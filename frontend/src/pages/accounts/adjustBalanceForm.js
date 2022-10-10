@@ -95,7 +95,11 @@ export default function AdjustBalanceForm() {
 						label={loc.description_label}
 						defaultValue={loc.description_value}
 					/>
-					<Field id={'newAccountBalance'} label={loc.new_balance_label} defaultValue={'0,00'} />
+					<Field
+						id={'newAccountBalance'}
+						label={loc.new_balance_label}
+						defaultValue={showForm.adjustBalance.current}
+					/>
 				</DisplayRowStyle>
 			</FormStyle>
 		</Form>

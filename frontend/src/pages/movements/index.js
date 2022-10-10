@@ -113,12 +113,19 @@ export default function Movements() {
 					<div className={'responsiveLayout'}>
 						<div className={'layoutDate'}>
 							{movement.date}
-							<div className={`statusLabel ${movement.status}`}>
+							<div
+								className={`
+						statusLabel ${movement.status}`}
+							>
 								{loc.types[movement.status]}{' '}
 								<FontAwesomeIcon icon={movement.status === 'PENDENT' ? faExclamation : faCheck} />
 							</div>
 							{movement.template && (
-								<div className={`statusLabel template`}>
+								<div
+									className={`
+						statusLabel
+						template`}
+								>
 									{loc.label.template} <FontAwesomeIcon icon={PageSettings.template.icon} />
 								</div>
 							)}

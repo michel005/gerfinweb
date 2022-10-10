@@ -56,7 +56,11 @@ export default function Accounts() {
 					setShowForm((sf) => {
 						return {
 							...sf,
-							account: account.account,
+							account: {
+								...account.account,
+								current: account.currentBalance,
+								future: account.futureBalance,
+							},
 						}
 					})
 				}}

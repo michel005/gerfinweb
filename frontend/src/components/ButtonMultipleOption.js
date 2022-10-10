@@ -5,7 +5,6 @@ import Button from './Button'
 import styled from 'styled-components'
 
 const ButtonMultipleOptionStyle = styled.div`
-	background-color: #39f;
 	border-radius: 7px;
 	display: flex;
 	flex-direction: column;
@@ -20,6 +19,9 @@ const ButtonMultipleOptionStyle = styled.div`
 		& > .primary {
 			border-radius: 0;
 			min-width: calc(100% - 34px);
+			border-color: #fff5;
+			border-style: solid;
+			border-right-width: ${(props) => (props.hasEvent ? '2px' : '0')};
 
 			& > .buttonContent {
 				display: flex;
@@ -51,11 +53,12 @@ const ButtonMultipleOptionStyle = styled.div`
 		opacity: ${(props) => (props.show ? 1 : 0)};
 		pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
 		transition: all 0.25s;
-		transform: translateY(${(props) => (props.show ? '38px' : '0px')});
+		transform: translateY(${(props) => (props.show ? '36px' : '20px')});
 		position: fixed;
 		overflow-x: hidden;
 		overflow-y: auto;
 		max-height: 200px;
+		z-index: 100;
 
 		::-webkit-scrollbar {
 			width: 10px;
@@ -83,6 +86,7 @@ const ButtonMultipleOptionStyle = styled.div`
 			.buttonContent {
 				color: #fff;
 			}
+
 			.buttonContent {
 				text-align: left;
 			}
@@ -90,11 +94,11 @@ const ButtonMultipleOptionStyle = styled.div`
 	}
 
 	@media only screen and (max-width: 700px) {
+		border-radius: ${(props) => (props.show && props.hasValues ? '7px 7px 0 0' : '7px')};
+
 		& > .options {
-			border-radius: 0;
-			transform: none;
-			position: relative;
-			display: ${(props) => (props.show ? 'flex' : 'none')};
+			border-radius: 0 0 7px 7px;
+			width: calc(100% - 28px);
 		}
 	}
 `
@@ -103,14 +107,14 @@ export default function ButtonMultipleOption({ icon, label, event, options = [] 
 	const [show, setShow] = useState(false)
 
 	return (
-		<ButtonMultipleOptionStyle show={show}>
+		<ButtonMultipleOptionStyle show={show} hasValues={options.length > 0} hasEvent={!!event}>
 			<div className={'firstButton'}>
 				{event ? (
 					<Button className={'primary'} onClick={event} icon={icon}>
 						{label}
 					</Button>
 				) : (
-					<Button className={'primary noHover'} icon={icon}>
+					<Button className={'primary noHover'} onClick={() => setShow(!show)} icon={icon}>
 						{label}
 					</Button>
 				)}

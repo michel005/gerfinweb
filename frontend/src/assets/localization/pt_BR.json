@@ -70,7 +70,7 @@
 				"current_balance": "Atual",
 				"future_balance": "Futuro",
 				"delete_command": "Excluir",
-				"adjust_balance_command": "Ajustar Saldo"
+				"adjust_balance_command": "Ajustar Saldo Atual"
 			},
 			"types": {
 				"DEBIT": "Débito",
@@ -100,6 +100,8 @@
 				"text": "Nome da conta: @#NAME@#"
 			},
 			"form_header": "Formulário de Conta",
+			"form_current_balance": "Saldo Atual",
+			"form_future_balance": "Saldo Previsto",
 			"save_error": "Erro ao salvar conta",
 			"filter_all_types": "Todos os Tipos",
 			"filter_label_account_types": "Tipos de Conta"
@@ -201,7 +203,7 @@
 		"user": {
 			"header": {
 				"text": "Usuário",
-				"lead": "Modifique o seu nome completo e a senha atual"
+				"lead": "Modifique o seu nome completo, senha atual e a imagem do seu perfil"
 			},
 			"form": {
 				"fullName": "Nome Completo",

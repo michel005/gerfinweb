@@ -12,13 +12,23 @@ const FieldStyle = styled.div`
 		text-align: left;
 	}
 
+	.commandInputContainer {
+		display: flex;
+		flex-direction: row;
+
+		.button {
+			margin-left: 14px;
+		}
+	}
+
 	input,
 	select {
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		font-size: 14px;
 		padding: 7px;
-		transition: all 0.25s;
+		transition: all 0.25s;\
+		flex-grow: 1;
 
 		&:focus {
 			border-color: #999;

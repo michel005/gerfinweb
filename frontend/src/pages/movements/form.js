@@ -132,7 +132,10 @@ export default function MovementForm() {
 			icon={<FontAwesomeIcon icon={PageSettings.movement.icon} />}
 			header={loc.form_header}
 			commands={
-				<CommandBar noPaddingBottom={true} fixedInBottom={true}>
+				<CommandBar fixedInBottom={true}>
+					<Button icon={<FontAwesomeIcon icon={faSave} />} onClick={saveMovement}>
+						{locCommons.save}
+					</Button>
 					{movement.id && (
 						<Button
 							icon={<FontAwesomeIcon icon={faClose} />}
@@ -142,9 +145,6 @@ export default function MovementForm() {
 							{locCommons.delete}
 						</Button>
 					)}
-					<Button icon={<FontAwesomeIcon icon={faSave} />} onClick={saveMovement}>
-						{locCommons.save}
-					</Button>
 				</CommandBar>
 			}
 			onClose={() => {

@@ -78,6 +78,10 @@ const MessageStyle = styled.div`
 			font-size: 16px;
 			justify-content: flex-end;
 			transition: all 0.25s;
+
+			& > * {
+				width: 100%;
+			}
 		}
 	}
 

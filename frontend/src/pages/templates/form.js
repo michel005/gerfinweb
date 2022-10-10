@@ -1,14 +1,13 @@
 import Field from '../../components/Field'
 import useLocalization from '../../hook/useLocalization'
 import DisplayRowStyle from '../../components/DisplayRow.style'
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { TableContext } from '../../hook/Table.context'
 import styled from 'styled-components'
 import Form from '../../components/Form'
 import Button from '../../components/Button'
 import { ConfigContext } from '../../hook/Config.context'
 import { MessageContext } from '../../hook/Message.context'
-import Alert from '../../components/Alert'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PageSettings from '../../assets/page.settings'
 import { faCheck, faSave, faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -18,16 +17,8 @@ const FormStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	.templateDueDay {
-		width: 90px;
-	}
-
 	.templateContainer {
 		justify-content: right;
-	}
-
-	.templateValue {
-		max-width: 200px;
 	}
 
 	#templateValue {
@@ -41,7 +32,6 @@ export default function TemplateForm() {
 	const { aditionalInformation, create, update, refresh, remove } = useContext(TableContext)
 	const { setShowForm, showForm } = useContext(ConfigContext)
 	const { simpleMessage, setMessage, choiceMessage } = useContext(MessageContext)
-	const [recurrency, setRecurrency] = useState()
 	const template = showForm.template
 
 	function deleteTemplate() {
@@ -65,23 +55,12 @@ export default function TemplateForm() {
 		})
 	}
 
-	useEffect(() => {
-		setRecurrency(loc.recurrency_description[document.getElementById('templateRecurrency').value])
-	})
-
 	return (
 		<Form
 			icon={<FontAwesomeIcon icon={PageSettings.template.icon} />}
 			header={'Formulário de Modelos'}
 			commands={
 				<CommandBar noPaddingBottom={true} fixedInBottom={true}>
-					<Button
-						icon={<FontAwesomeIcon icon={faTrash} />}
-						className="alert"
-						onClick={() => deleteTemplate(template)}
-					>
-						{locCommons.delete}
-					</Button>
 					<Button
 						icon={<FontAwesomeIcon icon={faSave} />}
 						onClick={() => {
@@ -140,6 +119,15 @@ export default function TemplateForm() {
 					>
 						{locCommons.save}
 					</Button>
+					{template.id && (
+						<Button
+							icon={<FontAwesomeIcon icon={faTrash} />}
+							className="alert"
+							onClick={() => deleteTemplate(template)}
+						>
+							{locCommons.delete}
+						</Button>
+					)}
 				</CommandBar>
 			}
 			onClose={() => {
@@ -165,9 +153,6 @@ export default function TemplateForm() {
 						defaultValue={template.recurrency}
 						nullable={false}
 						list={loc.recurrency}
-						onChange={(event) => {
-							setRecurrency(loc.recurrency_description[event.target.value])
-						}}
 					/>
 					<Field
 						id={'templateAccount'}

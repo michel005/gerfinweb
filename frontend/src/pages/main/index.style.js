@@ -203,8 +203,22 @@ const MainStyle = styled.div`
 			}
 		}
 
+		& > .header {
+			background-color: #e1f1ff;
+			position: fixed;
+			top: ${DEF.TOPBAR.height};
+			left: ${(props) => (props.reduced ? DEF.REDUCED.SIDEBAR.width : DEF.SIDEBAR.width)};
+			height: 150px;
+			width: calc(100% + 28px);
+			transition: all 0.25s;
+			z-index: 0;
+		}
+
 		& > .stage {
-			height: 100%;
+			position: fixed;
+			top: ${DEF.TOPBAR.height};
+			left: ${(props) => (props.reduced ? DEF.REDUCED.SIDEBAR.width : DEF.SIDEBAR.width)};
+			height: calc(100% - ${DEF.TOPBAR.height});
 			overflow-y: auto;
 			padding: 14px;
 			width: ${(props) =>
@@ -212,6 +226,7 @@ const MainStyle = styled.div`
 					? `calc(100% - ${DEF.REDUCED.SIDEBAR.width})`
 					: `calc(100% - ${DEF.SIDEBAR.width})`};
 			transition: all 0.25s;
+			z-index: 10;
 		}
 	}
 
@@ -240,8 +255,12 @@ const MainStyle = styled.div`
 				z-index: 100;
 			}
 
+			& > .header {
+				left: 0;
+			}
+
 			& > .stage {
-				height: 100%;
+				left: 0;
 				width: 100%;
 			}
 		}

@@ -19,6 +19,19 @@ import Alert from '../../components/Alert'
 import { MessageContext } from '../../hook/Message.context'
 import PageSettings from '../../assets/page.settings'
 import CommandBar from '../../components/CommandBar'
+import CurrencyUtils from '../../utils/CurrencyUtils'
+import styled from 'styled-components'
+
+const FormStyle = styled.div`
+	#currentBalance,
+	#futureBalance {
+		text-align: right;
+	}
+
+	.alert {
+		margin-bottom: 7px;
+	}
+`
 
 export default function AccountForm() {
 	const { loc: locCommons } = useLocalization('commons')
@@ -41,9 +54,6 @@ export default function AccountForm() {
 	}
 
 	function deleteAccount() {
-		setShowForm((sf) => {
-			return { ...sf, account: false }
-		})
 		choiceMessage({
 			icon: <FontAwesomeIcon icon={faTrash} />,
 			header: loc.delete.header,
@@ -53,6 +63,9 @@ export default function AccountForm() {
 				icon: faCheck,
 				event: () => {
 					remove('account', account.id, () => {
+						setShowForm((sf) => {
+							return { ...sf, account: false }
+						})
 						setMessage(undefined)
 					})
 				},
@@ -83,9 +96,7 @@ export default function AccountForm() {
 				(error) => {
 					errorMessage({
 						header: loc.save_error,
-						text: error.response.data[0]
-							? error.response.data[0]
-							: error.response.data.message.substr(0, 100),
+						text: error,
 					})
 				}
 			)
@@ -105,9 +116,7 @@ export default function AccountForm() {
 				(error) => {
 					errorMessage({
 						header: loc.save_error,
-						text: error.response.data[0]
-							? error.response.data[0]
-							: error.response.data.message.substr(0, 100),
+						text: error,
 					})
 				}
 			)
@@ -124,6 +133,9 @@ export default function AccountForm() {
 			header={loc.form_header}
 			commands={
 				<CommandBar fixedInBottom={true}>
+					<Button icon={<FontAwesomeIcon icon={faSave} />} onClick={saveAccount}>
+						{locCommons.save}
+					</Button>
 					{account.id && (
 						<Button
 							className={'alert'}
@@ -132,15 +144,7 @@ export default function AccountForm() {
 						>
 							{locCommons.delete}
 						</Button>
-					)}{' '}
-					{account.id && (
-						<Button onClick={adjustAccountBalance} icon={<FontAwesomeIcon icon={faDollar} />}>
-							{loc.table.adjust_balance_command}
-						</Button>
-					)}{' '}
-					<Button icon={<FontAwesomeIcon icon={faSave} />} onClick={saveAccount}>
-						{locCommons.save}
-					</Button>
+					)}
 				</CommandBar>
 			}
 			onClose={() => {
@@ -149,7 +153,7 @@ export default function AccountForm() {
 				})
 			}}
 		>
-			<div>
+			<FormStyle>
 				<DisplayRowStyle>
 					<Field id={'accountName'} label={loc.table.name} defaultValue={account.name} />
 					<Field id={'accountBank'} label={loc.table.bank} defaultValue={account.bank} />
@@ -164,7 +168,28 @@ export default function AccountForm() {
 					defaultValue={account.type}
 				/>
 				{description && <Alert alert={description} icon={faInfo} />}
-			</div>
+				{account.id && (
+					<Field
+						id={'currentBalance'}
+						label={loc.form_current_balance}
+						disabled={true}
+						defaultValue={CurrencyUtils.format(account.current)}
+						command={{
+							icon: <FontAwesomeIcon icon={faDollar} />,
+							text: loc.table.adjust_balance_command,
+							event: adjustAccountBalance,
+						}}
+					/>
+				)}
+				{account.id && (
+					<Field
+						id={'futureBalance'}
+						label={loc.form_future_balance}
+						disabled={true}
+						defaultValue={CurrencyUtils.format(account.future)}
+					/>
+				)}
+			</FormStyle>
 		</Form>
 	)
 }

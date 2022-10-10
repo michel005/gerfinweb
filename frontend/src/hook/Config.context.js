@@ -19,10 +19,9 @@ export default function ConfigProvider({ children }) {
 	const [showForm, setShowForm] = useState(initialShowForm)
 	const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
 	const [ux, setUx] = useState({
-		reduced: isMobile ? true : false,
+		reduced: isMobile,
 	})
 	const [balance, setBalance] = useState()
-	const [adjustAccountBalance, setAdjustAccountBalance] = useState(null)
 	const { user } = useContext(UserContext)
 
 	function formatedDataBase() {
@@ -89,8 +88,6 @@ export default function ConfigProvider({ children }) {
 				setUx,
 				showForm,
 				setShowForm,
-				adjustAccountBalance,
-				setAdjustAccountBalance,
 				loadingDataBase,
 			}}
 		>

@@ -4,6 +4,23 @@ const DashboardStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 
+	h1 {
+		color: #111;
+		font-size: 30px;
+		font-weight: bold;
+		height: 50px;
+		margin: 0;
+	}
+
+	h3 {
+		color: #999;
+		font-size: 18px;
+		font-weight: 300;
+		height: 50px;
+		margin: 0;
+		padding: 7px 0 0;
+	}
+
 	.groups {
 		display: flex;
 		flex-direction: row;

@@ -18,12 +18,12 @@ const FormStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	.targetDate {
-		width: 90px;
-	}
-
 	#targetValue {
 		text-align: right;
+	}
+
+	.alert {
+		margin-bottom: 7px;
 	}
 `
 
@@ -71,15 +71,6 @@ export default function TargetForm() {
 			header={'Formulário de Metas'}
 			commands={
 				<CommandBar>
-					{target.id && (
-						<Button
-							icon={<FontAwesomeIcon icon={faTrash} />}
-							className="alert"
-							onClick={() => deleteTarget(target)}
-						>
-							{locCommons.delete}
-						</Button>
-					)}
 					<Button
 						icon={<FontAwesomeIcon icon={faSave} />}
 						onClick={() => {
@@ -106,6 +97,15 @@ export default function TargetForm() {
 					>
 						{locCommons.save}
 					</Button>
+					{target.id && (
+						<Button
+							icon={<FontAwesomeIcon icon={faTrash} />}
+							className="alert"
+							onClick={() => deleteTarget(target)}
+						>
+							{locCommons.delete}
+						</Button>
+					)}
 				</CommandBar>
 			}
 			onClose={() => {

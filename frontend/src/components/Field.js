@@ -1,4 +1,5 @@
 import FieldStyle from './Field.style'
+import Button from './Button'
 
 export default function Field({
 	id,
@@ -13,9 +14,10 @@ export default function Field({
 	nullableText = '',
 	idModifier = undefined,
 	valueModifier = undefined,
+	command,
 }) {
 	return (
-		<FieldStyle className={'field ' + id}>
+		<FieldStyle className={'field ' + id} hasCommand={!!command}>
 			<label htmlFor={id}>{label}</label>
 			{type === 'select' ? (
 				<select
@@ -35,14 +37,21 @@ export default function Field({
 					})}
 				</select>
 			) : (
-				<input
-					disabled={disabled}
-					id={id}
-					type={type}
-					defaultValue={defaultValue}
-					value={value}
-					onChange={onChange}
-				/>
+				<div className={'commandInputContainer'}>
+					<input
+						disabled={disabled}
+						id={id}
+						type={type}
+						defaultValue={defaultValue}
+						value={value}
+						onChange={onChange}
+					/>
+					{command && (
+						<Button className={'secondary'} icon={command.icon} onClick={command.event}>
+							{command.text}
+						</Button>
+					)}
+				</div>
 			)}
 		</FieldStyle>
 	)
