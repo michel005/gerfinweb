@@ -5,22 +5,13 @@ import { useMediaQuery } from 'react-responsive'
 
 const ConfigContext = createContext({})
 
-const initialShowForm = {
-	account: false,
-	movement: false,
-	transfer: false,
-	template: false,
-	target: false,
-}
-
 export default function ConfigProvider({ children }) {
 	const [dataBase, setDataBase] = useState(new Date())
 	const [loadingDataBase, setLoadingDataBase] = useState(false)
-	const [showForm, setShowForm] = useState(initialShowForm)
+	const [showForm, setShowForm] = useState({})
+	const [detail, setDetail] = useState(undefined)
 	const isMobile = useMediaQuery({ query: '(max-width: 1000px)' })
-	const [ux, setUx] = useState({
-		reduced: isMobile,
-	})
+	const [reduced, setReduced] = useState(isMobile)
 	const [balance, setBalance] = useState()
 	const { user } = useContext(UserContext)
 
@@ -84,10 +75,12 @@ export default function ConfigProvider({ children }) {
 				balance,
 				previewMonth,
 				nextMonth,
-				ux,
-				setUx,
+				reduced,
+				setReduced,
 				showForm,
 				setShowForm,
+				detail,
+				setDetail,
 				loadingDataBase,
 			}}
 		>
@@ -96,4 +89,4 @@ export default function ConfigProvider({ children }) {
 	)
 }
 
-export { ConfigContext, initialShowForm }
+export { ConfigContext }

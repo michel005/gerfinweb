@@ -9,9 +9,9 @@ const DEF = {
 		width: '200px',
 		height: '100%',
 	},
-	FOOTER: {
-		width: '100%',
-		height: '50px',
+	DETAIL: {
+		width: '200px',
+		height: '100%',
 	},
 	REDUCED: {
 		SIDEBAR: {
@@ -203,17 +203,6 @@ const MainStyle = styled.div`
 			}
 		}
 
-		& > .header {
-			background-color: #e1f1ff;
-			position: fixed;
-			top: ${DEF.TOPBAR.height};
-			left: ${(props) => (props.reduced ? DEF.REDUCED.SIDEBAR.width : DEF.SIDEBAR.width)};
-			height: 150px;
-			width: calc(100% + 28px);
-			transition: all 0.25s;
-			z-index: 0;
-		}
-
 		& > .stage {
 			position: fixed;
 			top: ${DEF.TOPBAR.height};
@@ -227,6 +216,48 @@ const MainStyle = styled.div`
 					: `calc(100% - ${DEF.SIDEBAR.width})`};
 			transition: all 0.25s;
 			z-index: 10;
+		}
+
+		& > .detailPane {
+			background-color: #fff;
+			border-color: #3331;
+			border-width: 0 0 0 1px;
+			border-style: solid;
+			box-shadow: #3333 0 0 7px;
+			position: fixed;
+			display: flex;
+			flex-direction: column;
+			top: 0;
+			right: 0;
+			height: ${DEF.DETAIL.height};
+			width: ${DEF.DETAIL.width};
+			transition: all 0.25s;
+			z-index: 10;
+
+			& > .closeButton {
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-end;
+				padding: 14px;
+
+				h3 {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					margin: 0;
+					padding: 0;
+					width: 100%;
+				}
+			}
+
+			& > .content {
+				display: flex;
+				flex-direction: column;
+				height: calc(100% - ${DEF.TOPBAR.height});
+				width: ${DEF.DETAIL.width};
+				overflow-y: auto;
+				padding: 14px;
+			}
 		}
 	}
 

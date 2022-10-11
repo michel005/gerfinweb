@@ -1,4 +1,4 @@
-import { faBars, faCheck, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faCheck, faClose, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useContext, useState } from 'react'
 import PageSettings from '../../assets/page.settings'
@@ -18,16 +18,16 @@ import UserFallbackImage from '../../assets/user_fallback_image.png'
 import { TableContext } from '../../hook/Table.context'
 import { useMediaQuery } from 'react-responsive'
 import Button from '../../components/Button'
+import DisplayColumnStyle from '../../components/DisplayColumn.style'
 
 export default function Main() {
 	const { currentPage, defineCurrentPage } = useContext(PageContext)
 	const { user, clearCurrentUser } = useContext(UserContext)
 	const { choiceMessage, setMessage } = useContext(MessageContext)
-	const { balance, dataBase, loadingDataBase } = useContext(ConfigContext)
+	const { setDetail, detail, reduced, setReduced } = useContext(ConfigContext)
 	const { loadingMenuOptions } = useContext(TableContext)
 
 	const isMobile = useMediaQuery({ query: '(max-width: 700px)' })
-	const [reduced, setReduced] = useState(isMobile)
 	const [userOptions, setUserOptions] = useState(false)
 	const { loc } = useLocalization('logout')
 	const { loc: locPages } = useLocalization('pages')
@@ -130,6 +130,21 @@ export default function Main() {
 					{currentPage && currentPage.path === '/target' && <Targets />}
 					{currentPage && currentPage.path === '/user' && <User />}
 				</div>
+				{detail && (
+					<div className={'detailPane'}>
+						<div className={'closeButton'}>
+							<h3>{detail.header}</h3>
+							<Button
+								className={'transparent'}
+								onClick={() => {
+									setDetail(undefined)
+								}}
+								icon={<FontAwesomeIcon icon={faClose} />}
+							/>
+						</div>
+						<div className={'content'}>{detail.content}</div>
+					</div>
+				)}
 			</div>
 		</MainStyle>
 	)

@@ -7,24 +7,19 @@ const DataBasePickerStyle = styled.div`
 	color: #333;
 	display: flex;
 	flex-direction: row;
+	justify-content: ${(props) => props.align};
 	transition: all 0.25s;
-	overflow: hidden;
-
-	.label {
-		color: #333;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		text-align: center;
-		font-size: 14px;
-		padding: 0 14px;
-		width: 100%;
-		transition: all 0.3s;
-	}
 
 	.button {
 		width: 40px;
 		height: 100%;
+	}
+
+	.button.label {
+		border-radius: 0;
+		text-align: center;
+		width: 100%;
+		transition: all 0.3s;
 	}
 
 	.left {
@@ -33,6 +28,10 @@ const DataBasePickerStyle = styled.div`
 
 	.right {
 		border-radius: 0 7px 7px 0;
+	}
+
+	@media only screen and (max-width: 700px) {
+		justify-content: center;
 	}
 `
 

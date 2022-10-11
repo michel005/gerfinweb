@@ -4,23 +4,6 @@ const DashboardStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	h1 {
-		color: #111;
-		font-size: 30px;
-		font-weight: bold;
-		height: 50px;
-		margin: 0;
-	}
-
-	h3 {
-		color: #999;
-		font-size: 18px;
-		font-weight: 300;
-		height: 50px;
-		margin: 0;
-		padding: 7px 0 0;
-	}
-
 	.groups {
 		display: flex;
 		flex-direction: row;
@@ -41,17 +24,12 @@ const DashboardStyle = styled.div`
 		}
 	}
 
-	.fullHeight {
-		display: flex;
-		flex-grow: 1;
-		height: 500px;
-	}
-
 	.balances {
 		border-radius: 4px;
 		display: flex;
 		flex-direction: row;
 		flex-grow: 1;
+		height: 400px;
 	}
 
 	.notFound {
@@ -143,7 +121,7 @@ const DashboardStyle = styled.div`
 		}
 	}
 
-	@media only screen and (max-width: 1000px) {
+	@media only screen and (max-width: 700px) {
 		.groups {
 			display: flex;
 			flex-direction: column;

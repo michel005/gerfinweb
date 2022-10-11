@@ -21,7 +21,7 @@ const GroupStyled = styled.div`
 		height: 100%;
 	}
 
-	@media only screen and (max-width: 1000px) {
+	@media only screen and (max-width: 700px) {
 		.groupContent {
 			overflow-x: auto;
 		}

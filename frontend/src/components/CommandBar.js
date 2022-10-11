@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const CommandBarStyle = styled.div`
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-start;
+	justify-content: ${(props) => (props.center ? 'center' : 'flex-start')};
 	padding: ${(props) => props.padding};
 
 	& > * {
@@ -35,9 +35,14 @@ const CommandBarStyle = styled.div`
 	}
 `
 
-export default function CommandBar({ children, fixedInBottom = false, padding = '14px' }) {
+export default function CommandBar({
+	children,
+	center = false,
+	fixedInBottom = false,
+	padding = '14px',
+}) {
 	return (
-		<CommandBarStyle fixedInBottom={fixedInBottom} padding={padding}>
+		<CommandBarStyle center={center} fixedInBottom={fixedInBottom} padding={padding}>
 			{children}
 		</CommandBarStyle>
 	)

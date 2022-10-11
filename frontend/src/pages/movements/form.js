@@ -25,11 +25,6 @@ const FormStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	.movementDueDate,
-	.movementMovementDate {
-		width: 90px;
-	}
-
 	.movementStatus {
 		width: 150px;
 	}
@@ -154,7 +149,7 @@ export default function MovementForm() {
 			}}
 		>
 			<FormStyle>
-				<DisplayRowStyle forceResponsive={true}>
+				<DisplayRowStyle>
 					<Field id={'movementDueDate'} label={loc.table.dueDate} defaultValue={movement.dueDate} />
 					<Field
 						id={'movementMovementDate'}

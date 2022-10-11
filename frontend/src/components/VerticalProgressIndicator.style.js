@@ -5,6 +5,7 @@ const VerticalProgressIndicatorStyle = styled.div`
 	flex-direction: column;
 	height: 100%;
 	width: 100%;
+	min-width: 30px;
 	transition: all 0.25s;
 
 	* {

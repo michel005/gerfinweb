@@ -21,9 +21,8 @@ export default function Dashboard() {
 
 	return (
 		<DashboardStyle>
-			<CommandBar padding={'0'}>
-				<div style={{ display: 'flex', flexGrow: 1 }}></div>
-				<DataBasePicker />
+			<CommandBar center={true} padding={'0'}>
+				<DataBasePicker align={'center'} />
 			</CommandBar>
 			{aditionalInformation.dashboard.targets && aditionalInformation.dashboard.targets.length > 0 && (
 				<div className={'groups'}>
@@ -69,7 +68,7 @@ export default function Dashboard() {
 				</div>
 			)}
 
-			<div className={'groups fullHeight'}>
+			<div className={'groups'}>
 				<Group header={loc.balance_by_day}>
 					<div className={'balances'}>
 						{aditionalInformation.dashboard.balancePerDay &&

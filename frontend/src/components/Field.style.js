@@ -38,6 +38,15 @@ const FieldStyle = styled.div`
 			cursor: not-allowed;
 		}
 	}
+	
+	@media only screen and (max-width: 700px) {
+		width: 100% !important;
+
+		input,
+		select {
+			width: 100%;
+		}
+	}
 `
 
 export default FieldStyle
