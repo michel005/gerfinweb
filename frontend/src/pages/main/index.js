@@ -50,6 +50,10 @@ export default function Main() {
 				<div className={'user'}>
 					<div className={'userContainer'}>
 						<div className={'userImageContainer'} onClick={() => setUserOptions(!userOptions)}>
+							<div className={'userInfo'}>
+								<div className={'fullName'}>{user.currentUser.fullName}</div>
+								<div className={'email'}>{user.currentUser.email}</div>
+							</div>
 							<img
 								className={'userImg'}
 								alt={''}

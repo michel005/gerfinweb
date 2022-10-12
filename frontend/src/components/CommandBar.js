@@ -5,14 +5,7 @@ const CommandBarStyle = styled.div`
 	flex-direction: row;
 	justify-content: ${(props) => (props.center ? 'center' : 'flex-start')};
 	padding: ${(props) => props.padding};
-
-	& > * {
-		margin-right: 7px;
-
-		&:last-child {
-			margin-right: 0;
-		}
-	}
+	gap: 7px;
 
 	@media only screen and (max-width: 700px) {
 		flex-direction: column;
@@ -23,8 +16,6 @@ const CommandBarStyle = styled.div`
 		padding: ${(props) => props.padding};
 
 		& > * {
-			margin-right: 0;
-			margin-bottom: 7px;
 			width: 100%;
 
 			&:last-child {

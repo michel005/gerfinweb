@@ -9,18 +9,16 @@ const MessageStyle = styled.div`
 	top: 0;
 	width: 100%;
 	z-index: 100;
-	transition: all 0.25s;
 
 	.content {
 		background-color: #fff;
-		border-radius: 4px;
+		border-radius: 7px;
 		box-shadow: #3337 0 0 7px;
 		left: 50%;
 		position: fixed;
 		top: 50%;
 		transform: translateX(-50%) translateY(-50%);
 		width: 430px;
-		transition: all 0.25s;
 
 		.header {
 			border: 0 solid #39f;
@@ -29,7 +27,6 @@ const MessageStyle = styled.div`
 			display: flex;
 			flex-direction: row;
 			font-size: 18px;
-			transition: all 0.25s;
 
 			svg {
 				color: #39f;
@@ -66,8 +63,14 @@ const MessageStyle = styled.div`
 			padding: 14px;
 			transition: all 0.25s;
 
-			.field {
-				margin-bottom: 10px;
+			& > * {
+				display: flex;
+				flex-direction: column;
+				gap: 14px;
+
+				p {
+					margin: 0;
+				}
 			}
 		}
 

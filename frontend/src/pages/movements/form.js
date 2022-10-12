@@ -25,16 +25,8 @@ const FormStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	.movementStatus {
-		width: 150px;
-	}
-
 	#movementValue {
 		text-align: right;
-	}
-
-	.alert {
-		margin-bottom: 10px;
 	}
 `
 

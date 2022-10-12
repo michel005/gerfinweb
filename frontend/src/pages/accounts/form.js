@@ -27,10 +27,6 @@ const FormStyle = styled.div`
 	#futureBalance {
 		text-align: right;
 	}
-
-	.alert {
-		margin-bottom: 7px;
-	}
 `
 
 export default function AccountForm() {

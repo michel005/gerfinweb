@@ -3,24 +3,16 @@ const { default: styled } = require('styled-components')
 const DashboardStyle = styled.div`
 	display: flex;
 	flex-direction: column;
+	gap: 14px;
 
 	.groups {
 		display: flex;
 		flex-direction: row;
-		margin-top: 14px;
-
-		&:first-child {
-			margin-top: 0;
-		}
+		gap: 14px;
 
 		& > * {
 			flex-grow: 1;
-			margin-right: 14px;
 			width: 100px;
-
-			&:last-child {
-				margin-right: 0;
-			}
 		}
 	}
 
@@ -57,7 +49,7 @@ const DashboardStyle = styled.div`
 			.description,
 			.value {
 				display: flex;
-				padding: 7px 14px;
+				padding: 4px 14px;
 			}
 
 			.dueDate {
@@ -65,6 +57,10 @@ const DashboardStyle = styled.div`
 			}
 
 			.description {
+				display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
 				width: 100%;
 			}
 
@@ -107,7 +103,7 @@ const DashboardStyle = styled.div`
 			.current,
 			.future {
 				display: flex;
-				padding: 7px 14px;
+				padding: 4px 14px;
 			}
 
 			.accountColumn {
@@ -125,17 +121,10 @@ const DashboardStyle = styled.div`
 		.groups {
 			display: flex;
 			flex-direction: column;
-			margin-top: 0;
 
 			& > * {
 				flex-grow: 1;
-				margin-right: 0;
-				margin-top: 14px;
 				width: 100%;
-
-				&:last-child {
-					margin-right: 0;
-				}
 			}
 
 			.groupContent {

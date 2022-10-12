@@ -22,7 +22,7 @@
 	},
 	"componnents": {
 		"table": {
-			"row_counter": "Mostrando @#PAGE@# de @#TOTAL@# linha(s)",
+			"row_counter": "Mostrando @#PAGE@# de @#TOTAL@# registro(s)",
 			"page_counter": "@#CURRENT@# de @#TOTAL@# página(s)",
 			"empty": "Nenhum registro encontrado",
 			"update_field": {
@@ -31,8 +31,8 @@
 		}
 	},
 	"logout": {
-		"header": "Você realmente deseja sair?",
-		"text": "Você ira perder todos os dados não salvos!"
+		"header": "Saindo se sua conta!",
+		"text": "Deseja realmente sair da sua conta?"
 	},
 	"pages": {
 		"dashboard": {
@@ -217,7 +217,7 @@
 				"profilePicture": "Imagem do Usuário"
 			},
 			"update_password": {
-				"header": "Erro ao atualizar campo",
+				"header": "Erro ao alterar senha!",
 				"tip": "Evite senhas com menos de 8 caracteres. Tente sempre utiliar letras maiusculas e minusculas, números e caracteres especiais."
 			}
 		}

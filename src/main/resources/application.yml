@@ -1,4 +1,9 @@
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
@@ -19,8 +24,3 @@ app:
 gerfinweb:
   user:
     imageFolder: 'D:\Desenvolvimento\gerfinweb\user-image\'
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 10MB
-      max-request-size: 10MB

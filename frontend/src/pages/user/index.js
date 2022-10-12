@@ -3,29 +3,34 @@ import Button from '../../components/Button'
 import Field from '../../components/Field'
 import Group from '../../components/Group'
 import API from '../../config/API'
-import { LocalizationContext } from '../../hook/Localization.context'
 import { MessageContext } from '../../hook/Message.context'
 import { UserContext } from '../../hook/User.context'
 import UserStyle from './index.style'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faClose, faPassport, faSave } from '@fortawesome/free-solid-svg-icons'
+import {
+	faArrowRight,
+	faCheck,
+	faClose,
+	faPassport,
+	faSave,
+} from '@fortawesome/free-solid-svg-icons'
 import Alert from '../../components/Alert'
 import useLocalization from '../../hook/useLocalization'
 import UserFallbackImage from '../../assets/user_fallback_image.png'
 import url from '../../assets/url_settings.json'
-import DisplayRowStyle from '../../components/DisplayRow.style'
 import CommandBar from '../../components/CommandBar'
 
 export default function User() {
 	const { user, defineCurrentUser, clearCurrentUser } = useContext(UserContext)
-	const { simpleMessage, setMessage, errorMessage } = useContext(MessageContext)
-	const { getText } = useContext(LocalizationContext)
-	const [fullName, setFullName] = useState(user.currentUser.fullName)
+	const { simpleMessage, setMessage, errorMessage, choiceMessage } = useContext(MessageContext)
+	const [fullName, setFullName] = useState(user.currentUser.fullName.trim())
 	const [oldPassword, setOldPassword] = useState('')
 	const [newPassword, setNewPassword] = useState('')
 	const [passwordConfirm, setPasswordConfirm] = useState('')
 	const [inputProfilePicture, setInputProfilePicture] = useState(null)
 	const { loc } = useLocalization('pages.user')
+	const { loc: locCommons } = useLocalization('commons')
+	const { loc: locComponnents } = useLocalization('componnents')
 
 	function changeFullName() {
 		API.post(
@@ -48,7 +53,7 @@ export default function User() {
 			})
 			.catch((error) => {
 				errorMessage({
-					header: getText('componnents.table.update_field.header'),
+					header: locComponnents.table.update_field.header,
 					text: error,
 				})
 			})
@@ -80,7 +85,7 @@ export default function User() {
 			})
 			.catch((error) => {
 				errorMessage({
-					header: getText('pages.user.update_password.header'),
+					header: loc.update_password.header,
 					text: error,
 				})
 			})
@@ -108,33 +113,44 @@ export default function User() {
 	}
 
 	function removeProfilePicture() {
-		API.post(
-			url.user.removeImage,
-			{},
-			{
-				headers: {
-					Authorization: localStorage.getItem('authHeader'),
+		choiceMessage({
+			header: 'Remoçao da imagem de usuário',
+			text: 'Deseja realmente remover a imagem do seu usuário?',
+			option1: {
+				text: locCommons.yes,
+				icon: faCheck,
+				event: () => {
+					API.post(
+						url.user.removeImage,
+						{},
+						{
+							headers: {
+								Authorization: localStorage.getItem('authHeader'),
+							},
+						}
+					).then((response) => {
+						defineCurrentUser({
+							currentUser: response.data,
+							authHeader: localStorage.getItem('authHeader'),
+						})
+						document.getElementById('newPicture').value = ''
+						setInputProfilePicture(null)
+						setMessage(undefined)
+					})
 				},
-			}
-		).then((response) => {
-			defineCurrentUser({
-				currentUser: response.data,
-				authHeader: localStorage.getItem('authHeader'),
-			})
-			document.getElementById('newPicture').value = ''
-			setInputProfilePicture(null)
+			},
 		})
 	}
 
-	function ProfilePicture(image, cancelEvent, diusabled) {
+	function ProfilePicture(image, event, disabled) {
 		return (
-			<div className={'profPic ' + (diusabled && 'disabled')}>
+			<div className={'profPic ' + (disabled && 'disabled')}>
 				<div className={'deleteImageButtonContainer'}>
-					{!diusabled && (
+					{!disabled && event && (
 						<div className={'innerButtonContainer'}>
 							<Button
 								icon={<FontAwesomeIcon icon={faClose} />}
-								onClick={cancelEvent}
+								onClick={event}
 								className={'secondary'}
 							/>
 						</div>
@@ -154,7 +170,7 @@ export default function User() {
 							user.currentUser.profileImage
 								? 'data:image/png;base64,' + user.currentUser.profileImage
 								: UserFallbackImage,
-							removeProfilePicture,
+							user.currentUser.profileImage && removeProfilePicture,
 							!!inputProfilePicture
 						)}
 						{inputProfilePicture && (
@@ -184,8 +200,8 @@ export default function User() {
 						id={'fullName'}
 						label={loc.form.fullName}
 						type={'text'}
-						value={fullName}
-						onChange={(e) => setFullName(e.target.value)}
+						value={fullName.trim()}
+						onChange={(e) => setFullName(e.target.value.trim())}
 					/>
 					<Field
 						id={'email'}
@@ -196,7 +212,7 @@ export default function User() {
 					/>
 					<CommandBar padding={'14px 0 0 0'}>
 						<Button icon={<FontAwesomeIcon icon={faSave} />} onClick={changeFullName}>
-							{getText('commons.save')}
+							{locCommons.save}
 						</Button>
 					</CommandBar>
 				</Group>

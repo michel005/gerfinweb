@@ -21,10 +21,6 @@ const FormStyle = styled.div`
 	#targetValue {
 		text-align: right;
 	}
-
-	.alert {
-		margin-bottom: 7px;
-	}
 `
 
 export default function TargetForm() {
@@ -47,6 +43,10 @@ export default function TargetForm() {
 				event: () => {
 					remove('target', target.id, () => {
 						setMessage(undefined)
+						setShowForm({
+							...showForm,
+							target: false,
+						})
 					})
 				},
 			},

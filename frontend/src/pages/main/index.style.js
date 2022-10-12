@@ -93,16 +93,30 @@ const MainStyle = styled.div`
 					border-radius: 4px;
 					cursor: pointer;
 					display: flex;
-					flex-direction: column;
+					flex-direction: row;
 					justify-content: center;
 					padding: 4px;
 					margin: 7px;
 					transition: all 0.25s;
+					gap: 10px;
+
+					& > .userInfo {
+						color: #333;
+						display: flex;
+						flex-direction: column;
+						font-size: 12px;
+						text-align: right;
+
+						.fullName {
+							font-weight: bold;
+						}
+					}
 
 					& > .userImg {
 						background-color: #3f97af;
 						box-shadow: #666 0 0 7px;
 						border-radius: 4px;
+						object-fit: cover;
 						height: 36px;
 						width: 36px;
 					}
@@ -173,8 +187,8 @@ const MainStyle = styled.div`
 				padding: 10px 14px;
 
 				& > .buttonContent {
-					opacity: ${(props) => (props.reduced ? 0 : 1)};
-					pointer-events: ${(props) => (props.reduced ? 'none' : 'auto')};
+					display: -webkit-box;
+					overflow: hidden;
 				}
 
 				&:hover {

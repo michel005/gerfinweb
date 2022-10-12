@@ -53,7 +53,6 @@ export default class DateUtils {
 			let date = new Date(2000, month, 1)
 			values[date.getMonth() + 1] = date.toLocaleString('pt-BR', { month: 'long' })
 		}
-		console.log(values)
 		return values
 	}
 

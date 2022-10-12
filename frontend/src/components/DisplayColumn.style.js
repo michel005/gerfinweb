@@ -3,6 +3,7 @@ import styled from 'styled-components'
 const DisplayColumnStyle = styled.div`
 	display: flex;
 	flex-direction: column;
+	gap: 7px;
 
 	.field {
 		margin-bottom: 14px;

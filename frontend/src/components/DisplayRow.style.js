@@ -3,6 +3,7 @@ import styled from 'styled-components'
 const DisplayRowStyle = styled.div`
 	display: flex;
 	flex-direction: row;
+	gap: 7px;
 
 	&.expand {
 		flex-grow: 1;
